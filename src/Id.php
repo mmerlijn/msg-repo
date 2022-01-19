@@ -24,12 +24,13 @@ class Id implements RepositoryInterface
         ];
     }
 
-    public function setBsn()
+    public function setBsn(): self
     {
         if ($this->type == "bsn" or $this->authority == "NLMINBIZA" or $this->code == "NNNLD") {
             $this->type = "bsn";
             $this->authority = "NLMINBIZA";
             $this->code = "NNNLD";
         }
+        return $this;
     }
 }
