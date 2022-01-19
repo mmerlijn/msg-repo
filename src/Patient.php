@@ -73,7 +73,7 @@ class Patient implements RepositoryInterface
 
     public function setBsn($bsn): self
     {
-        $this->ids[] = $this->addId(new Id(id: $bsn, type: 'bsn'));
+        $this->addId(new Id(id: $bsn, type: 'bsn'));
         $this->bsn = $bsn;
         return $this;
     }

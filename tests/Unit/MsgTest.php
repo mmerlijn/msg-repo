@@ -17,9 +17,19 @@ class MsgTest extends TestCase
 
     }
 
+    public function test_add_bsn()
+    {
+        $msg = new Msg();
+        $msg->patient->setBsn("123456782");
+        $this->assertSame("123456782", $msg->patient->bsn);
+        $this->assertSame("123456782", $msg->patient->ids[0]->id);
+    }
+
     public function test_print()
     {
         $msg = new Msg();
         print_r($msg->toArray());
     }
+
+
 }
