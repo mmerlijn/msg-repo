@@ -2,11 +2,17 @@
 
 Repository to store healthcare data
 
+installation
+
+```php
+composer require mmerlijn/msg-repo
+```
+
 Order helpers
 
 ```php
-$order->addComment("comment");
-$order->addItem($orderItem);
+$order->addComment("comment")->addComment("Comment 2");
+$order->addItem($orderItem)->addItem($otherOrderItem);
 ```
 
 Repository tree
