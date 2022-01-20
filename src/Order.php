@@ -7,7 +7,7 @@ use Carbon\Carbon;
 class Order
 {
     use HasCommentsTrait;
-    
+
     public function __construct(
 
         public string    $control = "NW", //NW=new, CA=Cancel
@@ -44,7 +44,7 @@ class Order
             'control' => $this->control,
             'request_nr' => $this->request_nr,
             'lab_nr' => $this->lab_nr,
-            'compleet' => $this->complet,
+            'complet' => $this->complet,
             'request_date' => $this->request_date,
             'priority' => $this->priority,
             'order_status' => $this->order_status,
