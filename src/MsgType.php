@@ -7,12 +7,14 @@ class MsgType implements RepositoryInterface
     public function __construct(
         public string $type = "",
         public string $trigger = "",
-        public string $structure = ""
+        public string $structure = "",
+        public string $version = "",
     )
     {
     }
 
-    public function toArray(): array
+    public
+    function toArray(): array
     {
         return [
             'type' => '',
