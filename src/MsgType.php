@@ -17,9 +17,10 @@ class MsgType implements RepositoryInterface
     function toArray(): array
     {
         return [
-            'type' => '',
-            'trigger' => '',
-            'structure' => ''
+            'type' => $this->type,
+            'trigger' => $this->trigger,
+            'structure' => $this->structure,
+            'version' => $this->version,
         ];
     }
 }
