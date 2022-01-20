@@ -11,6 +11,7 @@ class Sender implements RepositoryInterface
         public string   $facility = "",
         public string   $agbcode = "",
         public ?Address $address = null,
+        public ?Phone   $phone = null,
     )
     {
     }
@@ -24,6 +25,7 @@ class Sender implements RepositoryInterface
             'facility' => $this->facility,
             'agbcode' => $this->agbcode,
             'address' => $this->address->toArray(),
+            'phone' => (string)$this->phone,
         ];
     }
 }
