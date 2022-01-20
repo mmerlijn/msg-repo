@@ -9,6 +9,7 @@ class Sender implements RepositoryInterface
         public string $application = "",
         public string $device = "",
         public string $facility = "",
+        public string $agbcode = "",
     )
     {
     }
@@ -20,6 +21,7 @@ class Sender implements RepositoryInterface
             'application' => $this->application,
             'device' => $this->device,
             'facility' => $this->facility,
+            'agbcode' => $this->agbcode,
         ];
     }
 }

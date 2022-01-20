@@ -8,6 +8,7 @@ class Receiver implements RepositoryInterface
         public string $name = "",
         public string $application = "",
         public string $facility = "",
+        public string $agbcode = "",
     )
     {
     }
@@ -18,6 +19,7 @@ class Receiver implements RepositoryInterface
             'name' => $this->name,
             'application' => $this->application,
             'facility' => $this->facility,
+            'agbcode' => $this->agbcode,
         ];
     }
 }

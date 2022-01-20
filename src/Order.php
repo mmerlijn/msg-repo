@@ -23,6 +23,8 @@ class Order
         public Requester  $copy_to = new Requester,
         public array      $comments = [],
         public array      $orderItems = [],
+        public string     $material = "",
+        public string     $volume = "",
     )
     {
     }
@@ -54,6 +56,8 @@ class Order
             'copy_to' => $this->copy_to->toArray(),
             'comments' => $this->comments,
             'orderItems' => $orderItems,
+            'material' => $this->material,
+            'volume' => $this->volume,
         ];
     }
 }
