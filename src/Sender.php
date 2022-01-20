@@ -5,11 +5,12 @@ namespace mmerlijn\msgRepo;
 class Sender implements RepositoryInterface
 {
     public function __construct(
-        public string $name = "",
-        public string $application = "",
-        public string $device = "",
-        public string $facility = "",
-        public string $agbcode = "",
+        public string   $name = "",
+        public string   $application = "",
+        public string   $device = "",
+        public string   $facility = "",
+        public string   $agbcode = "",
+        public ?Address $address = null,
     )
     {
     }
@@ -22,6 +23,7 @@ class Sender implements RepositoryInterface
             'device' => $this->device,
             'facility' => $this->facility,
             'agbcode' => $this->agbcode,
+            'address' => $this->address->toArray(),
         ];
     }
 }
