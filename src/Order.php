@@ -10,19 +10,19 @@ class Order
 
     public function __construct(
 
-        public string    $control = "NW", //NW=new, CA=Cancel
-        public string    $request_nr = "",
-        public string    $lab_nr = "",
-        public bool      $complet = true,
-        public ?Carbon   $request_date = null,
-        public bool      $priority = false,
-        public string    $order_status = "",
-        public string    $result_status = "", //F=final, C=correction
-        public string    $action_code = "",//at home => L, else O
-        public Requester $requester = new Requester,
-        public Requester $copy_to = new Requester,
-        public array     $comments = [],
-        public array     $orderItems = [],
+        public string     $control = "NW", //NW=new, CA=Cancel
+        public string     $request_nr = "",
+        public string|int $lab_nr = "",
+        public bool       $complete = true,
+        public ?Carbon    $request_date = null,
+        public bool       $priority = false,
+        public string     $order_status = "",
+        public string     $result_status = "", //F=final, C=correction
+        public string     $action_code = "",//at home => L, else O
+        public Requester  $requester = new Requester,
+        public Requester  $copy_to = new Requester,
+        public array      $comments = [],
+        public array      $orderItems = [],
     )
     {
     }
@@ -44,7 +44,7 @@ class Order
             'control' => $this->control,
             'request_nr' => $this->request_nr,
             'lab_nr' => $this->lab_nr,
-            'complet' => $this->complet,
+            'complete' => $this->complete,
             'request_date' => $this->request_date,
             'priority' => $this->priority,
             'order_status' => $this->order_status,
