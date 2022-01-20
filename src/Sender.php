@@ -24,7 +24,7 @@ class Sender implements RepositoryInterface
             'device' => $this->device,
             'facility' => $this->facility,
             'agbcode' => $this->agbcode,
-            'address' => $this->address->toArray(),
+            'address' => $this->address?->toArray(),
             'phone' => (string)$this->phone,
         ];
     }
