@@ -27,6 +27,7 @@ class OrderItem
         public string           $references_range = "",
         public string           $abnormal_flags = "",
         public array            $comments = [],
+        public bool             $done = true, //item is processed
     )
     {
 
@@ -51,6 +52,7 @@ class OrderItem
             'reference_range' => $this->references_range,
             'abnormal_flag' => $this->abnormal_flags,
             'comments' => $this->comments,
+            'done' => $this->done ? "Y" : "N",
         ];
     }
 }
