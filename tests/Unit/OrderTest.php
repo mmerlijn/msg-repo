@@ -18,4 +18,12 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
         $this->assertSame('This is fun', $array['comments'][0]);
         $this->assertSame('CODAC', $order->orderItems[0]->test_name);
     }
+
+    public function test_set_orderItems()
+    {
+        $order = new Order();
+        $order->addItem(new OrderItem());
+        $order->orderItems[0]->addComment("Hello World");
+        $this->assertSame("Hello World", $order->orderItems[0]->comments[0]);
+    }
 }
