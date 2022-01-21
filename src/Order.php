@@ -25,6 +25,9 @@ class Order
         public array      $orderItems = [],
         public string     $material = "",
         public string     $volume = "",
+        public ?Carbon    $datetime_of_observation = null,
+        public ?Carbon    $datetime_of_observation_end = null,
+        public ?Carbon    $datetime_of_analysis = null,
     )
     {
     }
@@ -58,6 +61,9 @@ class Order
             'orderItems' => $orderItems,
             'material' => $this->material,
             'volume' => $this->volume,
+            'datetime_of_observation' => $this->datetime_of_observation?->format("Y-md H:i:s"),
+            'datetime_of_observation_end' => $this->datetime_of_observation_end?->format("Y-md H:i:s"),
+            'datetime_of_analysis' => $this->datetime_of_analysis?->format("Y-md H:i:s"),
         ];
     }
 }

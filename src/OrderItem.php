@@ -26,10 +26,6 @@ class OrderItem
         public string           $identifier_source = "",
         public string           $references_range = "",
         public string           $abnormal_flags = "",
-
-        public ?Carbon          $datetime_of_observation = null,
-        public ?Carbon          $datetime_of_observation_end = null,
-        public ?Carbon          $datetime_of_analysis = null,
         public array            $comments = [],
     )
     {
@@ -54,9 +50,6 @@ class OrderItem
             'identifier_source' => $this->identifier_source,
             'reference_range' => $this->references_range,
             'abnormal_flag' => $this->abnormal_flags,
-            'datetime_of_observation' => $this->datetime_of_observation?->format("Y-md H:i:s"),
-            'datetime_of_observation_end' => $this->datetime_of_observation_end?->format("Y-md H:i:s"),
-            'datetime_of_analysis' => $this->datetime_of_analysis?->format("Y-md H:i:s"),
             'comments' => $this->comments,
         ];
     }
