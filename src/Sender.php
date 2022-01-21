@@ -6,6 +6,7 @@ class Sender implements RepositoryInterface
 {
     public function __construct(
         public string   $name = "",
+        public string   $contact_name = "",
         public string   $application = "",
         public string   $device = "",
         public string   $facility = "",
@@ -19,6 +20,7 @@ class Sender implements RepositoryInterface
     public function toArray(): array
     {
         return [
+
             'name' => $this->name,
             'application' => $this->application,
             'device' => $this->device,
@@ -26,6 +28,7 @@ class Sender implements RepositoryInterface
             'agbcode' => $this->agbcode,
             'address' => $this->address?->toArray(),
             'phone' => (string)$this->phone,
+            'contact_name' => $this->contact_name,
         ];
     }
 
