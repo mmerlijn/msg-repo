@@ -25,9 +25,10 @@ class OrderItem
         public string           $identifier_label = "",
         public string           $identifier_source = "",
         public string           $references_range = "",
-        public string           $abnormal_flags = "",
+        public string           $abnormal_flag = "",
         public array            $comments = [],
         public bool             $done = true, //item is processed
+        public bool             $change = false,
     )
     {
 
@@ -50,9 +51,10 @@ class OrderItem
             'identifier_label' => $this->identifier_label,
             'identifier_source' => $this->identifier_source,
             'reference_range' => $this->references_range,
-            'abnormal_flag' => $this->abnormal_flags,
+            'abnormal_flag' => $this->abnormal_flag,
             'comments' => $this->comments,
             'done' => $this->done ? "Y" : "N",
+            'change' => $this->change ? "Y" : "N",
         ];
     }
 
@@ -61,4 +63,5 @@ class OrderItem
         $this->comments[] = trim($comment);
         return $this;
     }
+
 }

@@ -38,6 +38,12 @@ class Order
         return $this;
     }
 
+    public function addComment(string $comment): self
+    {
+        $this->comments[] = trim($comment);
+        return $this;
+    }
+
     public function toArray(): array
     {
         $orderItems = [];

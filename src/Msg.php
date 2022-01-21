@@ -41,4 +41,10 @@ class Msg implements RepositoryInterface
 
         ];
     }
+
+    public function addComment(string $comment): self
+    {
+        $this->comments[] = trim($comment);
+        return $this;
+    }
 }
