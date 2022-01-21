@@ -31,7 +31,7 @@ class Sender implements RepositoryInterface
 
     public function setPhone(Phone $phone): self
     {
-        $this->phones = $phone;
+        $this->phone = $phone;
         return $this;
     }
 }
