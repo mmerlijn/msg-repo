@@ -9,7 +9,7 @@ class Patient implements RepositoryInterface
     public function __construct(
         public string    $sex = "",
         public Name      $name = new Name,
-        public Carbon    $dob = new Carbon,
+        public ?Carbon   $dob = null,
         public string    $bsn = "",
         public Address   $address = new Address,
         public ?Address  $address2 = null,

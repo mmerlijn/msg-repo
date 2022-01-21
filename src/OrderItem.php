@@ -7,7 +7,7 @@ use Carbon\Carbon;
 class OrderItem
 {
     use HasCommentsTrait;
-    
+
     public function __construct(
         public string           $type_of_value = "",
         public string|float|int $value = "",
@@ -54,9 +54,9 @@ class OrderItem
             'identifier_source' => $this->identifier_source,
             'reference_range' => $this->references_range,
             'abnormal_flag' => $this->abnormal_flags,
-            'datetime_of_observation' => $this->datetime_of_observation,
-            'datetime_of_observation_end' => $this->datetime_of_observation_end,
-            'datetime_of_analysis' => $this->datetime_of_analysis,
+            'datetime_of_observation' => $this->datetime_of_observation?->format("Y-md H:i:s"),
+            'datetime_of_observation_end' => $this->datetime_of_observation_end?->format("Y-md H:i:s"),
+            'datetime_of_analysis' => $this->datetime_of_analysis?->format("Y-md H:i:s"),
             'comments' => $this->comments,
         ];
     }
