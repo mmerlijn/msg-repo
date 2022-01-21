@@ -7,7 +7,7 @@ use Carbon\Carbon;
 class Msg implements RepositoryInterface
 {
     use HasCommentsTrait;
-    
+
     public function __construct(
         public Patient  $patient = new Patient,
         public Order    $order = new Order,

@@ -28,4 +28,10 @@ class Sender implements RepositoryInterface
             'phone' => (string)$this->phone,
         ];
     }
+
+    public function setPhone(Phone $phone): self
+    {
+        $this->phones = $phone;
+        return $this;
+    }
 }
