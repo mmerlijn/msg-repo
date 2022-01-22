@@ -6,16 +6,18 @@ use Carbon\Carbon;
 
 class Patient implements RepositoryInterface
 {
+    use HasAddressTrait, HasNameTrait;
+
     public function __construct(
-        public string    $sex = "",
-        public Name      $name = new Name,
-        public ?Carbon   $dob = null,
-        public string    $bsn = "",
-        public Address   $address = new Address,
-        public ?Address  $address2 = null,
-        public array     $phones = [],
-        public Insurance $insurance = new Insurance,
-        public array     $ids = [],
+        public string     $sex = "",
+        public Name       $name = new Name,
+        public ?Carbon    $dob = null,
+        public string     $bsn = "",
+        public Address    $address = new Address,
+        public ?Address   $address2 = null,
+        public array      $phones = [],
+        public ?Insurance $insurance = null,
+        public array      $ids = [],
     )
     {
     }
@@ -38,7 +40,7 @@ class Patient implements RepositoryInterface
             'address' => $this->address->toArray(),
             'address2' => $this->address2?->toArray(),
             'phones' => $phone_array,
-            'insurance' => $this->insurance->toArray(),
+            'insurance' => $this->insurance?->toArray(),
             'ids' => $ids_array,
         ];
     }
@@ -78,8 +80,11 @@ class Patient implements RepositoryInterface
         return $this;
     }
 
-    public function addPhone(Phone $phone): self
+    public function addPhone(Phone|string $phone): self
     {
+        if (gettype($phone) == "string") {
+            $phone = new Phone($phone);
+        }
         if (!$this->phoneExist($phone->number)) {
             $this->phones[] = $phone;
         }
@@ -93,5 +98,27 @@ class Patient implements RepositoryInterface
                 return true;
         }
         return false;
+    }
+
+    public function setInsurance(Insurance $insurance): self
+    {
+        $this->insurance = $insurance;
+        return $this;
+    }
+
+    public function setAddress2(Address $address): self
+    {
+        $this->address2 = $address;
+        return $this;
+    }
+
+    public function setDob(string|Carbon $dob): self
+    {
+        if (gettype($dob) == "string") {
+            $this->dob = Carbon::create($dob);
+        } else {
+            $this->dob = $dob;
+        }
+        return $this;
     }
 }

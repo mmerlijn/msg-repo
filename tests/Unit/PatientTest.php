@@ -39,4 +39,12 @@ class PatientTest extends TestCase
         $p->addId(new Id(type: 'bsn', id: "123456783"));
         $this->assertSame("123456783", $p->getBsn());
     }
+
+    public function test_name_setter()
+    {
+        $p = new Patient();
+        $p->setName(['lastname' => 'Doe', 'initials' => 'J']);
+        $this->assertSame('Doe', $p->name->lastname);
+        $this->assertSame('J', $p->name->initials);
+    }
 }

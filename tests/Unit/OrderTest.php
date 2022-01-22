@@ -4,6 +4,7 @@ namespace mmerlijn\msgRepo\tests\Unit;
 
 use mmerlijn\msgRepo\Order;
 use mmerlijn\msgRepo\OrderItem;
+use mmerlijn\msgRepo\Result;
 
 class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
 {
@@ -12,18 +13,18 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
         $order = new Order();
         $order->requester->name->lastname = "Doe";
         $order->addComment('This is fun');
-        $order->addItem(new OrderItem(value: 20, test_name: 'CODAC'));
+        $order->addResult(new Result(value: 20, test_name: 'CODAC'));
         $array = $order->toArray();
         $this->assertArrayHasKey('comments', $array);
         $this->assertSame('This is fun', $array['comments'][0]);
-        $this->assertSame('CODAC', $order->orderItems[0]->test_name);
+        $this->assertSame('CODAC', $order->results[0]->test_name);
     }
 
     public function test_set_orderItems()
     {
         $order = new Order();
-        $order->addItem(new OrderItem());
-        $order->orderItems[0]->addComment("Hello World");
-        $this->assertSame("Hello World", $order->orderItems[0]->comments[0]);
+        $order->addResult(new Result());
+        $order->results[0]->addComment("Hello World");
+        $this->assertSame("Hello World", $order->results[0]->comments[0]);
     }
 }

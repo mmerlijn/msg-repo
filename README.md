@@ -12,7 +12,11 @@ Order helpers
 
 ```php
 $order->addComment("comment")->addComment("Comment 2");
-$order->addItem($orderItem)->addItem($otherOrderItem);
+$order->addRequest($request)->addRequest($otherRequest);
+$order->addResult($result);
+$patient->setName($name)
+    ->setAddress($address)
+    ->setPhone("0612341234");
 ```
 
 Repository tree
@@ -43,6 +47,7 @@ Array
                     [building] => 
                     [building_nr] => 
                     [building_addition] => 
+                    [postbus] => 
                     [country] => NL
                 )
 
@@ -51,13 +56,7 @@ Array
                 (
                 )
 
-            [insurance] => Array
-                (
-                    [uzovi] => 
-                    [policy_nr] => 
-                    [company_name] => 
-                )
-
+            [insurance] => 
             [ids] => Array
                 (
                 )
@@ -66,15 +65,13 @@ Array
 
     [order] => Array
         (
-            [control] => NW
+            [control] => N
             [request_nr] => 
             [lab_nr] => 
-            [compleet] => 1
-            [request_date] => 
+            [complete] => 1
             [priority] => 
             [order_status] => 
-            [result_status] => 
-            [action_code] => 
+            [where] => 
             [requester] => Array
                 (
                     [agbcode] => 
@@ -89,17 +86,10 @@ Array
                             [name] => 
                         )
 
-                    [address] => Array
-                        (
-                            [postcode] => 
-                            [city] => 
-                            [street] => 
-                            [building] => 
-                            [building_nr] => 
-                            [building_addition] => 
-                            [country] => NL
-                        )
-
+                    [address] => 
+                    [phone] => 
+                    [type] => 
+                    [organisation] => 
                 )
 
             [copy_to] => Array
@@ -116,24 +106,25 @@ Array
                             [name] => 
                         )
 
-                    [address] => Array
-                        (
-                            [postcode] => 
-                            [city] => 
-                            [street] => 
-                            [building] => 
-                            [building_nr] => 
-                            [building_addition] => 
-                            [country] => NL
-                        )
-
+                    [address] => 
+                    [phone] => 
+                    [type] => 
+                    [organisation] => 
                 )
 
-            [comments] => Array
+            [dt_of_request] => 
+            [dt_of_observation] => 
+            [dt_of_observation_end] => 
+            [dt_of_analysis] => 
+            [results] => Array
                 (
                 )
 
-            [orderItems] => Array
+            [requests] => Array
+                (
+                )
+
+            [comments] => Array
                 (
                 )
 
@@ -141,25 +132,27 @@ Array
 
     [sender] => Array
         (
-            [name] => 
+            [application] => 
+            [device] => 
+            [facility] => 
+            [contact] => 
+        )
+
+    [receiver] => Array
+        (
+            [contact] => 
             [application] => 
             [device] => 
             [facility] => 
         )
 
-    [receiver] => Array
-        (
-            [name] => 
-            [application] => 
-            [facility] => 
-        )
-
-    [datetime] => 
+    [datetime] => 2022-01-22 12:08:40
     [msgType] => Array
         (
             [type] => 
             [trigger] => 
             [structure] => 
+            [version] => 
         )
 
     [id] => 

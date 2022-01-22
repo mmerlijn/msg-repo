@@ -4,15 +4,13 @@ namespace mmerlijn\msgRepo;
 
 class Sender implements RepositoryInterface
 {
+    use HasContactTrait;
+
     public function __construct(
-        public string   $name = "",
-        public string   $contact_name = "",
+        public ?Contact $contact = null,
         public string   $application = "",
         public string   $device = "",
-        public string   $facility = "",
-        public string   $agbcode = "",
-        public ?Address $address = null,
-        public ?Phone   $phone = null,
+        public string   $facility = "", //????
     )
     {
     }
@@ -20,21 +18,12 @@ class Sender implements RepositoryInterface
     public function toArray(): array
     {
         return [
-
-            'name' => $this->name,
             'application' => $this->application,
             'device' => $this->device,
-            'facility' => $this->facility,
-            'agbcode' => $this->agbcode,
-            'address' => $this->address?->toArray(),
-            'phone' => (string)$this->phone,
-            'contact_name' => $this->contact_name,
+            'facility' => $this->facility, //???
+            'contact' => $this->contact?->toArray(),
         ];
     }
 
-    public function setPhone(Phone $phone): self
-    {
-        $this->phone = $phone;
-        return $this;
-    }
+
 }

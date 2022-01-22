@@ -6,6 +6,7 @@ class Address implements RepositoryInterface
 {
     public function __construct(
         public string $postcode = "",
+        public string $postbus = "",
         public string $city = "",
         public string $street = "",
         public string $building = "",
@@ -30,7 +31,8 @@ class Address implements RepositoryInterface
             'building' => $this->building,
             'building_nr' => $this->building_nr,
             'building_addition' => $this->building_addition,
-            'country' => 'NL',
+            'postbus' => $this->postbus,
+            'country' => $this->country,
         ];
     }
 

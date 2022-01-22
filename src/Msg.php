@@ -19,7 +19,6 @@ class Msg implements RepositoryInterface
         public string   $security_id = "",
         public string   $processing_id = "",
         public array    $comments = [],
-        //public string   $version_id="",
     )
     {
     }
@@ -37,14 +36,36 @@ class Msg implements RepositoryInterface
             'security_id' => $this->security_id,
             'processing_id' => $this->processing_id,
             'comments' => $this->comments,
-            //'version_id' => $this->version_id,
-
         ];
     }
 
-    public function addComment(string $comment): self
+    public function setPatient(Patient $patient): self
     {
-        $this->comments[] = trim($comment);
+        $this->patient = $patient;
+        return $this;
+    }
+
+    public function setOrder(Order $order): self
+    {
+        $this->order = $order;
+        return $this;
+    }
+
+    public function setSender(Sender $sender): self
+    {
+        $this->sender = $sender;
+        return $this;
+    }
+
+    public function setReceiver(Receiver $receiver): self
+    {
+        $this->receiver = $receiver;
+        return $this;
+    }
+
+    public function setMsgType(MsgType $msgType): self
+    {
+        $this->msgType = $msgType;
         return $this;
     }
 }
