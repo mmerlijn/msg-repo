@@ -100,13 +100,13 @@ class Patient implements RepositoryInterface
         return false;
     }
 
-    public function setInsurance(Insurance $insurance): self
+    public function setInsurance(Insurance $insurance = new Insurance()): self
     {
         $this->insurance = $insurance;
         return $this;
     }
 
-    public function setAddress2(Address $address): self
+    public function setAddress2(Address $address = new Address()): self
     {
         $this->address2 = $address;
         return $this;

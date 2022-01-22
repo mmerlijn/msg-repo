@@ -32,13 +32,13 @@ class Order implements RepositoryInterface
     {
     }
 
-    public function addResult(Result $result): self
+    public function addResult(Result $result = new Result()): self
     {
         $this->results[] = $result;
         return $this;
     }
 
-    public function addRequest(Request $request): self
+    public function addRequest(Request $request = new Request()): self
     {
         $this->requests[] = $request;
         return $this;
