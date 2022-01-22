@@ -37,8 +37,11 @@ class Contact implements RepositoryInterface
         ];
     }
 
-    public function setOrganisation(Organisation $organisation): self
+    public function setOrganisation(Organisation|array $organisation): self
     {
+        if (gettype($organisation) == "array") {
+            $organisation = new Organisation(...$organisation);
+        }
         $this->organisation = $organisation;
         return $this;
     }
