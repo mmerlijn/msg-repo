@@ -9,16 +9,16 @@ class Msg implements RepositoryInterface
     use HasCommentsTrait;
 
     public function __construct(
-        public Patient  $patient = new Patient,
-        public Order    $order = new Order,
-        public Sender   $sender = new Sender,
-        public Receiver $receiver = new Receiver,
-        public Carbon   $datetime = new Carbon,
-        public MsgType  $msgType = new MsgType,
-        public string   $id = "",
-        public string   $security_id = "",
-        public string   $processing_id = "",
-        public array    $comments = [],
+        public Patient $patient = new Patient,
+        public Order   $order = new Order,
+        public Contact $sender = new Contact(),
+        public Contact $receiver = new Contact(),
+        public Carbon  $datetime = new Carbon,
+        public MsgType $msgType = new MsgType,
+        public string  $id = "",
+        public string  $security_id = "",
+        public string  $processing_id = "",
+        public array   $comments = [],
     )
     {
     }

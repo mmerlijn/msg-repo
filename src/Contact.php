@@ -14,6 +14,9 @@ class Contact implements RepositoryInterface
         public ?Phone        $phone = null,
         public string        $type = "",
         public ?Organisation $organisation = null,
+        public string        $application = "",
+        public string        $device = "",
+        public string        $facility = "", //????
     )
     {
     }
@@ -28,6 +31,9 @@ class Contact implements RepositoryInterface
             'phone' => (string)$this->phone,
             'type' => $this->type,
             'organisation' => $this->organisation?->toArray(),
+            'application' => $this->application,
+            'device' => $this->device,
+            'facility' => $this->facility, //???
         ];
     }
 
