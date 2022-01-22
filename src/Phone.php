@@ -7,9 +7,9 @@ class Phone
     public function __construct(public string $number)
     {
         $this->number = preg_replace('/[^0-9]/', '', $this->number);
-        
+
         if (strlen($this->number) > 10) //remove country prefix
-            $this->number = "0" . preg_replace('/^([3-4]{1}\d{1}[0]?)/', '', $this->number);
+            $this->number = "0" . preg_replace('/^([0]*[3-4]{1}\d{1}[0]?)/', '', $this->number);
     }
 
     public function __toString()
