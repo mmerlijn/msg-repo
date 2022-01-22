@@ -121,4 +121,17 @@ class Patient implements RepositoryInterface
         }
         return $this;
     }
+
+    public function setSex(string $sex): self
+    {
+        $sex = strtoupper($sex);
+        if (in_array($sex, ['F', "V", "f", "v"])) {
+            $this->sex = "F";
+        } elseif (in_array($sex, ["m", "M"])) {
+            $this->sex = "M";
+        } else {
+            $this->sex = "O";
+        }
+        return $this;
+    }
 }
