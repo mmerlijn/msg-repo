@@ -47,4 +47,15 @@ class PatientTest extends TestCase
         $this->assertSame('Doe', $p->name->lastname);
         $this->assertSame('J', $p->name->initials);
     }
+
+    public function test_bsn_first()
+    {
+        $p = new Patient();
+        $p->addId(new Id(id: 'ZD12341234', authority: "zorgdomein", code: "VN"));
+        $p->addId(new Id(id: '123456782', type: 'bsn'));
+        $this->assertSame('123456782', $p->ids[0]->id);
+        $this->assertSame('ZD12341234', $p->ids[1]->id);
+        $this->assertSame(2, count($p->ids));
+        $this->assertSame("123456782", $p->bsn);
+    }
 }

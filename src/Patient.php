@@ -57,6 +57,7 @@ class Patient implements RepositoryInterface
         if (!$overwrite) {
             $this->ids[] = $id;
         }
+        $this->setBsnFirst();
         return $this;
     }
 
@@ -77,6 +78,7 @@ class Patient implements RepositoryInterface
     {
         $this->addId(new Id(id: $bsn, type: 'bsn'));
         $this->bsn = $bsn;
+        $this->setBsnFirst();
         return $this;
     }
 
@@ -133,5 +135,23 @@ class Patient implements RepositoryInterface
             $this->sex = "O";
         }
         return $this;
+    }
+
+    private function setBsnFirst()
+    {
+        $deleted = false;
+        foreach ($this->ids as $k => $id) {
+            if ($id->authority == "NLMINBIZA" or $id->type == 'bsn') {
+                $this->bsn = $id->id;
+                $bsn = $id;
+                if ($k != 0) {
+                    unset($this->ids[$k]);
+                }
+                $deleted = true;
+            }
+        }
+        if ($bsn ?? false and $deleted) {
+            array_splice($this->ids, 0, 0, [$bsn]);
+        }
     }
 }
