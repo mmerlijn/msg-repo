@@ -146,8 +146,8 @@ class Patient implements RepositoryInterface
                 $bsn = $id;
                 if ($k != 0) {
                     unset($this->ids[$k]);
+                    $deleted = true;
                 }
-                $deleted = true;
             }
         }
         if ($bsn ?? false and $deleted) {
