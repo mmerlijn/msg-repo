@@ -39,8 +39,8 @@ class Name implements RepositoryInterface
     {
         $parts = explode("-", $this->name);
         if (count($parts) == 2) {
-            $this->lastname = trim($parts[1]);
-            $this->own_lastname = trim($parts[0]);
+            $this->own_lastname = trim($parts[1]);
+            $this->lastname = trim($parts[0]);
         } else {
             $this->own_lastname = trim($parts[0]);
         }

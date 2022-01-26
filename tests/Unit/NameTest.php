@@ -25,21 +25,21 @@ class NameTest extends TestCase
         $this->assertSame("Doe", $name->own_lastname);
 
         $name = new Name(name: "van der Vaart - de Groen");
-        $this->assertSame("van der", $name->own_prefix);
-        $this->assertSame("Vaart", $name->own_lastname);
-        $this->assertSame("de", $name->prefix);
-        $this->assertSame("Groen", $name->lastname);
+        $this->assertSame("van der", $name->prefix);
+        $this->assertSame("Vaart", $name->lastname);
+        $this->assertSame("de", $name->own_prefix);
+        $this->assertSame("Groen", $name->own_lastname);
 
         $name = new Name(name: "van der Vaart-de Groen");
-        $this->assertSame("van der", $name->own_prefix);
-        $this->assertSame("Vaart", $name->own_lastname);
-        $this->assertSame("de", $name->prefix);
-        $this->assertSame("Groen", $name->lastname);
+        $this->assertSame("van der", $name->prefix);
+        $this->assertSame("Vaart", $name->lastname);
+        $this->assertSame("de", $name->own_prefix);
+        $this->assertSame("Groen", $name->own_lastname);
 
         $name = new Name(name: "Vaart van der-de Groen");
-        $this->assertSame("van der", $name->own_prefix);
-        $this->assertSame("Vaart", $name->own_lastname);
-        $this->assertSame("de", $name->prefix);
-        $this->assertSame("Groen", $name->lastname);
+        $this->assertSame("van der", $name->prefix);
+        $this->assertSame("Vaart", $name->lastname);
+        $this->assertSame("de", $name->own_prefix);
+        $this->assertSame("Groen", $name->own_lastname);
     }
 }
