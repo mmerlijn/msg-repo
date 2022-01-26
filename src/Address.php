@@ -20,6 +20,8 @@ class Address implements RepositoryInterface
         } elseif (!$this->building) {
             $this->building = $this->building_nr . " " . $this->building_addition;
         }
+        $this->street = ucwords(strtolower($this->street));
+        $this->city = ucwords(strtolower($this->city));
     }
 
     public function toArray(): array
