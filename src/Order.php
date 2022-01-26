@@ -25,6 +25,8 @@ class Order implements RepositoryInterface
         public ?Carbon    $dt_of_observation = null,
         public ?Carbon    $dt_of_observation_end = null,
         public ?Carbon    $dt_of_analysis = null,
+        public string     $admit_reason_code = "",
+        public string     $admit_reason_name = "",
         public array      $results = [],
         public array      $requests = [],
         public array      $comments = [],
