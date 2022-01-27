@@ -9,11 +9,11 @@ class NameTest extends TestCase
 {
     public function test_name_setter()
     {
-        $name = new Name(own_lastname: "Doe", lastname: "Cloud", initials: 'J.F.');
+        $name = new Name(own_lastname: "Doe", lastname: "Cloud", initials: 'J.F.', own_prefix: "de");
         $this->assertSame($name->own_lastname, "Doe");
         $this->assertArrayHasKey('lastname', $name->toArray());
         $this->assertSame('JF', $name->initials);
-        $this->assertSame("Cloud - Doe", $name->getLastnames());
+        $this->assertSame("Cloud - de Doe", $name->getLastnames());
     }
 
     public function test_splitter()
