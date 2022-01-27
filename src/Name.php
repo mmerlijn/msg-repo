@@ -38,7 +38,7 @@ class Name implements RepositoryInterface
     public function getLastnames()
     {
         return trim($this->prefix . " " . $this->lastname) .
-            ($this->lastname ? " - " . trim($this->own_prefix . " " . $this->own_lastname) : "");
+            ($this->own_lastname ? " - " . trim($this->own_prefix . " " . $this->own_lastname) : "");
     }
 
     private function splitName()
