@@ -20,6 +20,7 @@ class Name implements RepositoryInterface
         if ($this->name and (!$this->lastname or !$this->own_lastname)) {
             $this->splitName();
         }
+        $this->initials = preg_replace('/\./', "", $this->initials);
         $this->splitPrefixesFromNames();
     }
 
