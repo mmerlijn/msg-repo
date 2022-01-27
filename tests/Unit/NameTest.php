@@ -13,6 +13,7 @@ class NameTest extends TestCase
         $this->assertSame($name->own_lastname, "Doe");
         $this->assertArrayHasKey('lastname', $name->toArray());
         $this->assertSame('JF', $name->initials);
+        $this->assertSame("Cloud - Doe", $name->getLastnames());
     }
 
     public function test_splitter()

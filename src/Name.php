@@ -14,13 +14,12 @@ class Name implements RepositoryInterface
     )
     {
         if (($this->lastname or $this->own_lastname) and !$this->name) {
-            $this->name = trim($this->initials . " " . trim($this->prefix . " " . $this->lastname)) .
-                ($this->lastname ? " " . trim($this->own_prefix . " " . $this->own_lastname) : "");
+            $this->name = trim($this->initials . " " . $this->getLastnames());
         }
         if ($this->name and (!$this->lastname or !$this->own_lastname)) {
             $this->splitName();
         }
-        $this->initials = preg_replace('/\./', "", $this->initials);
+        $this->initials = strtoupper(preg_replace('/[^\w]/', "", $this->initials));
         $this->splitPrefixesFromNames();
     }
 
@@ -34,6 +33,12 @@ class Name implements RepositoryInterface
             'own_prefix' => $this->own_prefix,
             'name' => $this->name,
         ];
+    }
+
+    public function getLastnames()
+    {
+        return trim($this->prefix . " " . $this->lastname) .
+            ($this->lastname ? " - " . trim($this->own_prefix . " " . $this->own_lastname) : "");
     }
 
     private function splitName()
