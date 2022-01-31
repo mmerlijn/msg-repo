@@ -21,7 +21,6 @@ class Name implements RepositoryInterface
         }
         $this->initials = strtoupper(preg_replace('/[^\w]/', "", $this->initials));
         $this->splitPrefixesFromNames();
-        var_dump($this->initials, $this->own_lastname, $this->lastname);
     }
 
     public function toArray(): array
