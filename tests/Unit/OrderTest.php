@@ -3,7 +3,7 @@
 namespace mmerlijn\msgRepo\tests\Unit;
 
 use mmerlijn\msgRepo\Order;
-use mmerlijn\msgRepo\OrderItem;
+use mmerlijn\msgRepo\Request;
 use mmerlijn\msgRepo\Result;
 
 class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
@@ -20,11 +20,27 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
         $this->assertSame('CODAC', $order->results[0]->test_name);
     }
 
-    public function test_set_orderItems()
+    public function test_add_result_with_comment()
     {
         $order = new Order();
         $order->addResult(new Result());
         $order->results[0]->addComment("Hello World");
         $this->assertSame("Hello World", $order->results[0]->comments[0]);
+    }
+
+    public function test_add_dubble_result()
+    {
+        $order = new Order();
+        $order->addResult(new Result(test_code: "ABC"));
+        $order->addResult(new Result(test_code: "ABC"));
+        $this->assertSame(1, count($order->results));
+    }
+
+    public function test_add_dubble_request()
+    {
+        $order = new Order();
+        $order->addRequest(new Request(test_code: "ABC"));
+        $order->addRequest(new Request(test_code: "ABC"));
+        $this->assertSame(1, count($order->requests));
     }
 }

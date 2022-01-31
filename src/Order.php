@@ -36,13 +36,29 @@ class Order implements RepositoryInterface
 
     public function addResult(Result $result = new Result()): self
     {
-        $this->results[] = $result;
+        $new = true;
+        foreach ($this->results as $r) {
+            if ($result->test_code == $r->test_code) {
+                $new = false;
+            }
+        }
+        if ($new) {
+            $this->results[] = $result;
+        }
         return $this;
     }
 
     public function addRequest(Request $request = new Request()): self
     {
-        $this->requests[] = $request;
+        $new = true;
+        foreach ($this->requests as $r) {
+            if ($request->test_code == $r->test_code) {
+                $new = false;
+            }
+        }
+        if ($new) {
+            $this->requests[] = $request;
+        }
         return $this;
     }
 
