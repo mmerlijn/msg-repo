@@ -16,11 +16,12 @@ class Name implements RepositoryInterface
         if (($this->lastname or $this->own_lastname) and !$this->name) {
             $this->name = trim($this->initials . " " . $this->getLastnames());
         }
-        if ($this->name and (!$this->lastname or !$this->own_lastname)) {
+        if ($this->name and !$this->lastname and !$this->own_lastname) {
             $this->splitName();
         }
         $this->initials = strtoupper(preg_replace('/[^\w]/', "", $this->initials));
         $this->splitPrefixesFromNames();
+        var_dump($this->initials, $this->own_lastname, $this->lastname);
     }
 
     public function toArray(): array
