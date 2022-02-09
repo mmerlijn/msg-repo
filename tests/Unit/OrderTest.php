@@ -30,6 +30,14 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
         $this->assertSame("Hello World", $order->results[0]->comments[0]);
     }
 
+    public function test_add_multiple_results()
+    {
+        $order = new Order();
+        $order->addResult(new Result(test_code: "ABC"));
+        $order->addResult(new Result(test_code: "CBA"));
+        $this->assertSame(2, count($order->results));
+    }
+
     public function test_add_dubble_result()
     {
         $order = new Order();

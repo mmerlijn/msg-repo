@@ -20,4 +20,14 @@ enum PatientSexEnum: string
             return self::OTHER;
         }
     }
+
+    public function getEdifact(): string
+    {
+        return match ($this) {
+            self::FEMALE => "V",
+            self::MALE => "M",
+            self::OTHER => "X",
+            default => ""
+        };
+    }
 }
