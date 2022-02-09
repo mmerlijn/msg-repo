@@ -20,7 +20,7 @@ enum OrderWhereEnum: string
         };
     }
 
-    public function getHl7()
+    public function getHl7(): string
     {
         return match ($this) {
             self::HOME => "L",

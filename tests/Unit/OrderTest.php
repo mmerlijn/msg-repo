@@ -85,5 +85,6 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
         $order->where = OrderWhereEnum::set("l");
         $this->assertSame("HOME", $order->where->value);
         $this->assertSame('HOME', $order->toArray()['where']);
+        $this->assertSame('L', $order->where->getHl7());
     }
 }
