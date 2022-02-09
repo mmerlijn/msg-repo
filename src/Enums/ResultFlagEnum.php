@@ -14,9 +14,20 @@ enum ResultFlagEnum: string
         return match (strtoupper($flag)) {
             "H" => self::HIGH,
             "HIGH" => self::HIGH,
+            ">" => self::HIGH,
             "LOW" => self::LOW,
             "L" => self::LOW,
+            "<" => self::LOW,
             default => self::EMPTY,
+        };
+    }
+
+    public function getEdifact(): string
+    {
+        return match ($this) {
+            self::HIGH => ">",
+            self::LOW => "<",
+            default => ""
         };
     }
 }
