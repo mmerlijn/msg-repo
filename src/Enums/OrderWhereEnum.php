@@ -11,10 +11,21 @@ enum OrderWhereEnum: string
     public static function set(string $status): self
     {
         return match (strtoupper($status)) {
+            "HOME" => self::HOME,
             "H" => self::HOME,
             "L" => self::HOME,
+            'OTHER' => self::OTHER,
             'O' => self::OTHER,
             default => self::EMPTY,
+        };
+    }
+
+    public function getHl7()
+    {
+        return match ($this) {
+            self::HOME => "L",
+            self::OTHER => "O",
+            default => ""
         };
     }
 }
