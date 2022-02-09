@@ -17,6 +17,9 @@ $order->addResult($result);
 $patient->setName($name)
     ->setAddress($address)
     ->setPhone("0612341234");
+
+$order->getRequestedTestcodes(); //return all requested testcodes as array
+$order->filterTestCodes(string|array); //filters requests and results with given test_code
 ```
 
 Repository tree

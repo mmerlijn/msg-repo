@@ -34,7 +34,7 @@ class Request implements RepositoryInterface
             'other_test_name' => $this->other_test_name,
             'other_test_source' => $this->other_test_source,
             'comments' => $this->comments,
-            'change' => $this->change ? "Y" : "N",
+            'change' => $this->change,
         ];
     }
 }

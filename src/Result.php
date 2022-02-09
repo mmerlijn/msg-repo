@@ -2,6 +2,8 @@
 
 namespace mmerlijn\msgRepo;
 
+use mmerlijn\msgRepo\Enums\ResultFlagEnum;
+
 class Result implements RepositoryInterface
 {
     use HasCommentsTrait;
@@ -20,7 +22,7 @@ class Result implements RepositoryInterface
         public string           $units = "",
         public string           $quantity = "",
         public string           $references_range = "",
-        public string           $abnormal_flag = "", //H = high, L = low
+        public ResultFlagEnum   $abnormal_flag = ResultFlagEnum::EMPTY, //H = high, L = low
         public array            $comments = [],
         public bool             $done = true, //item is processed
         public bool             $change = false,
@@ -43,10 +45,10 @@ class Result implements RepositoryInterface
             'other_test_source' => $this->other_test_source,
             'quantity' => $this->quantity,
             'reference_range' => $this->references_range,
-            'abnormal_flag' => $this->abnormal_flag,
+            'abnormal_flag' => $this->abnormal_flag->value,
             'comments' => $this->comments,
-            'done' => $this->done ? "Y" : "N",
-            'change' => $this->change ? "Y" : "N",
+            'done' => $this->done,
+            'change' => $this->change,
         ];
     }
 

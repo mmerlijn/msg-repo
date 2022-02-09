@@ -51,13 +51,13 @@ class Msg implements RepositoryInterface
         return $this;
     }
 
-    public function setSender(Sender $sender): self
+    public function setSender(Contact $sender): self
     {
         $this->sender = $sender;
         return $this;
     }
 
-    public function setReceiver(Receiver $receiver): self
+    public function setReceiver(Contact $receiver): self
     {
         $this->receiver = $receiver;
         return $this;

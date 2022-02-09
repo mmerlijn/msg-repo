@@ -35,22 +35,21 @@ class MsgTest extends TestCase
     {
         $msg = (new Msg())
             ->setPatient((new Patient())->setDob("10-11-2004"))
-            ->setReceiver((new Receiver())
-                ->setContact((new Contact())
-                    ->setPhone("0612341234")
-                    ->setAddress(new Address(street: 'D. Street', city: 'Amsterdam'))
-                    ->setName(new Name(lastname: 'Doe'))
-                    ->setOrganisation(new Organisation(name: 'XILE'))));
+            ->setReceiver((new Contact())
+                ->setPhone("0612341234")
+                ->setAddress(new Address(street: 'D. Street', city: 'Amsterdam'))
+                ->setName(new Name(lastname: 'Doe'))
+                ->setOrganisation(new Organisation(name: 'XILE')));
         $this->assertSame("2004-11-10", $msg->patient->dob->format("Y-m-d"));
-        $this->assertSame('0612341234', (string)$msg->receiver->contact->phone);
-        $this->assertSame("D. Street", $msg->receiver->contact->address->street);
-        $this->assertSame("XILE", $msg->receiver->contact->organisation->name);
-        $this->assertSame("Doe", $msg->receiver->contact->name->lastname);
+        $this->assertSame('06 1234 1234', (string)$msg->receiver->phone);
+        $this->assertSame("D. Street", $msg->receiver->address->street);
+        $this->assertSame("XILE", $msg->receiver->organisation->name);
+        $this->assertSame("Doe", $msg->receiver->name->lastname);
     }
 
-    public function test_print_for_docs()
-    {
-        $msg = new Msg();
-        print_r($msg->toArray());
-    }
+    //public function test_print_for_docs()
+    //{
+    //    $msg = new Msg();
+    //    print_r($msg->toArray());
+    //}
 }

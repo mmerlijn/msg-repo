@@ -3,21 +3,22 @@
 namespace mmerlijn\msgRepo;
 
 use Carbon\Carbon;
+use mmerlijn\msgRepo\Enums\PatientSexEnum;
 
 class Patient implements RepositoryInterface
 {
     use HasAddressTrait, HasNameTrait;
 
     public function __construct(
-        public string     $sex = "",
-        public Name       $name = new Name,
-        public ?Carbon    $dob = null,
-        public string     $bsn = "",
-        public Address    $address = new Address,
-        public ?Address   $address2 = null,
-        public array      $phones = [],
-        public ?Insurance $insurance = null,
-        public array      $ids = [],
+        public PatientSexEnum $sex = PatientSexEnum::EMPTY,
+        public Name           $name = new Name,
+        public ?Carbon        $dob = null,
+        public string         $bsn = "",
+        public Address        $address = new Address,
+        public ?Address       $address2 = null,
+        public array          $phones = [],
+        public ?Insurance     $insurance = null,
+        public array          $ids = [],
     )
     {
     }
@@ -33,7 +34,7 @@ class Patient implements RepositoryInterface
             $phone_array[] = $phone->number;
         }
         return [
-            'sex' => $this->sex,
+            'sex' => $this->sex->value,
             'name' => $this->name->toArray(),
             'dob' => $this->dob?->format('Y-m-d'),
             'bsn' => $this->bsn,
@@ -128,11 +129,11 @@ class Patient implements RepositoryInterface
     {
         $sex = strtoupper($sex);
         if (in_array($sex, ['F', "V", "f", "v"])) {
-            $this->sex = "F";
+            $this->sex = PatientSexEnum::FEMALE;
         } elseif (in_array($sex, ["m", "M"])) {
-            $this->sex = "M";
+            $this->sex = PatientSexEnum::MALE;
         } else {
-            $this->sex = "O";
+            $this->sex = PatientSexEnum::OTHER;
         }
         return $this;
     }

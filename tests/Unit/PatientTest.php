@@ -4,6 +4,7 @@ namespace mmerlijn\msgRepo\tests\Unit;
 
 use Carbon\Carbon;
 use mmerlijn\msgRepo\Address;
+use mmerlijn\msgRepo\Enums\PatientSexEnum;
 use mmerlijn\msgRepo\Id;
 use mmerlijn\msgRepo\Name;
 use mmerlijn\msgRepo\Patient;
@@ -71,5 +72,19 @@ class PatientTest extends TestCase
         $this->assertSame('ZD12341234', $p->ids[1]->id);
         $this->assertSame(2, count($p->ids));
         $this->assertSame("123456782", $p->bsn);
+    }
+
+    public function test_sex()
+    {
+        $p = new Patient();
+        $p->sex = PatientSexEnum::FEMALE;
+        $this->assertSame("F", $p->sex->value);
+        $this->assertSame("F", $p->toArray()['sex']);
+        $p->setSex("m");
+        $this->assertSame("M", $p->sex->value);
+        $this->assertSame("M", $p->toArray()['sex']);
+        $p->setSex("v");
+        $this->assertSame("F", $p->sex->value);
+        $this->assertSame("F", $p->toArray()['sex']);
     }
 }
