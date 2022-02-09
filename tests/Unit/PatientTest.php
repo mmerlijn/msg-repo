@@ -86,5 +86,8 @@ class PatientTest extends TestCase
         $p->setSex("v");
         $this->assertSame("F", $p->sex->value);
         $this->assertSame("F", $p->toArray()['sex']);
+        $p->sex = PatientSexEnum::set("v");
+        $this->assertSame("F", $p->sex->value);
+        $this->assertSame("F", $p->toArray()['sex']);
     }
 }

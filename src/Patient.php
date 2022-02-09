@@ -127,14 +127,7 @@ class Patient implements RepositoryInterface
 
     public function setSex(string $sex): self
     {
-        $sex = strtoupper($sex);
-        if (in_array($sex, ['F', "V", "f", "v"])) {
-            $this->sex = PatientSexEnum::FEMALE;
-        } elseif (in_array($sex, ["m", "M"])) {
-            $this->sex = PatientSexEnum::MALE;
-        } else {
-            $this->sex = PatientSexEnum::OTHER;
-        }
+        $this->sex = PatientSexEnum::set($sex);
         return $this;
     }
 

@@ -2,6 +2,8 @@
 
 namespace mmerlijn\msgRepo\tests\Unit;
 
+use mmerlijn\msgRepo\Enums\OrderControlEnum;
+use mmerlijn\msgRepo\Enums\OrderWhereEnum;
 use mmerlijn\msgRepo\Order;
 use mmerlijn\msgRepo\Request;
 use mmerlijn\msgRepo\Result;
@@ -61,5 +63,27 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
         $order->addRequest(new Request(test_code: "ABD"));
         $order->addRequest(new Request(test_code: "ABE"));
         $this->assertSame(["ABC", "ABD", "ABE"], $order->getRequestedTestcodes());
+    }
+
+    public function test_control()
+    {
+        $order = new Order();
+        $order->control = OrderControlEnum::NEW;
+        $this->assertSame("NEW", $order->control->value);
+        $order = new Order();
+        $order->control = OrderControlEnum::set("Ca");
+        $this->assertSame("CANCEL", $order->control->value);
+        $this->assertSame('CANCEL', $order->toArray()['control']);
+    }
+
+    public function test_where()
+    {
+        $order = new Order();
+        $order->where = OrderWhereEnum::HOME;
+        $this->assertSame("HOME", $order->where->value);
+        $order = new Order();
+        $order->where = OrderWhereEnum::set("l");
+        $this->assertSame("HOME", $order->where->value);
+        $this->assertSame('HOME', $order->toArray()['where']);
     }
 }
