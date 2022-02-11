@@ -55,6 +55,13 @@ class Name implements RepositoryInterface
         return $this->sex->namePrefix() . $this->getName();
     }
 
+    public function getNameReverse(): string
+    {
+        return preg_replace('/(\s-\s)$|^(\s-\s)|^\s|\s$/', "",
+                ($this->lastname ? $this->lastname . " " . $this->prefix : "") .
+                ($this->own_lastname ? " - " . trim($this->own_lastname . " " . $this->own_prefix) : "")) . ", " . preg_replace('/(.)/', '$1.', $this->initials);
+    }
+
     private function splitName()
     {
         $parts = explode("-", $this->name);
