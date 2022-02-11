@@ -44,4 +44,9 @@ class Address implements RepositoryInterface
         $this->building_addition = trim(preg_replace('/^(\d+)(.*)/', '$2', $building));
         $this->building = trim($this->building_nr . " " . $this->building_addition);
     }
+
+    public function __toString(): string
+    {
+        return $this->street . " " . $this->building . "\n" . $this->postcode . " " . $this->city;
+    }
 }
