@@ -2,15 +2,18 @@
 
 namespace mmerlijn\msgRepo;
 
+use mmerlijn\msgRepo\Enums\PatientSexEnum;
+
 class Name implements RepositoryInterface
 {
     public function __construct(
-        public string $initials = '',
-        public string $lastname = "",
-        public string $prefix = "",
-        public string $own_lastname = "",
-        public string $own_prefix = "",
-        public string $name = "",
+        public string         $initials = '',
+        public string         $lastname = "",
+        public string         $prefix = "",
+        public string         $own_lastname = "",
+        public string         $own_prefix = "",
+        public string         $name = "",
+        public PatientSexEnum $sex = PatientSexEnum::EMPTY,
     )
     {
         if (($this->lastname or $this->own_lastname) and !$this->name) {
@@ -35,11 +38,21 @@ class Name implements RepositoryInterface
         ];
     }
 
-    public function getLastnames()
+    public function getLastnames(): string
     {
         return preg_replace('/(\s-\s)$|^(\s-\s)|^\s|\s$/', "",
             ($this->lastname ? $this->prefix . " " . $this->lastname : "") .
             ($this->own_lastname ? " - " . trim($this->own_prefix . " " . $this->own_lastname) : ""));
+    }
+
+    public function getName(): string
+    {
+        return trim(preg_replace('/(.)/', '$1.', $this->initials) . " " . $this->getLastnames());
+    }
+
+    public function getFullName(): string
+    {
+        return $this->sex->namePrefix() . $this->getName();
     }
 
     private function splitName()

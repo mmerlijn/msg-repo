@@ -30,4 +30,14 @@ enum PatientSexEnum: string
             default => ""
         };
     }
+
+    public function namePrefix(): string
+    {
+        return match ($this) {
+            self::FEMALE => "Mevr. ",
+            self::MALE => "Dhr. ",
+            self::OTHER => "",
+            default => ""
+        };
+    }
 }

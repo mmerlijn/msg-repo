@@ -19,6 +19,7 @@ class Patient implements RepositoryInterface
         public array          $phones = [],
         public ?Insurance     $insurance = null,
         public array          $ids = [],
+        public ?string        $last_requester = null,
     )
     {
     }
@@ -43,6 +44,7 @@ class Patient implements RepositoryInterface
             'phones' => $phone_array,
             'insurance' => $this->insurance?->toArray(),
             'ids' => $ids_array,
+            'last_requester' => $this->last_requester ?? "",
         ];
     }
 
