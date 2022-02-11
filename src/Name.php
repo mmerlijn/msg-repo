@@ -17,7 +17,7 @@ class Name implements RepositoryInterface
     )
     {
         if (($this->lastname or $this->own_lastname) and !$this->name) {
-            $this->name = trim($this->initials . " " . $this->getLastnames());
+            $this->name = $this->getName();
         }
         if ($this->name and !$this->lastname and !$this->own_lastname) {
             $this->splitName();

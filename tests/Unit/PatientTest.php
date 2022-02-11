@@ -90,4 +90,12 @@ class PatientTest extends TestCase
         $this->assertSame("F", $p->sex->value);
         $this->assertSame("F", $p->toArray()['sex']);
     }
+
+    public function test_add_phone()
+    {
+        $p = new Patient();
+        $p->addPhone("0612341234");
+        $p->addPhone("");
+        $this->assertSame(1, count($p->phones));
+    }
 }

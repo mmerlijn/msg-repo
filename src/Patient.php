@@ -98,6 +98,9 @@ class Patient implements RepositoryInterface
 
     private function phoneExist($value): bool
     {
+        if (!$value) {
+            return true;
+        }
         foreach ($this->phones as $p) {
             if ($p->number == $value)
                 return true;
