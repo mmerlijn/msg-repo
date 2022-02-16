@@ -65,7 +65,8 @@ class Phone
 
     public function netNumber(string $city): self
     {
-        $this->number = FormatPhone::addCityNetNumber($this->number, $city);
+        if ($this->number)
+            $this->number = FormatPhone::addCityNetNumber($this->number, $city);
         return $this;
     }
 
