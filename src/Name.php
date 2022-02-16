@@ -127,9 +127,10 @@ class Name implements RepositoryInterface
         }
         $this->initials = $this->getInitialsForStorage();
         $this->splitPrefixesFromNames();
-        if (($this->lastname or $this->own_lastname) and !$this->name) {
+        if (($this->lastname or $this->own_lastname)) {
             $this->name = $this->getName();
         }
+
     }
 
     /** get lastname prefixes, initials

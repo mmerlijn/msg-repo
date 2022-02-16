@@ -93,4 +93,21 @@ class NameTest extends TestCase
         $this->assertSame("Groot", $name->own_lastname);
         $this->assertSame('A.B. van der Velden - de Groot', $name->name);
     }
+
+    public function test_changing_name()
+    {
+        $name = new Name(name: "de Graaf-van Wege", own_prefix: "van", own_lastname: 'Wege', prefix: "de", lastname: "Graaf");
+        $name->initials = "AB.";
+        $name->lastname = "van der velden";
+        $name->prefix = "";
+        $name->own_lastname = "de Groot";
+        $name->own_prefix = "";
+        $name->format();
+        $this->assertSame('AB', $name->initials);
+        $this->assertSame('van der', $name->prefix);
+        $this->assertSame('de', $name->own_prefix);
+        $this->assertSame("Velden", $name->lastname);
+        $this->assertSame("Groot", $name->own_lastname);
+        $this->assertSame('A.B. van der Velden - de Groot', $name->name);
+    }
 }
