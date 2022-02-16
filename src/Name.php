@@ -122,14 +122,14 @@ class Name implements RepositoryInterface
      */
     public function format(): void
     {
-        if (($this->lastname or $this->own_lastname) and !$this->name) {
-            $this->name = $this->getName();
-        }
         if ($this->name and !$this->lastname and !$this->own_lastname) {
             $this->splitName();
         }
         $this->initials = $this->getInitialsForStorage();
         $this->splitPrefixesFromNames();
+        if (($this->lastname or $this->own_lastname) and !$this->name) {
+            $this->name = $this->getName();
+        }
     }
 
     /** get lastname prefixes, initials
