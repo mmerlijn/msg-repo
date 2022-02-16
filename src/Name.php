@@ -87,7 +87,7 @@ class Name implements RepositoryInterface
      */
     public function getInitialsForStorage()
     {
-        return strtoupper(preg_replace('/[^\w]/', "", $this->initials));
+        return strtoupper(preg_replace('/[^A-z]/', "", $this->initials));
     }
 
     /** IF sex is set, full name with Dhr/Mevr

@@ -97,7 +97,7 @@ class NameTest extends TestCase
     public function test_changing_name()
     {
         $name = new Name(name: "de Graaf-van Wege", own_prefix: "van", own_lastname: 'Wege', prefix: "de", lastname: "Graaf");
-        $name->initials = "AB.";
+        $name->initials = "AB.34";
         $name->lastname = "van der velden";
         $name->prefix = "";
         $name->own_lastname = "de Groot";
