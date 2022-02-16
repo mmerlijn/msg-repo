@@ -33,7 +33,7 @@ class Name implements RepositoryInterface
         if ($this->name and !$this->lastname and !$this->own_lastname) {
             $this->splitName();
         }
-        $this->initials = strtoupper(preg_replace('/[^\w]/', "", $this->initials));
+        $this->initials = $this->getInitialsForStorage();
         $this->splitPrefixesFromNames();
     }
 
@@ -86,6 +86,16 @@ class Name implements RepositoryInterface
         return preg_replace('/(.)/', '$1.', $this->initials);
     }
 
+
+    /**
+     * Trim initials for database storage
+     *
+     * @return string
+     */
+    public function getInitialsForStorage()
+    {
+        return strtoupper(preg_replace('/[^\w]/', "", $this->initials));
+    }
 
     /** IF sex is set, full name with Dhr/Mevr
      * @return string

@@ -70,4 +70,12 @@ class NameTest extends TestCase
         $name = new Name(name: "van der Vaart", sex: PatientSexEnum::FEMALE, initials: "P");
         $this->assertSame("Vaart van der, P.", $name->getNameReverse());
     }
+
+    public function test_store_initials()
+    {
+        $name = new Name();
+        $name->initials = "P.D.";
+        $this->assertSame("PD", $name->getInitialsForStorage());
+
+    }
 }
