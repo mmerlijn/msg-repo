@@ -71,4 +71,70 @@ class FormatPhone
         "0900", "0906", "0909", "091", "0970", "0971", "0972", "0973", "0974", "0975", "0976", "0977", "0978"
     ];
     private static array $countryPrefixes = ["nl" => "+31", "be" => "+32", "fr" => "+33", "it" => "+39", "de" => "+49"];
+
+    
+    private static function cityNetnumbers($city)
+    {
+        return match ($city) {
+            "purmerend",
+            "monnickendam",
+            "marken",
+            "edam",
+            "graft",
+            "hobrede",
+            "katwoude",
+            "kwadijk",
+            "noordbeemster",
+            "westbeemster",
+            "oosthuizen",
+            "purmer",
+            "purmerland",
+            "volendam",
+            "wijdewormer",
+            "middenbeemster",
+            "zuidoostbeemster" => "0299",
+            "hoorn", "zwaag" => "0229",
+            "amstelveen",
+            "broek in waterland",
+            "amsterdam",
+            "diemen",
+            "ilpendam",
+            "landsmeer",
+            "watergang",
+            "halfweg" => "020",
+            "castricum",
+            "bakkem",
+            "uitgeest",
+            "akersloot",
+            "beverwijk",
+            "heemskerk" => "0251",
+            "alkmaar",
+            "egmond aan den hoef",
+            "egmond aan zee",
+            "egmond-binnen",
+            "groet",
+            "heerhugowaard",
+            "heiloo",
+            "limmen",
+            "zuidschermer" => "072",
+            "ijmuiden" => "0255",
+            "assendelft",
+            "jisp",
+            "koog aan de zaan",
+            "krommenie",
+            "oostzaan",
+            "west-grafdijk",
+            "westknollendam",
+            "westzaan",
+            "wormer",
+            "wormerveer",
+            "zaandam",
+            "zaandijk",
+            "zaanstad" => "075",
+            "haarlem", "heemstede" => "023",
+            default => ""
+        };
+    }
+
+
 }
