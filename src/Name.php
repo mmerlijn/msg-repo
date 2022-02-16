@@ -27,14 +27,7 @@ class Name implements RepositoryInterface
         public PatientSexEnum $sex = PatientSexEnum::EMPTY,
     )
     {
-        if (($this->lastname or $this->own_lastname) and !$this->name) {
-            $this->name = $this->getName();
-        }
-        if ($this->name and !$this->lastname and !$this->own_lastname) {
-            $this->splitName();
-        }
-        $this->initials = $this->getInitialsForStorage();
-        $this->splitPrefixesFromNames();
+        $this->format();
     }
 
     /** Export state
@@ -106,6 +99,18 @@ class Name implements RepositoryInterface
     }
 
 
+    public function format(): void
+    {
+        if (($this->lastname or $this->own_lastname) and !$this->name) {
+            $this->name = $this->getName();
+        }
+        if ($this->name and !$this->lastname and !$this->own_lastname) {
+            $this->splitName();
+        }
+        $this->initials = $this->getInitialsForStorage();
+        $this->splitPrefixesFromNames();
+    }
+
     /** get lastname prefixes, initials
      *
      * @return string
@@ -141,11 +146,11 @@ class Name implements RepositoryInterface
     private function splitPrefixesFromNames()
     {
         $tmp = FormatName::nameSplitter($this->lastname, $this->prefix);
-        $this->lastname = $tmp['lastname'];
-        $this->prefix = $tmp['prefix'];
+        $this->lastname = ucwords(strtolower($tmp['lastname']));
+        $this->prefix = strtolower($tmp['prefix']);
         $tmp = FormatName::nameSplitter($this->own_lastname, $this->own_prefix);
-        $this->own_lastname = $tmp['lastname'];
-        $this->own_prefix = $tmp['prefix'];
+        $this->own_lastname = ucwords(strtolower($tmp['lastname']));
+        $this->own_prefix = strtolower($tmp['prefix']);
     }
 
 
