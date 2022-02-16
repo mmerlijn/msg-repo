@@ -9,8 +9,11 @@ class Phone
     /**
      * @param string $number
      */
-    public function __construct(public string $number)
+    public function __construct(public ?string $number = null)
     {
+        if (is_null($this->number)) {
+            $this->number = "";
+        }
         $this->number = preg_replace('/[^0-9]/', '', $this->number);
 
         if (strlen($this->number) > 10) //remove country prefix
