@@ -98,7 +98,28 @@ class Name implements RepositoryInterface
         return $this->sex->namePrefix() . $this->getName();
     }
 
+    /**
+     * set sex
+     *
+     * @param string $sex
+     * @return $this
+     */
+    public function setSex(PatientSexEnum|string $sex): self
+    {
+        if (gettype($sex) == "string") {
+            $this->sex = PatientSexEnum::set($sex);
+        } else {
+            $this->sex = $sex;
+        }
+        return $this;
+    }
 
+
+    /**
+     * reformat name data
+     *
+     * @return void
+     */
     public function format(): void
     {
         if (($this->lastname or $this->own_lastname) and !$this->name) {
