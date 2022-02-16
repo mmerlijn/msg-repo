@@ -32,4 +32,10 @@ class PhoneTest extends \mmerlijn\msgRepo\tests\TestCase
         $this->assertSame("+31612341234", $p->withCountryCode());
     }
 
+    public function test_for_sms()
+    {
+        $p = new Phone("0612341234");
+        $this->assertSame("+31612341234", $p->forSms());
+    }
+
 }

@@ -9,8 +9,29 @@ use mmerlijn\msgRepo\Enums\OrderWhereEnum;
 
 class Order implements RepositoryInterface
 {
+
     use HasCommentsTrait;
 
+    /**
+     * @param OrderControlEnum $control
+     * @param string $request_nr
+     * @param string|int $lab_nr
+     * @param bool $complete
+     * @param bool $priority
+     * @param OrderStatusEnum $order_status
+     * @param OrderWhereEnum $where
+     * @param Contact $requester
+     * @param Contact $copy_to
+     * @param Carbon|null $dt_of_request
+     * @param Carbon|null $dt_of_observation
+     * @param Carbon|null $dt_of_observation_end
+     * @param Carbon|null $dt_of_analysis
+     * @param string $admit_reason_code
+     * @param string $admit_reason_name
+     * @param array $results
+     * @param array $requests
+     * @param array $comments
+     */
     public function __construct(
         public OrderControlEnum $control = OrderControlEnum::NEW, //N=new, C=Cancel
         public string           $request_nr = "", //AB12341234
@@ -37,6 +58,12 @@ class Order implements RepositoryInterface
     {
     }
 
+
+    /**
+     * add result to an order
+     * @param Result $result
+     * @return $this
+     */
     public function addResult(Result $result = new Result()): self
     {
         $new = true;
@@ -51,6 +78,13 @@ class Order implements RepositoryInterface
         return $this;
     }
 
+
+    /**
+     * Add request to an order
+     *
+     * @param Request $request
+     * @return $this
+     */
     public function addRequest(Request $request = new Request()): self
     {
         $new = true;
@@ -65,6 +99,13 @@ class Order implements RepositoryInterface
         return $this;
     }
 
+
+    /**
+     * Filter out unwanted testcodes
+     *
+     * @param array|string $filter
+     * @return $this
+     */
     public function filterTestCodes(array|string $filter): self
     {
         if (gettype($filter) == "string") {
@@ -86,6 +127,12 @@ class Order implements RepositoryInterface
         return $this;
     }
 
+
+    /**
+     * Give all requested testcodes
+     *
+     * @return array
+     */
     public function getRequestedTestcodes(): array
     {
         $testcodes = [];
@@ -95,6 +142,12 @@ class Order implements RepositoryInterface
         return $testcodes;
     }
 
+
+    /**
+     * Dump state
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         $results = [];

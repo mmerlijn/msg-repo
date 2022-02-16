@@ -4,6 +4,13 @@ namespace mmerlijn\msgRepo;
 
 trait HasNameTrait
 {
+
+    /**
+     * Set name for current object
+     *
+     * @param Name|array $name
+     * @return $this
+     */
     public function setName(Name|array $name = new Name()): self
     {
         if (gettype($name) == 'array') {

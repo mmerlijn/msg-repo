@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0cb8d0e995be599ef1d72a2095bc496",
+    "content-hash": "b9077f7433b170fcfa4fc6de1504db5d",
     "packages": [
         {
             "name": "nesbot/carbon",
-            "version": "dev-master",
+            "version": "2.56.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
@@ -38,7 +38,6 @@
                 "phpunit/phpunit": "^7.5.20 || ^8.5.14",
                 "squizlabs/php_codesniffer": "^3.4"
             },
-            "default-branch": true,
             "bin": [
                 "bin/carbon"
             ],
@@ -2548,7 +2547,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "nesbot/carbon": 20,
         "phpunit/phpunit": 20
     },
     "prefer-stable": false,

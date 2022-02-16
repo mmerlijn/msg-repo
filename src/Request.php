@@ -4,8 +4,19 @@ namespace mmerlijn\msgRepo;
 
 class Request implements RepositoryInterface
 {
+
     use HasCommentsTrait;
 
+    /**
+     * @param string $test_code
+     * @param string $test_name
+     * @param string $test_source
+     * @param string $other_test_code
+     * @param string $other_test_name
+     * @param string $other_test_source
+     * @param array $comments
+     * @param bool $change
+     */
     public function __construct(
 
         public string $test_code = "",
@@ -24,6 +35,11 @@ class Request implements RepositoryInterface
     {
     }
 
+    /**
+     * dump state
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         return [

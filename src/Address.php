@@ -4,6 +4,17 @@ namespace mmerlijn\msgRepo;
 
 class Address implements RepositoryInterface
 {
+
+    /**
+     * @param string $postcode
+     * @param string $postbus
+     * @param string $city
+     * @param string $street
+     * @param string $building
+     * @param string $building_nr
+     * @param string $building_addition
+     * @param string $country
+     */
     public function __construct(
         public string $postcode = "",
         public string $postbus = "",
@@ -24,6 +35,11 @@ class Address implements RepositoryInterface
         $this->city = ucwords(strtolower($this->city));
     }
 
+
+    /** state
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         return [
@@ -38,6 +54,13 @@ class Address implements RepositoryInterface
         ];
     }
 
+
+    /**
+     * Split building in parts nr/addition
+     *
+     * @param string $building
+     * @return void
+     */
     private function buildingNrSplitter(string $building)
     {
         $this->building_nr = preg_replace('/^(\d+)(.*)/', '$1', $building);
@@ -45,6 +68,11 @@ class Address implements RepositoryInterface
         $this->building = trim($this->building_nr . " " . $this->building_addition);
     }
 
+
+    /** format address to string
+     *
+     * @return string
+     */
     public function __toString(): string
     {
         return $this->street . " " . $this->building . "\n" . $this->postcode . " " . $this->city;

@@ -6,8 +6,26 @@ use mmerlijn\msgRepo\Enums\ResultFlagEnum;
 
 class Result implements RepositoryInterface
 {
+
     use HasCommentsTrait;
 
+    /**
+     * @param string $type_of_value
+     * @param string|float|int $value
+     * @param string $test_code
+     * @param string $test_name
+     * @param string $test_source
+     * @param string $other_test_code
+     * @param string $other_test_name
+     * @param string $other_test_source
+     * @param string $units
+     * @param string $quantity
+     * @param string $references_range
+     * @param ResultFlagEnum $abnormal_flag
+     * @param array $comments
+     * @param bool $done item is processed
+     * @param bool $change item is changed
+     */
     public function __construct(
         public string           $type_of_value = "",
         public string|float|int $value = "",
@@ -31,6 +49,11 @@ class Result implements RepositoryInterface
 
     }
 
+    /**
+     * Dump state
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         return [

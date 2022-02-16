@@ -7,8 +7,22 @@ use mmerlijn\msgRepo\Enums\PatientSexEnum;
 
 class Patient implements RepositoryInterface
 {
+
     use HasAddressTrait, HasNameTrait;
 
+
+    /**
+     * @param PatientSexEnum $sex
+     * @param Name $name
+     * @param Carbon|null $dob
+     * @param string $bsn
+     * @param Address $address
+     * @param Address|null $address2
+     * @param array $phones
+     * @param Insurance|null $insurance
+     * @param array $ids
+     * @param string|null $last_requester
+     */
     public function __construct(
         public PatientSexEnum $sex = PatientSexEnum::EMPTY,
         public Name           $name = new Name,
@@ -24,6 +38,11 @@ class Patient implements RepositoryInterface
     {
     }
 
+    /**
+     * Dump state
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         $ids_array = [];
@@ -48,6 +67,12 @@ class Patient implements RepositoryInterface
         ];
     }
 
+
+    /**
+     * Add id to objects id array
+     * @param Id $id
+     * @return $this
+     */
     public function addId(Id $id): self
     {
         $overwrite = false;
@@ -64,6 +89,12 @@ class Patient implements RepositoryInterface
         return $this;
     }
 
+
+    /**
+     * Get bsn out of ids
+     *
+     * @return string
+     */
     public function getBsn(): string
     {
         if ($this->bsn) {
@@ -77,6 +108,12 @@ class Patient implements RepositoryInterface
         return "";
     }
 
+
+    /**
+     * add BSN to ids array
+     * @param $bsn
+     * @return $this
+     */
     public function setBsn($bsn): self
     {
         $this->addId(new Id(id: $bsn, type: 'bsn'));
@@ -85,6 +122,13 @@ class Patient implements RepositoryInterface
         return $this;
     }
 
+
+    /**
+     * Add phone number to phones array
+     *
+     * @param Phone|string $phone
+     * @return $this
+     */
     public function addPhone(Phone|string $phone): self
     {
         if (gettype($phone) == "string") {
@@ -96,6 +140,13 @@ class Patient implements RepositoryInterface
         return $this;
     }
 
+
+    /**
+     * check for dubbel phone numbers in phone array
+     *
+     * @param $value
+     * @return bool
+     */
     private function phoneExist($value): bool
     {
         if (!$value) {
@@ -108,18 +159,38 @@ class Patient implements RepositoryInterface
         return false;
     }
 
+
+    /**
+     * set insurance to patient object
+     * @param Insurance $insurance
+     * @return $this
+     */
     public function setInsurance(Insurance $insurance = new Insurance()): self
     {
         $this->insurance = $insurance;
         return $this;
     }
 
+
+    /**
+     * set second address for patient
+     *
+     * @param Address $address
+     * @return $this
+     */
     public function setAddress2(Address $address = new Address()): self
     {
         $this->address2 = $address;
         return $this;
     }
 
+
+    /**
+     * set patients dob
+     *
+     * @param string|Carbon $dob
+     * @return $this
+     */
     public function setDob(string|Carbon $dob): self
     {
         if (gettype($dob) == "string") {
@@ -130,12 +201,27 @@ class Patient implements RepositoryInterface
         return $this;
     }
 
-    public function setSex(string $sex): self
+    /**
+     * set patient sex
+     *
+     * @param string $sex
+     * @return $this
+     */
+    public function setSex(PatientSexEnum|string $sex): self
     {
-        $this->sex = PatientSexEnum::set($sex);
+        if (gettype($sex) == "string") {
+            $this->sex = PatientSexEnum::set($sex);
+        } else {
+            $this->sex = $sex;
+        }
         return $this;
     }
 
+    /**
+     * Internal helper function to set BSN as first ID
+     *
+     * @return void
+     */
     private function setBsnFirst()
     {
         $deleted = false;

@@ -6,8 +6,21 @@ use Carbon\Carbon;
 
 class Msg implements RepositoryInterface
 {
+
     use HasCommentsTrait;
 
+    /**
+     * @param Patient $patient
+     * @param Order $order
+     * @param Contact $sender
+     * @param Contact $receiver
+     * @param Carbon $datetime
+     * @param MsgType $msgType
+     * @param string $id
+     * @param string $security_id
+     * @param string $processing_id
+     * @param array $comments
+     */
     public function __construct(
         public Patient $patient = new Patient,
         public Order   $order = new Order,
@@ -23,6 +36,11 @@ class Msg implements RepositoryInterface
     {
     }
 
+    /**
+     * dump state
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         return [
@@ -39,30 +57,65 @@ class Msg implements RepositoryInterface
         ];
     }
 
+
+    /**
+     * set patient to msg object
+     *
+     * @param Patient $patient
+     * @return $this
+     */
     public function setPatient(Patient $patient): self
     {
         $this->patient = $patient;
         return $this;
     }
 
+
+    /**
+     * Set order details to msg object
+     *
+     * @param Order $order
+     * @return $this
+     */
     public function setOrder(Order $order): self
     {
         $this->order = $order;
         return $this;
     }
 
+
+    /**
+     * Set the msg sender
+     *
+     * @param Contact $sender
+     * @return $this
+     */
     public function setSender(Contact $sender): self
     {
         $this->sender = $sender;
         return $this;
     }
 
+
+    /**
+     * Set the msg receiver
+     *
+     * @param Contact $receiver
+     * @return $this
+     */
     public function setReceiver(Contact $receiver): self
     {
         $this->receiver = $receiver;
         return $this;
     }
 
+
+    /**
+     * Set message type
+     *
+     * @param MsgType $msgType
+     * @return $this
+     */
     public function setMsgType(MsgType $msgType): self
     {
         $this->msgType = $msgType;

@@ -4,8 +4,21 @@ namespace mmerlijn\msgRepo;
 
 class Contact implements RepositoryInterface
 {
+
     use HasPhoneTrait, HasAddressTrait, HasNameTrait;
 
+    /**
+     * @param string $agbcode
+     * @param Name $name
+     * @param string $source
+     * @param Address|null $address
+     * @param Phone|null $phone
+     * @param string $type
+     * @param Organisation|null $organisation
+     * @param string $application
+     * @param string $device
+     * @param string $facility
+     */
     public function __construct(
         public string        $agbcode = "",
         public Name          $name = new Name,
@@ -21,6 +34,11 @@ class Contact implements RepositoryInterface
     {
     }
 
+    /**
+     * dump state
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         return [
@@ -37,6 +55,13 @@ class Contact implements RepositoryInterface
         ];
     }
 
+
+    /**
+     * set contacts organisation
+     *
+     * @param Organisation|array $organisation
+     * @return $this
+     */
     public function setOrganisation(Organisation|array $organisation = new Organisation()): self
     {
         if (gettype($organisation) == "array") {

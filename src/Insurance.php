@@ -4,8 +4,17 @@ namespace mmerlijn\msgRepo;
 
 class Insurance implements RepositoryInterface
 {
+
     use HasPhoneTrait, HasAddressTrait;
 
+
+    /**
+     * @param string $uzovi
+     * @param string $policy_nr
+     * @param string $company_name
+     * @param Phone|null $phone
+     * @param Address|null $address
+     */
     public function __construct(
         public string   $uzovi = "",
         public string   $policy_nr = "",
@@ -16,6 +25,11 @@ class Insurance implements RepositoryInterface
     {
     }
 
+    /**
+     * Dump state
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         return [
