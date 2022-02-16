@@ -53,6 +53,13 @@ class FormatPhone
         return static::$countryPrefixes[strtolower($countryCode)] . preg_replace('/^(0)*/', '', $number);
     }
 
+    public static function addCityNetNumber(string $number, string $city): string
+    {
+        if (!preg_match('/^(0){1}/', $number) and strlen($number) < 10) {
+            return static::cityNetNumbers($city) . $number;
+        }
+        return $number;
+    }
 
     /**
      * Common dutch netnumbers
@@ -72,10 +79,10 @@ class FormatPhone
     ];
     private static array $countryPrefixes = ["nl" => "+31", "be" => "+32", "fr" => "+33", "it" => "+39", "de" => "+49"];
 
-    
-    private static function cityNetnumbers($city)
+
+    private static function cityNetNumbers($city): string
     {
-        return match ($city) {
+        return match (strtolower($city)) {
             "purmerend",
             "monnickendam",
             "marken",

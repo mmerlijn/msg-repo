@@ -38,4 +38,16 @@ class PhoneTest extends \mmerlijn\msgRepo\tests\TestCase
         $this->assertSame("+31612341234", $p->forSms());
     }
 
+    public function test_city_netnumbers()
+    {
+        $p = new Phone("1234567");
+        $p->netNumber('Amsterdam');
+        $this->assertSame("0201234567", $p->number);
+
+        $p = new Phone("1234567");
+        $p->netNumber('DoesNotExist');
+        $this->assertSame("1234567", $p->number);
+    }
+
+
 }
