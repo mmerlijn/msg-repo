@@ -47,6 +47,10 @@ class PhoneTest extends \mmerlijn\msgRepo\tests\TestCase
         $p = new Phone("1234567");
         $p->netNumber('DoesNotExist');
         $this->assertSame("1234567", $p->number);
+
+        //changing
+        $p = (new Phone("1234567"))->netNumber("Amsterdam");
+        $this->assertSame("0201234567", $p->number);
     }
 
 

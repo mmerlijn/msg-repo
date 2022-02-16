@@ -60,9 +60,10 @@ class Phone
         return FormatPhone::forSMS($this->number, $countryCode);
     }
 
-    public function netNumber(string $city): void
+    public function netNumber(string $city): self
     {
         $this->number = FormatPhone::addCityNetNumber($this->number, $city);
+        return $this;
     }
 
     /**
