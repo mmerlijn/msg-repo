@@ -44,6 +44,7 @@ class Name implements RepositoryInterface
             'own_prefix' => $this->own_prefix,
             'name' => $this->name,
             'sex' => $this->sex->value,
+            'salutation' => $this->sex->namePrefix(),
         ];
     }
 

@@ -110,4 +110,12 @@ class NameTest extends TestCase
         $this->assertSame("Groot", $name->own_lastname);
         $this->assertSame('A.B. van der Velden - de Groot', $name->name);
     }
+
+    public function test_salutation()
+    {
+        $name = new Name(own_lastname: "Doe", lastname: "Cloud", initials: 'J.F.', own_prefix: "de", sex: PatientSexEnum::MALE);
+        $array = $name->toArray();
+        $this->assertSame('M', $array['sex']);
+        $this->assertSame('Dhr. ', $array['salutation']);
+    }
 }
