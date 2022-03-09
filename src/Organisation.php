@@ -10,13 +10,13 @@ class Organisation implements RepositoryInterface
     /**
      * @param string $name
      * @param string $department
-     * @param string $short_name
+     * @param string $short
      * @param Phone|null $phone
      */
     public function __construct(
         public string $name = "",
         public string $department = "",
-        public string $short_name = "",
+        public string $short = "",
         public ?Phone $phone = null,
     )
     {
@@ -33,9 +33,18 @@ class Organisation implements RepositoryInterface
         return [
             'name' => $this->name,
             'department' => $this->department,
-            'short' => $this->short_name,
+            'short' => $this->short,
             'phone' => (string)$this->phone,
         ];
+    }
+
+    public function fromArray(array $data): Organisation
+    {
+        $this->name = $data['name'];
+        $this->department = $data['department'];
+        $this->short = $data['short'];
+        $this->setPhone($data['phone']);
+        return $this;
     }
 
 }

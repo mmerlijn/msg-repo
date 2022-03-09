@@ -180,4 +180,38 @@ class Order implements RepositoryInterface
             'comments' => $this->comments,
         ];
     }
+
+    public function fromArray(array $data): Order
+    {
+        $this->control = OrderControlEnum::set($data['control']);
+        $this->request_nr = $data['request_nr'];
+        $this->lab_nr = $data['lab_nr'];
+        $this->complete = $data['complete'];
+        $this->priority = $data['priority'];
+        $this->order_status = OrderStatusEnum::set($data['order_status']);
+        $this->where = OrderWhereEnum::set($data['where']);
+        $this->requester = (new Contact())->fromArray($data['requester']);
+        $this->copy_to = (new Contact())->fromArray($data['copy_to']);
+        if ($data['dt_of_request']) {
+            $this->dt_of_request = Carbon::create($data['dt_of_request']);
+        }
+        if ($data['dt_of_observation']) {
+            $this->dt_of_observation = Carbon::create($data['dt_of_observation']);
+        }
+        if ($data['dt_of_observation_end']) {
+            $this->dt_of_observation_end = Carbon::create($data['dt_of_observation_end']);
+        }
+        if ($data['dt_of_analysis']) {
+            $this->dt_of_analysis = Carbon::create($data['dt_of_analysis']);
+        }
+
+        foreach ($data['results'] as $result) {
+            $this->addResult((new Result())->fromArray($result));
+        }
+        foreach ($data['requests'] as $requests) {
+            $this->addRequest((new Request())->fromArray($requests));
+        }
+        $this->comments = $data['comments'];
+        return $this;
+    }
 }

@@ -18,15 +18,19 @@ class Name implements RepositoryInterface
      * @param PatientSexEnum $sex
      */
     public function __construct(
-        public string         $initials = '',
-        public string         $lastname = "",
-        public string         $prefix = "",
-        public string         $own_lastname = "",
-        public string         $own_prefix = "",
-        public string         $name = "",
-        public PatientSexEnum $sex = PatientSexEnum::EMPTY,
+        public string                $initials = '',
+        public string                $lastname = "",
+        public string                $prefix = "",
+        public string                $own_lastname = "",
+        public string                $own_prefix = "",
+        public string                $name = "",
+        public string|PatientSexEnum $sex = PatientSexEnum::EMPTY,
+        public string                $salutation = "",
     )
     {
+        if (gettype($this->sex) == 'string') {
+            $this->sex = PatientSexEnum::set($this->sex);
+        }
         $this->format();
     }
 

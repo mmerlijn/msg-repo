@@ -54,6 +54,18 @@ class Address implements RepositoryInterface
         ];
     }
 
+    public function fromArray(array $data): Address
+    {
+        $this->postcode = $data['postcode'];
+        $this->city = $data['city'];
+        $this->street = $data['street'];
+        $this->building = $data['building'];
+        $this->building_nr = $data['building_nr'];
+        $this->building_addition = $data['building_addition'];
+        $this->postbus = $data['postbus'];
+        $this->country = $data['country'];
+        return $this;
+    }
 
     /**
      * Split building in parts nr/addition

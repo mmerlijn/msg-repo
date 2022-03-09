@@ -16,8 +16,10 @@ enum PatientSexEnum: string
             return self::FEMALE;
         } elseif (in_array($sex, ["m", "M"])) {
             return self::MALE;
-        } else {
+        } elseif (in_array($sex, ["x", "X", "o", "O"])) {
             return self::OTHER;
+        } else {
+            return self::EMPTY;
         }
     }
 

@@ -57,6 +57,30 @@ class Msg implements RepositoryInterface
         ];
     }
 
+    public function fromArray(array $data): self
+    {
+        $this->setPatient($data['patient']);
+        $this->order = (new Order())->fromArray($data['order']);
+        $this->sender = (new Contact())->fromArray($data['sender']);
+        $this->receiver = (new Contact())->fromArray($data['receiver']);
+        $this->datetime = Carbon::create($data['datetime']);
+        $this->msgType = new MsgType(...$data['msgType']);
+        $this->id = $data['id'];
+        $this->security_id = $data['security_id'];
+        $this->processing_id = $data['processing_id'];
+        $this->comments = $data['comments'];
+        return $this;
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->toArray());
+    }
+
+    public function fromJson(string $json): Msg
+    {
+        return $this->fromArray(json_decode($json, true));
+    }
 
     /**
      * set patient to msg object
@@ -64,9 +88,13 @@ class Msg implements RepositoryInterface
      * @param Patient $patient
      * @return $this
      */
-    public function setPatient(Patient $patient): self
+    public function setPatient(array|Patient $patient): self
     {
-        $this->patient = $patient;
+        if (gettype($patient) == 'array') {
+            $this->patient = (new Patient())->fromArray($patient);
+        } else {
+            $this->patient = $patient;
+        }
         return $this;
     }
 

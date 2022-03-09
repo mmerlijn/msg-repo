@@ -53,4 +53,17 @@ class Request implements RepositoryInterface
             'change' => $this->change,
         ];
     }
+
+    public function fromArray(array $data): Request
+    {
+        $this->test_code = $data['test_code'];
+        $this->test_name = $data['test_name'];
+        $this->test_source = $data['test_source'];
+        $this->other_test_code = $data['other_test_code'];
+        $this->other_test_name = $data['other_test_name'];
+        $this->other_test_source = $data['other_test_source'];
+        $this->comments = $data['comments'];
+        $this->change = $data['change'];
+        return $this;
+    }
 }

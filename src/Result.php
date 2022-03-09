@@ -75,4 +75,23 @@ class Result implements RepositoryInterface
         ];
     }
 
+    public function fromArray(array $data): Result
+    {
+        $this->value = $data['value'];
+        $this->type_of_value = $data['type_of_value'];
+        $this->units = $data['units'];
+        $this->test_code = $data['test_code'];
+        $this->test_name = $data['test_name'];
+        $this->test_source = $data['test_source'];
+        $this->other_test_code = $data['other_test_code'];
+        $this->other_test_name = $data['other_test_name'];
+        $this->other_test_source = $data['other_test_source'];
+        $this->quantity = $data['quantity'];
+        $this->reference_range = $data['reference_range'];
+        $this->abnormal_flag = ResultFlagEnum::set($data['abnormal_flag']);
+        $this->comments = $data['comments'];
+        $this->done = $data['done'];
+        $this->change = $data['change'];
+        return $this;
+    }
 }

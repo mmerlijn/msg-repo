@@ -55,6 +55,24 @@ class Contact implements RepositoryInterface
         ];
     }
 
+    public function fromArray(array $data): Contact
+    {
+        $this->agbcode = $data['agbcode'];
+        $this->source = $data['source'];
+        $this->setName($data['name']);;
+        if (!empty($data['address'])) {
+            $this->setAddress($data['address']);
+        }
+        $this->setPhone($data['phone']);
+        $this->type = $data['type'];
+        if (!empty($data['organisation'])) {
+            $this->setOrganisation($data['organisation']);
+        }
+        $this->application = $data['application'];
+        $this->device = $data['device'];
+        $this->facility = $data['facility'];
+        return $this;
+    }
 
     /**
      * set contacts organisation
@@ -65,7 +83,7 @@ class Contact implements RepositoryInterface
     public function setOrganisation(Organisation|array $organisation = new Organisation()): self
     {
         if (gettype($organisation) == "array") {
-            $organisation = new Organisation(...$organisation);
+            $organisation = (new Organisation)->fromArray($organisation);
         }
         $this->organisation = $organisation;
         return $this;

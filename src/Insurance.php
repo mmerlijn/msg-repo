@@ -40,4 +40,14 @@ class Insurance implements RepositoryInterface
             'address' => $this->address?->toArray(),
         ];
     }
+
+    public function fromArray(array $data): Insurance
+    {
+        $this->uzovi = $data['uzovi'];
+        $this->policy_nr = $data['policy_nr'];
+        $this->company_name = $data['company_name'];
+        $this->setPhone($data['phone']);
+        $this->setAddress($data['address']);
+        return $this;
+    }
 }

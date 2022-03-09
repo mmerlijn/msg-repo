@@ -67,6 +67,30 @@ class Patient implements RepositoryInterface
         ];
     }
 
+    public function fromArray(array $data): self
+    {
+        $this->setSex($data['sex']);
+        $this->setName($data['name']);
+        $this->setDob($data['dob']);
+        $this->setBsn($data['bsn']);
+        $this->setAddress($data['address']);
+        if (!empty($data['address2'])) {
+            $this->setAddress2($data['address2']);
+        }
+
+        foreach ($data['phones'] as $phone) {
+            $this->addPhone($phone);
+        }
+        if (!empty($data['insurance'])) {
+            $this->setInsurance($data['insurance']);
+        }
+        foreach ($data['ids'] as $id) {
+            $this->addId(new Id(...$id));
+        }
+        $this->last_requester = $data['last_requester'];
+
+        return $this;
+    }
 
     /**
      * Add id to objects id array
@@ -116,9 +140,11 @@ class Patient implements RepositoryInterface
      */
     public function setBsn($bsn): self
     {
-        $this->addId(new Id(id: $bsn, type: 'bsn'));
-        $this->bsn = $bsn;
-        $this->setBsnFirst();
+        if ($bsn) {
+            $this->addId(new Id(id: $bsn, type: 'bsn'));
+            $this->bsn = $bsn;
+            $this->setBsnFirst();
+        }
         return $this;
     }
 
@@ -165,9 +191,13 @@ class Patient implements RepositoryInterface
      * @param Insurance $insurance
      * @return $this
      */
-    public function setInsurance(Insurance $insurance = new Insurance()): self
+    public function setInsurance(array|Insurance $insurance = new Insurance()): self
     {
-        $this->insurance = $insurance;
+        if (gettype($insurance) == 'array') {
+            $this->insurance = (new Insurance())->fromArray($insurance);
+        } else {
+            $this->insurance = $insurance;
+        }
         return $this;
     }
 
@@ -178,9 +208,14 @@ class Patient implements RepositoryInterface
      * @param Address $address
      * @return $this
      */
-    public function setAddress2(Address $address = new Address()): self
+    public function setAddress2(array|Address $address = new Address()): self
     {
-        $this->address2 = $address;
+        if (gettype($address) == 'array') {
+            $this->address2 = new Address(...$address);
+        } else {
+            $this->address2 = $address;
+        }
+
         return $this;
     }
 
@@ -193,10 +228,12 @@ class Patient implements RepositoryInterface
      */
     public function setDob(string|Carbon $dob): self
     {
-        if (gettype($dob) == "string") {
-            $this->dob = Carbon::create($dob);
-        } else {
-            $this->dob = $dob;
+        if ($dob) {
+            if (gettype($dob) == "string") {
+                $this->dob = Carbon::create($dob);
+            } else {
+                $this->dob = $dob;
+            }
         }
         return $this;
     }

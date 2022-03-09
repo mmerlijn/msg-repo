@@ -33,4 +33,13 @@ class MsgType implements RepositoryInterface
             'version' => $this->version,
         ];
     }
+
+    public function fromArray(array $data): MsgType
+    {
+        $this->type = $data['type'];
+        $this->trigger = $data['trigger'];
+        $this->structure = $data['structure'];
+        $this->version = $data['version'];
+        return $this;
+    }
 }
