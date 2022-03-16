@@ -41,6 +41,13 @@ class FormatPhone
         return static::withCountryCode($number, $countryCode);
     }
 
+    public static function isSmsPhone(string $number): bool
+    {
+        if (!preg_match('/(06){1}[0-9]{8}/', $number)) {
+            return false;
+        }
+        return true;
+    }
 
     /** prefix phone number with country code
      *

@@ -63,6 +63,11 @@ class Phone
         return FormatPhone::forSMS($this->number, $countryCode);
     }
 
+    public function canReceiveSms(): bool
+    {
+        return FormatPhone::isSmsPhone($this->number);
+    }
+
     public function netNumber(string $city): self
     {
         if ($this->number)
