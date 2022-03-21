@@ -116,6 +116,7 @@ class Name implements RepositoryInterface
         } else {
             $this->sex = $sex;
         }
+        $this->salutation = $this->sex->namePrefix();
         return $this;
     }
 
@@ -135,7 +136,9 @@ class Name implements RepositoryInterface
         if (($this->lastname or $this->own_lastname)) {
             $this->name = $this->getName();
         }
-
+        if ($this->sex->value) {
+            $this->salutation = $this->sex->namePrefix();
+        }
     }
 
     /** get lastname prefixes, initials

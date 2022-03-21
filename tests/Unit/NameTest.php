@@ -117,5 +117,6 @@ class NameTest extends TestCase
         $array = $name->toArray();
         $this->assertSame('M', $array['sex']);
         $this->assertSame('Dhr. ', $array['salutation']);
+        $this->assertSame('Dhr. ', $name->salutation);
     }
 }
