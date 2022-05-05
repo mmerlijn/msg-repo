@@ -178,7 +178,7 @@ class Name implements RepositoryInterface
         $tmp = FormatName::nameSplitter($this->lastname ?? "", $this->prefix ?? "");
         $this->lastname = ucwords(strtolower($tmp['lastname']));
         $this->prefix = strtolower($tmp['prefix']);
-        $tmp = FormatName::nameSplitter($this->own_lastname, $this->own_prefix);
+        $tmp = FormatName::nameSplitter($this->own_lastname ?? "", $this->own_prefix ?? "");
         $this->own_lastname = ucwords(strtolower($tmp['lastname']));
         $this->own_prefix = strtolower($tmp['prefix']);
     }
