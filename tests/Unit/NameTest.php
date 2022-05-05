@@ -119,4 +119,12 @@ class NameTest extends TestCase
         $this->assertSame('Dhr. ', $array['salutation']);
         $this->assertSame('Dhr. ', $name->salutation);
     }
+
+    //test null lastname
+    public function test_null_lastname()
+    {
+        $name = new Name(own_lastname: 'Doe', lastname: null, initials: 'J', prefix: null, name: null, salutation: null);
+        $array = $name->toArray();
+        $this->assertSame("", $array['lastname']);
+    }
 }

@@ -19,13 +19,13 @@ class Name implements RepositoryInterface
      */
     public function __construct(
         public string                $initials = '',
-        public string                $lastname = "",
-        public string                $prefix = "",
+        public ?string               $lastname = "",
+        public ?string               $prefix = "",
         public string                $own_lastname = "",
         public string                $own_prefix = "",
-        public string                $name = "",
+        public ?string               $name = "",
         public string|PatientSexEnum $sex = PatientSexEnum::EMPTY,
-        public string                $salutation = "",
+        public ?string               $salutation = "",
     )
     {
         if (gettype($this->sex) == 'string') {
@@ -175,7 +175,7 @@ class Name implements RepositoryInterface
      */
     private function splitPrefixesFromNames()
     {
-        $tmp = FormatName::nameSplitter($this->lastname, $this->prefix);
+        $tmp = FormatName::nameSplitter($this->lastname ?? "", $this->prefix ?? "");
         $this->lastname = ucwords(strtolower($tmp['lastname']));
         $this->prefix = strtolower($tmp['prefix']);
         $tmp = FormatName::nameSplitter($this->own_lastname, $this->own_prefix);
