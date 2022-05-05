@@ -22,7 +22,7 @@ class Name implements RepositoryInterface
         public ?string               $lastname = "",
         public ?string               $prefix = "",
         public string                $own_lastname = "",
-        public string                $own_prefix = "",
+        public ?string               $own_prefix = "",
         public ?string               $name = "",
         public string|PatientSexEnum $sex = PatientSexEnum::EMPTY,
         public ?string               $salutation = "",
