@@ -30,6 +30,7 @@ class Contact implements RepositoryInterface
         public string        $application = "",
         public string        $device = "",
         public string        $facility = "", //????
+        public string        $location = "", //usefull for ORC.13
     )
     {
     }
@@ -52,6 +53,7 @@ class Contact implements RepositoryInterface
             'application' => $this->application,
             'device' => $this->device,
             'facility' => $this->facility, //???
+            'location' => $this->location,
         ];
     }
 
@@ -71,6 +73,7 @@ class Contact implements RepositoryInterface
         $this->application = $data['application'];
         $this->device = $data['device'];
         $this->facility = $data['facility'];
+        $this->location = $data['location'];
         return $this;
     }
 
