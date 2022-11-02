@@ -133,11 +133,17 @@ class Order implements RepositoryInterface
      *
      * @return array
      */
-    public function getRequestedTestcodes(): array
+    public function getRequestedTestcodes(string|array $filter = []): array
     {
+        if (!is_array($filter)) {
+            $filter = [$filter];
+        }
         $testcodes = [];
         foreach ($this->requests as $request) {
-            $testcodes[] = $request->test_code;
+            if (!in_array($request->test_code, $filter)) {
+                $testcodes[] = $request->test_code;
+            }
+
         }
         return $testcodes;
     }

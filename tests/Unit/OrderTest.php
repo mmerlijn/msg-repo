@@ -73,6 +73,21 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
         $this->assertSame(["ABC", "ABD", "ABE"], $order->getRequestedTestcodes());
     }
 
+    public function test_get_filtered_testcodes()
+    {
+        $order = new Order();
+        $order->addRequest(new Request(test_code: "ABC"));
+        $order->addRequest(new Request(test_code: "ABD"));
+        $order->addRequest(new Request(test_code: "ABE"));
+        $this->assertSame(["ABC", "ABE"], $order->getRequestedTestcodes('ABD'));
+
+        $order = new Order();
+        $order->addRequest(new Request(test_code: "ABC"));
+        $order->addRequest(new Request(test_code: "ABD"));
+        $order->addRequest(new Request(test_code: "ABE"));
+        $this->assertSame(["ABE"], $order->getRequestedTestcodes(['ABD', 'ABC']));
+    }
+
     public function test_control()
     {
         $order = new Order();
