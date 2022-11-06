@@ -15,13 +15,15 @@ class FormatName
     {
 
         $parts = explode(" ", preg_replace('/,/', " ", $lastname));
-        $lastname = "";
-        foreach ($parts as $part) {
-            if (trim($part)) {
-                if (in_array(strtolower($part), static::$prefixes)) { //is prefix
-                    $prefix .= " " . strtolower($part);
-                } else { //belongs to lastname
-                    $lastname .= " " . $part;
+        if (count($parts) > 1) {
+            $lastname = "";
+            foreach ($parts as $part) {
+                if (trim($part)) {
+                    if (in_array(strtolower($part), static::$prefixes)) { //is prefix
+                        $prefix .= " " . strtolower($part);
+                    } else { //belongs to lastname
+                        $lastname .= " " . $part;
+                    }
                 }
             }
         }
