@@ -42,4 +42,8 @@ enum PatientSexEnum: string
             default => ""
         };
     }
+    public static function selectOptions(): array
+    {
+        return ['M' => 'Man', 'F' => 'Vrouw', 'X' => 'Anders'];
+    }
 }
