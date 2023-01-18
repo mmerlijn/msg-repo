@@ -47,7 +47,7 @@ class Insurance implements RepositoryInterface
         $this->policy_nr = $data['policy_nr'];
         $this->company_name = $data['company_name'];
         $this->setPhone($data['phone']);
-        $this->setAddress($data['address']);
+        $this->setAddress($data['address']??[]);
         return $this;
     }
 }
