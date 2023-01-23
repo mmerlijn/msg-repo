@@ -184,6 +184,8 @@ class Order implements RepositoryInterface
             'results' => $results,
             'requests' => $requests,
             'comments' => $this->comments,
+            'admit_reason_code' => $this->admit_reason_code,
+            'admit_reason_name' => $this->admit_reason_name,
         ];
     }
 
@@ -198,6 +200,8 @@ class Order implements RepositoryInterface
         $this->where = OrderWhereEnum::set($data['where']);
         $this->requester = (new Contact())->fromArray($data['requester']);
         $this->copy_to = (new Contact())->fromArray($data['copy_to']);
+        $this->admit_reason_name = $data['admit_reason_name'];
+        $this->admit_reason_code = $data['admit_reason_code'];
         if ($data['dt_of_request']) {
             $this->dt_of_request = Carbon::create($data['dt_of_request']);
         }
