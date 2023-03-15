@@ -9,12 +9,14 @@ class MsgType implements RepositoryInterface
      * @param string $trigger
      * @param string $structure
      * @param string $version
+     * @param string $charset
      */
     public function __construct(
         public string $type = "",
         public string $trigger = "",
         public string $structure = "",
         public string $version = "",
+        public string $charset = "",
     )
     {
     }
@@ -31,6 +33,7 @@ class MsgType implements RepositoryInterface
             'trigger' => $this->trigger,
             'structure' => $this->structure,
             'version' => $this->version,
+            'charset' => $this->charset,
         ];
     }
 
@@ -40,6 +43,7 @@ class MsgType implements RepositoryInterface
         $this->trigger = $data['trigger'];
         $this->structure = $data['structure'];
         $this->version = $data['version'];
+        $this->charset = $data['charset'];
         return $this;
     }
 }
