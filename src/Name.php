@@ -10,15 +10,18 @@ class Name implements RepositoryInterface
 
     /**
      * @param string $initials
-     * @param string $lastname
-     * @param string $prefix
+     * @param string|null $firstname
+     * @param string|null $lastname
+     * @param string|null $prefix
      * @param string $own_lastname
-     * @param string $own_prefix
-     * @param string $name
-     * @param PatientSexEnum $sex
+     * @param string|null $own_prefix
+     * @param string|null $name
+     * @param string|PatientSexEnum $sex
+     * @param string|null $salutation
      */
     public function __construct(
         public string                $initials = '',
+        public ?string               $firstname = '',
         public ?string               $lastname = "",
         public ?string               $prefix = "",
         public string                $own_lastname = "",
@@ -42,6 +45,7 @@ class Name implements RepositoryInterface
     {
         return [
             'initials' => $this->initials,
+            'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'prefix' => $this->prefix,
             'own_lastname' => $this->own_lastname,
