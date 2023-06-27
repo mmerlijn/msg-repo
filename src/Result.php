@@ -3,6 +3,7 @@
 namespace mmerlijn\msgRepo;
 
 use mmerlijn\msgRepo\Enums\ResultFlagEnum;
+use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
 class Result implements RepositoryInterface
 {
@@ -46,7 +47,7 @@ class Result implements RepositoryInterface
         public bool             $change = false,
     )
     {
-
+        $this->value = StripUnwanted::format($value, 'comment');
     }
 
     /**

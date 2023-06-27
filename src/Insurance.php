@@ -2,6 +2,8 @@
 
 namespace mmerlijn\msgRepo;
 
+use mmerlijn\msgRepo\Helpers\StripUnwanted;
+
 class Insurance implements RepositoryInterface
 {
 
@@ -23,6 +25,7 @@ class Insurance implements RepositoryInterface
         public ?Address $address = null,
     )
     {
+        $this->company_name = StripUnwanted::format($company_name);
     }
 
     /**
@@ -47,7 +50,7 @@ class Insurance implements RepositoryInterface
         $this->policy_nr = $data['policy_nr'];
         $this->company_name = $data['company_name'];
         $this->setPhone($data['phone']);
-        $this->setAddress($data['address']??[]);
+        $this->setAddress($data['address'] ?? []);
         return $this;
     }
 }

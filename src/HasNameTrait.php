@@ -9,7 +9,7 @@ trait HasNameTrait
      * Set name for current object
      *
      * @param Name|array $name
-     * @return $this
+     * @return Contact|HasNameTrait|Patient
      */
     public function setName(Name|array $name = new Name()): self
     {

@@ -139,4 +139,12 @@ class NameTest extends TestCase
         $array = $name->toArray();
         $this->assertSame("", $array['lastname']);
     }
+
+    public function test_format()
+    {
+        $name = new Name(own_lastname: "Sier***", lastname: 'Vis*ws*');
+        $array = $name->toArray();
+        $this->assertSame('Sier', $array['own_lastname']);
+        $this->assertSame('Vis', $array['lastname']);
+    }
 }

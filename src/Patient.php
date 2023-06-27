@@ -22,6 +22,7 @@ class Patient implements RepositoryInterface
      * @param Insurance|null $insurance
      * @param array $ids
      * @param string|null $last_requester
+     * @param string|null $email
      */
     public function __construct(
         public PatientSexEnum $sex = PatientSexEnum::EMPTY,
@@ -34,6 +35,7 @@ class Patient implements RepositoryInterface
         public ?Insurance     $insurance = null,
         public array          $ids = [],
         public ?string        $last_requester = null,
+        public ?string        $email = null,
     )
     {
     }
@@ -64,6 +66,7 @@ class Patient implements RepositoryInterface
             'insurance' => $this->insurance?->toArray(),
             'ids' => $ids_array,
             'last_requester' => $this->last_requester ?? "",
+            'email' => $this->email,
         ];
     }
 
@@ -88,6 +91,7 @@ class Patient implements RepositoryInterface
             $this->addId(new Id(...$id));
         }
         $this->last_requester = $data['last_requester'];
+        $this->email = $data['email'] ?? null;
 
         return $this;
     }

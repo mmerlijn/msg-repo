@@ -2,6 +2,8 @@
 
 namespace mmerlijn\msgRepo;
 
+use mmerlijn\msgRepo\Helpers\StripUnwanted;
+
 class Address implements RepositoryInterface
 {
 
@@ -31,8 +33,8 @@ class Address implements RepositoryInterface
         } elseif (!$this->building) {
             $this->building = $this->building_nr . " " . $this->building_addition;
         }
-        $this->street = ucwords(strtolower($this->street));
-        $this->city = ucwords(strtolower($this->city));
+        $this->street = ucwords(strtolower(StripUnwanted::format($street ?? "", 'street')));
+        $this->city = ucwords(strtolower(StripUnwanted::format($city ?? "", 'street')));
     }
 
 

@@ -2,6 +2,8 @@
 
 namespace mmerlijn\msgRepo;
 
+use mmerlijn\msgRepo\Helpers\StripUnwanted;
+
 trait HasCommentsTrait
 {
 
@@ -13,7 +15,7 @@ trait HasCommentsTrait
      */
     public function addComment(string $comment): self
     {
-        $this->comments[] = trim($comment);
+        $this->comments[] = trim(StripUnwanted::format($comment, 'comment'));
         return $this;
     }
 

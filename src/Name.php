@@ -4,6 +4,7 @@ namespace mmerlijn\msgRepo;
 
 use mmerlijn\msgRepo\Enums\PatientSexEnum;
 use mmerlijn\msgRepo\Helpers\FormatName;
+use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
 class Name implements RepositoryInterface
 {
@@ -34,6 +35,11 @@ class Name implements RepositoryInterface
         if (gettype($this->sex) == 'string') {
             $this->sex = PatientSexEnum::set($this->sex);
         }
+        $this->lastname = StripUnwanted::format($lastname ?? "");
+        $this->own_lastname = StripUnwanted::format($own_lastname ?? "");
+        $this->prefix = StripUnwanted::format($prefix ?? "");
+        $this->own_prefix = StripUnwanted::format($own_prefix ?? "");
+        $this->initials = StripUnwanted::format($initials ?? "");
         $this->format();
     }
 

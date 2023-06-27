@@ -2,6 +2,8 @@
 
 namespace mmerlijn\msgRepo;
 
+use mmerlijn\msgRepo\Helpers\StripUnwanted;
+
 class Organisation implements RepositoryInterface
 {
 
@@ -20,6 +22,8 @@ class Organisation implements RepositoryInterface
         public ?Phone $phone = null,
     )
     {
+        $this->name = StripUnwanted::format($name);
+        $this->department = StripUnwanted::format($this->department);
     }
 
 
