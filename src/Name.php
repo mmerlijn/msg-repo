@@ -171,10 +171,10 @@ class Name implements RepositoryInterface
     {
         $parts = explode("-", $this->name);
         if (count($parts) == 2) {
+            $this->lookForInitialsInLastname(trim($parts[0]), 'lastname');
             $this->own_lastname = trim($parts[1]);
-            $this->lastname = trim($parts[0]);
         } else {
-            $this->own_lastname = trim($parts[0]);
+            $this->lookForInitialsInLastname(trim($parts[0]), 'own_lastname');
         }
     }
 
@@ -193,5 +193,29 @@ class Name implements RepositoryInterface
         $this->own_prefix = strtolower($tmp['prefix']);
     }
 
+    private function lookForInitialsInLastname($name, string $name_type): void
+    {
+        //look for initials
+        $s_parts = preg_split('/(?:\. | )/', $name);
+        if (!$this->initials) {
+            $t = false;
+            $ln = [];
+            foreach ($s_parts as $p) {
+                if (strlen($p) == 1) {
+                    $this->initials .= $p;
+                    $t = true;
+                } elseif ($t) {
+                    $ln[] = $p;
+                }
+            }
+            if ($t) {
+                $this->$name_type = implode(" ", $ln);
+            } else {
+                $this->$name_type = $name;
+            }
+        } else {
+            $this->$name_type = $name;
+        }
+    }
 
 }
