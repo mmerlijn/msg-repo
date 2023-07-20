@@ -2,6 +2,7 @@
 
 namespace mmerlijn\msgRepo;
 
+use mmerlijn\msgRepo\Helpers\FormatAddress;
 use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
 class Address implements RepositoryInterface
@@ -28,13 +29,13 @@ class Address implements RepositoryInterface
         public string $country = "NL",
     )
     {
-        if (!$this->building_nr and !$this->building_addition) {
-            $this->buildingNrSplitter($this->building);
-        } elseif (!$this->building) {
-            $this->building = $this->building_nr . " " . $this->building_addition;
-        }
         $this->street = ucwords(strtolower(StripUnwanted::format($street ?? "", 'street')));
         $this->city = ucwords(strtolower(StripUnwanted::format($city ?? "", 'street')));
+        $a = FormatAddress::getAddress($this);
+        $this->street = $a['street'];
+        $this->building = $a['building'];
+        $this->building_nr = $a['building_nr'];
+        $this->building_addition = $a['building_addition'];
     }
 
 
@@ -67,19 +68,6 @@ class Address implements RepositoryInterface
         $this->postbus = $data['postbus'];
         $this->country = $data['country'];
         return $this;
-    }
-
-    /**
-     * Split building in parts nr/addition
-     *
-     * @param string $building
-     * @return void
-     */
-    private function buildingNrSplitter(string $building)
-    {
-        $this->building_nr = preg_replace('/^(\d+)(.*)/', '$1', $building);
-        $this->building_addition = trim(preg_replace('/^(\d+)(.*)/', '$2', $building));
-        $this->building = trim($this->building_nr . " " . $this->building_addition);
     }
 
 
