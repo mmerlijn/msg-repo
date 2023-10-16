@@ -16,6 +16,15 @@ class AddressTest extends TestCase
         $this->assertSame('Amsterdam', $address->city);
         $this->assertIsArray($address->toArray());
         $this->assertArrayHasKey('postcode', $address->toArray());
+
+        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "56 1", country: "NL");
+        $this->assertSame('Long Street', $address->street);
+        $this->assertSame('56', $address->building_nr);
+        $this->assertSame('1', $address->building_addition);
+        $this->assertSame('56-1', $address->building);
+        $this->assertSame('Amsterdam', $address->city);
+        $this->assertIsArray($address->toArray());
+        $this->assertArrayHasKey('postcode', $address->toArray());
     }
 
     public function test_set_address_with_street_building()
@@ -104,7 +113,15 @@ class AddressTest extends TestCase
         $this->assertSame('Long Street', $address->street);
         $this->assertSame('4', $address->building_nr);
         $this->assertSame('1', $address->building_addition);
-        $this->assertSame('4 1', $address->building);
+        $this->assertSame('4-1', $address->building);
+        $this->assertSame('Amsterdam', $address->city);
+        $this->assertArrayHasKey('postcode', $address->toArray());
+
+        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street 4 1", country: "NL");
+        $this->assertSame('Long Street', $address->street);
+        $this->assertSame('4', $address->building_nr);
+        $this->assertSame('1', $address->building_addition);
+        $this->assertSame('4-1', $address->building);
         $this->assertSame('Amsterdam', $address->city);
         $this->assertArrayHasKey('postcode', $address->toArray());
     }

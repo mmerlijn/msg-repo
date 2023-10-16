@@ -10,22 +10,22 @@ class FormatAddress
     public static function getAddress(Address $address): array
     {
         if (!$address->building and !$address->building_nr) {
-            preg_match('/^([^\d]+)\s*(\d*)(.*)$/i', $address->street, $matches);
+            //preg_match('/^([^\d]+)\s*(\d*)(.*)$/i', $address->street, $matches);
+            preg_match('/^([^\d]+)\s*(\d*)[\s-]?(.*)$/i', $address->street, $matches);
             // $matches[1] will contain the non-numeric part (street name)
             // $matches[2] will contain the numeric part (house number)
-            //var_dump($matches);
-            //exit();
+            // matches[3] will contain the addition
             $a['street'] = isset($matches[1]) ? trim($matches[1]) : '';
-            $a['building'] = isset($matches[2]) ? trim($matches[2] . ($matches[3] ?? "")) : '';
-            $a['building_nr'] = self::extractNumericPart($a['building']);
-            $a['building_addition'] = self::extractAfterNumericPart($a['building']);
+            $a['building_nr'] = trim($matches[2]);
+            $a['building_addition'] = trim($matches[3]);
+            $a['building'] = self::makeBuilding($a['building_nr'], $a['building_addition']);
             return $a;
         }
         if (!$address->building) {
             if ($address->building_addition and strstr($address->building_nr, $address->building_addition)) {
                 $a['building'] = trim($address->building_nr);
             } else {
-                $a['building'] = trim($address->building_nr . " " . $address->building_addition);
+                $a['building'] = self::makeBuilding($address->building_nr, $address->building_addition);
             }
             $a['street'] = $address->street;
             $a['building_nr'] = self::extractNumericPart($a['building']);
@@ -34,7 +34,7 @@ class FormatAddress
         }
         if (!$address->building_nr) {
             $a['building_nr'] = self::extractNumericPart(str_replace(' ', '-', trim($address->building)));
-            //$a['building_addition'] = self::extractNonNumericPart($address->building);
+            $a['building_addition'] = self::extractAfterNumericPart($address->building);
             if (!$a['building_nr']) {
                 preg_match('/^([^\d]+)\s*(\d*).*$/i', $address->street, $matches);
                 // $matches[1] will contain the non-numeric part (street name)
@@ -45,10 +45,8 @@ class FormatAddress
                 $a['building_addition'] = self::extractAfterNumericPart($a['building']);
             } else {
                 $a['street'] = $address->street;
-                $a['building'] = $address->building;
-                $a['building_nr'] = self::extractNumericPart($a['building']);
-                $a['building_addition'] = self::extractAfterNumericPart($a['building']);
             }
+            $a['building'] = self::makeBuilding($a['building_nr'], $a['building_addition']);
 
             return $a;
         }
@@ -70,5 +68,10 @@ class FormatAddress
         preg_match('/^(\d+)[^\d]*.*$/', $inputString, $matches);
         // $matches[1] will contain the numeric part
         return isset($matches[1]) ? trim($matches[1]) : '';
+    }
+
+    private static function makeBuilding($building_nr, $building_addition): string
+    {
+        return trim($building_nr . (is_numeric($building_addition) ? "-" : " ") . $building_addition);
     }
 }
