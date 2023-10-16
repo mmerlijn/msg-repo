@@ -16,8 +16,8 @@ class FormatAddress
             // $matches[2] will contain the numeric part (house number)
             // matches[3] will contain the addition
             $a['street'] = isset($matches[1]) ? trim($matches[1]) : '';
-            $a['building_nr'] = trim($matches[2]);
-            $a['building_addition'] = trim($matches[3]);
+            $a['building_nr'] = isset($matches[2]) ? trim($matches[2]) : '';
+            $a['building_addition'] = isset($matches[3]) ? trim($matches[3]) : '';
             $a['building'] = self::makeBuilding($a['building_nr'], $a['building_addition']);
             return $a;
         }
