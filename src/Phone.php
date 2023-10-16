@@ -14,7 +14,9 @@ class Phone
         if (is_null($this->number)) {
             $this->number = "";
         }
-        $this->number = preg_replace('/[^0-9]/', '', $this->number);
+        $this->number = trim($this->number);
+        //$this->number = preg_replace('/[^0-9]/', '', $this->number);
+        $this->number = preg_replace('/^(nb)$|\D+/', '$1', $this->number);
 
         if (strlen($this->number) > 10) //remove country prefix
             $this->number = "0" . preg_replace('/^([0]*[3-4]{1}\d{1}[0]?)/', '', $this->number);
