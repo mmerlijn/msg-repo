@@ -14,12 +14,18 @@ class Phone
         if (is_null($this->number)) {
             $this->number = "";
         }
-        $this->number = trim($this->number);
-        //$this->number = preg_replace('/[^0-9]/', '', $this->number);
-        $this->number = preg_replace('/^(nb)$|\D+/', '$1', $this->number);
+        //Remove all unwanted characters
+        $this->number = str_replace([' ', '(0)', '-', '.'], '', $this->number);
 
-        if (strlen($this->number) > 10) //remove country prefix
-            $this->number = "0" . preg_replace('/^([0]*[3-4]{1}\d{1}[0]?)/', '', $this->number);
+        if ($this->number != "nb") {
+            //Remove all non numeric characters
+            $this->number = preg_replace('/[^0-9+]/', '', $this->number);
+
+            //Strip country prefix by NL phone numbers
+            if (str_starts_with($this->number, '+31') or str_starts_with($this->number, '0031')) {
+                $this->number = preg_replace('/^(\+31|0031)/', '0', $this->number);
+            }
+        }
     }
 
     /**

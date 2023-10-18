@@ -24,6 +24,10 @@ class PhoneTest extends \mmerlijn\msgRepo\tests\TestCase
         $p = new Phone("0031299123456");
         $this->assertSame("0299123456", $p->number);
         $this->assertSame("0299 123 456", (string)$p);
+
+        $p = new Phone("0032299123456");
+        $this->assertSame("0032299123456", $p->number);
+        $this->assertSame("+32 299 123 456", (string)$p);
     }
 
     public function test_add_country_code()
