@@ -4,6 +4,8 @@ namespace mmerlijn\msgRepo;
 
 class MsgType implements RepositoryInterface
 {
+    use CompactTrait;
+
     /**
      * @param string $type
      * @param string $trigger
@@ -24,26 +26,23 @@ class MsgType implements RepositoryInterface
     /**
      * Dump state
      *
+     * @param bool $compact
      * @return array
      */
-    public function toArray(): array
+    public function toArray(bool $compact = false): array
     {
-        return [
+        return $this->compact([
             'type' => $this->type,
             'trigger' => $this->trigger,
             'structure' => $this->structure,
             'version' => $this->version,
             'charset' => $this->charset,
-        ];
+        ], $compact);
     }
 
+    //backwards compatibility
     public function fromArray(array $data): MsgType
     {
-        $this->type = $data['type'];
-        $this->trigger = $data['trigger'];
-        $this->structure = $data['structure'];
-        $this->version = $data['version'];
-        $this->charset = $data['charset'];
-        return $this;
+        return new MsgType(...$data);
     }
 }

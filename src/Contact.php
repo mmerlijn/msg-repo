@@ -5,76 +5,68 @@ namespace mmerlijn\msgRepo;
 class Contact implements RepositoryInterface
 {
 
-    use HasPhoneTrait, HasAddressTrait, HasNameTrait;
+    use HasPhoneTrait, HasAddressTrait, HasNameTrait, CompactTrait;
 
     /**
      * @param string $agbcode
-     * @param Name $name
+     * @param array|Name $name
      * @param string $source
-     * @param Address|null $address
-     * @param Phone|null $phone
+     * @param array|Address|null $address
+     * @param string|Phone|null $phone
      * @param string $type
-     * @param Organisation|null $organisation
+     * @param array|Organisation|null $organisation
      * @param string $application
      * @param string $device
      * @param string $facility
+     * @param string $location
      */
     public function __construct(
-        public string        $agbcode = "",
-        public Name          $name = new Name,
-        public string        $source = "",
-        public ?Address      $address = null,
-        public ?Phone        $phone = null,
-        public string        $type = "",
-        public ?Organisation $organisation = null,
-        public string        $application = "",
-        public string        $device = "",
-        public string        $facility = "", //????
-        public string        $location = "", //usefull for ORC.13
+        public string                  $agbcode = "",
+        public array|Name              $name = new Name,
+        public string                  $source = "",
+        public null|array|Address      $address = null,
+        public null|string|Phone       $phone = null,
+        public string                  $type = "",
+        public null|array|Organisation $organisation = null,
+        public string                  $application = "",
+        public string                  $device = "",
+        public string                  $facility = "", //????
+        public string                  $location = "" //usefull for ORC.13
     )
     {
+        if (is_array($name)) $this->name = new Name(...$name);
+        if (is_array($address)) $this->address = new Address(...$address);
+        if (is_string($phone)) $this->phone = new Phone($phone);
+        if (is_array($organisation)) $this->organisation = new Organisation(...$organisation);
     }
 
     /**
      * dump state
      *
+     * @param bool $compact
      * @return array
      */
-    public function toArray(): array
+    public function toArray(bool $compact = false): array
     {
-        return [
+        return $this->compact([
             'agbcode' => $this->agbcode,
             'source' => $this->source,
-            'name' => $this->name->toArray(),
-            'address' => $this->address?->toArray(),
+            'name' => $this->name->toArray($compact),
+            'address' => $this->address?->toArray($compact),
             'phone' => (string)$this->phone,
             'type' => $this->type,
-            'organisation' => $this->organisation?->toArray(),
+            'organisation' => $this->organisation?->toArray($compact),
             'application' => $this->application,
             'device' => $this->device,
             'facility' => $this->facility, //???
             'location' => $this->location,
-        ];
+        ], $compact);
     }
 
+    //backwards compatibility
     public function fromArray(array $data): Contact
     {
-        $this->agbcode = $data['agbcode'];
-        $this->source = $data['source'];
-        $this->setName($data['name']);;
-        if (!empty($data['address'])) {
-            $this->setAddress($data['address']);
-        }
-        $this->setPhone($data['phone']);
-        $this->type = $data['type'];
-        if (!empty($data['organisation'])) {
-            $this->setOrganisation($data['organisation']);
-        }
-        $this->application = $data['application'];
-        $this->device = $data['device'];
-        $this->facility = $data['facility'];
-        $this->location = $data['location'];
-        return $this;
+        return new Contact(...$data);
     }
 
     /**

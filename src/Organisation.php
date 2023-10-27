@@ -7,21 +7,22 @@ use mmerlijn\msgRepo\Helpers\StripUnwanted;
 class Organisation implements RepositoryInterface
 {
 
-    use HasPhoneTrait;
+    use HasPhoneTrait, CompactTrait;
 
     /**
      * @param string $name
      * @param string $department
      * @param string $short
-     * @param Phone|null $phone
+     * @param Phone|string|null $phone
      */
     public function __construct(
-        public string $name = "",
-        public string $department = "",
-        public string $short = "",
-        public ?Phone $phone = null,
+        public string            $name = "",
+        public string            $department = "",
+        public string            $short = "",
+        public Phone|string|null $phone = null,
     )
     {
+        if (is_string($phone)) $this->phone = new Phone($phone);
         $this->name = StripUnwanted::format($name);
         $this->department = StripUnwanted::format($this->department);
     }
@@ -30,25 +31,23 @@ class Organisation implements RepositoryInterface
     /**
      * dump state
      *
+     * @param bool $compact
      * @return array
      */
-    public function toArray(): array
+    public function toArray(bool $compact = false): array
     {
-        return [
+        return $this->compact([
             'name' => $this->name,
             'department' => $this->department,
             'short' => $this->short,
             'phone' => (string)$this->phone,
-        ];
+        ], $compact);
     }
 
+    //backwards compatibility
     public function fromArray(array $data): Organisation
     {
-        $this->name = $data['name'];
-        $this->department = $data['department'];
-        $this->short = $data['short'];
-        $this->setPhone($data['phone']);
-        return $this;
+        return new Organisation(...$data);
     }
 
 }

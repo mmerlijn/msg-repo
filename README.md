@@ -22,6 +22,26 @@ $order->getRequestedTestcodes(); //return all requested testcodes as array
 $order->filterTestCodes(string|array); //filters requests and results with given test_code
 ```
 
+Repo to array
+
+```php
+$msg->toArray();
+```
+
+Compact array (empty values are removed)
+
+```php
+$msg->toArray(true);
+```
+
+Form array to repo
+
+```php
+$msg = new Msg(...$array);
+//or
+$msg = (new Msg)->fromArray($array);
+```
+
 Repository tree
 
 ```php

@@ -7,6 +7,7 @@ use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
 class Address implements RepositoryInterface
 {
+    use CompactTrait;
 
     /**
      * @param string $postcode
@@ -41,11 +42,12 @@ class Address implements RepositoryInterface
 
     /** state
      *
+     * @param bool $compact
      * @return array
      */
-    public function toArray(): array
+    public function toArray(bool $compact = false): array
     {
-        return [
+        return $this->compact([
             'postcode' => $this->postcode,
             'city' => $this->city,
             'street' => $this->street,
@@ -53,21 +55,14 @@ class Address implements RepositoryInterface
             'building_nr' => $this->building_nr,
             'building_addition' => $this->building_addition,
             'postbus' => $this->postbus,
-            'country' => $this->country,
-        ];
+            'country' => $this->country == 'NL' ? '' : $this->country
+        ], $compact);
     }
 
+    //backwards compatibility
     public function fromArray(array $data): Address
     {
-        $this->postcode = $data['postcode'];
-        $this->city = $data['city'];
-        $this->street = $data['street'];
-        $this->building = $data['building'];
-        $this->building_nr = $data['building_nr'];
-        $this->building_addition = $data['building_addition'];
-        $this->postbus = $data['postbus'];
-        $this->country = $data['country'];
-        return $this;
+        return new Address(...$data);
     }
 
 

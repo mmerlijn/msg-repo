@@ -9,7 +9,6 @@ use mmerlijn\msgRepo\Msg;
 use mmerlijn\msgRepo\Name;
 use mmerlijn\msgRepo\Organisation;
 use mmerlijn\msgRepo\Patient;
-use mmerlijn\msgRepo\Receiver;
 use mmerlijn\msgRepo\tests\TestCase;
 
 class MsgTest extends TestCase
@@ -28,6 +27,7 @@ class MsgTest extends TestCase
         $msg->patient->setBsn("123456782");
         $this->assertSame("123456782", $msg->patient->bsn);
         $this->assertSame("123456782", $msg->patient->ids[0]->id);
+        $this->assertSame("NLMINBIZA", $msg->patient->ids[0]->authority);
     }
 
 
@@ -37,7 +37,7 @@ class MsgTest extends TestCase
             ->setPatient((new Patient())->setDob("10-11-2004"))
             ->setReceiver((new Contact())
                 ->setPhone("0612341234")
-                ->setAddress(new Address(street: 'D. Street', city: 'Amsterdam'))
+                ->setAddress(new Address(city: 'Amsterdam', street: 'D. Street'))
                 ->setName(new Name(lastname: 'Doe'))
                 ->setOrganisation(new Organisation(name: 'XILE')));
         $this->assertSame("2004-11-10", $msg->patient->dob->format("Y-m-d"));
@@ -47,9 +47,29 @@ class MsgTest extends TestCase
         $this->assertSame("Doe", $msg->receiver->name->lastname);
     }
 
-    //public function test_print_for_docs()
-    //{
-    //    $msg = new Msg();
-    //    print_r($msg->toArray());
-    //}
+    public function test_compact()
+    {
+        $msg = (new Msg())
+            ->setPatient((new Patient())->setDob("10-11-2004"))
+            ->setReceiver((new Contact())
+                ->setPhone("0612341234")
+                ->setAddress(new Address(city: 'Amsterdam', street: 'D. Street'))
+                ->setName(new Name(lastname: 'Doe'))
+                ->setOrganisation(new Organisation(name: 'XILE')));
+        $this->assertIsArray($msg->toArray(true));
+        $this->assertArrayHasKey('patient', $msg->toArray(true));
+        $this->assertArrayHasKey('receiver', $msg->toArray(true));
+        $this->assertArrayHasKey('phone', $msg->toArray(true)['receiver']);
+        $this->assertArrayHasKey('address', $msg->toArray(true)['receiver']);
+        $this->assertArrayHasKey('name', $msg->toArray(true)['receiver']);
+        $this->assertArrayHasKey('organisation', $msg->toArray(true)['receiver']);
+        $this->assertArrayHasKey('street', $msg->toArray(true)['receiver']['address']);
+        $this->assertArrayHasKey('name', $msg->toArray(true)['receiver']['organisation']);
+        $this->assertArrayHasKey('lastname', $msg->toArray(true)['receiver']['name']);
+        $this->assertArrayNotHasKey('postcode', $msg->toArray(true)['receiver']['address']);
+        $this->assertArrayNotHasKey('orders', $msg->toArray(true));
+        $msg = new Msg(...$msg->toArray(true));
+        $this->assertSame("2004-11-10", $msg->patient->dob->format("Y-m-d"));
+        $this->assertSame('06 1234 1234', (string)$msg->receiver->phone);
+    }
 }

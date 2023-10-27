@@ -12,12 +12,8 @@ enum ResultFlagEnum: string
     public static function set(string $flag): self
     {
         return match (strtoupper($flag)) {
-            "H" => self::HIGH,
-            "HIGH" => self::HIGH,
-            ">" => self::HIGH,
-            "LOW" => self::LOW,
-            "L" => self::LOW,
-            "<" => self::LOW,
+            "H", "HIGH", ">" => self::HIGH,
+            "LOW", "L", "<" => self::LOW,
             default => self::EMPTY,
         };
     }

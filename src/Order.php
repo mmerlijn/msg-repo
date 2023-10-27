@@ -10,71 +10,86 @@ use mmerlijn\msgRepo\Enums\OrderWhereEnum;
 class Order implements RepositoryInterface
 {
 
-    use HasCommentsTrait;
+    use HasCommentsTrait, CompactTrait;
 
     /**
-     * @param OrderControlEnum $control
+     * @param string|OrderControlEnum $control N=new, C=Cancel
      * @param string $request_nr
      * @param string|int $lab_nr
      * @param bool $complete
      * @param bool $priority
-     * @param OrderStatusEnum $order_status
-     * @param OrderWhereEnum $where
-     * @param Contact $requester
-     * @param Contact $copy_to
-     * @param Carbon|null $dt_of_request
-     * @param Carbon|null $dt_of_observation
-     * @param Carbon|null $dt_of_observation_end
-     * @param Carbon|null $dt_of_analysis
+     * @param string|OrderStatusEnum $order_status
+     * @param string|OrderWhereEnum $where home , other
+     * @param array|Contact $requester
+     * @param array|Contact $copy_to
+     * @param Carbon|string|null $dt_of_request dt of execution time
+     * @param Carbon|string|null $dt_of_observation
+     * @param Carbon|string|null $dt_of_observation_end
+     * @param Carbon|string|null $dt_of_analysis
      * @param string $admit_reason_code
      * @param string $admit_reason_name
-     * @param array $results
-     * @param array $requests
-     * @param array $comments
+     * @param array $results array if Results
+     * @param array $requests array of Requests
+     * @param array $comments array of strings
      */
     public function __construct(
-        public OrderControlEnum $control = OrderControlEnum::NEW, //N=new, C=Cancel
-        public string           $request_nr = "", //AB12341234
-        public string|int       $lab_nr = "", //internal processing nr
-        public bool             $complete = true,
-        public bool             $priority = false,
-        public OrderStatusEnum  $order_status = OrderStatusEnum::FINAL,
+        public string|OrderControlEnum $control = OrderControlEnum::NEW,
+        public string                  $request_nr = "", //AB12341234
+        public string|int              $lab_nr = "", //internal processing nr
+        public bool                    $complete = true,
+        public bool                    $priority = false,
+        public string|OrderStatusEnum  $order_status = OrderStatusEnum::FINAL,
         //public string     $result_status = "", //F=final, C=correction
-        public OrderWhereEnum   $where = OrderWhereEnum::EMPTY,//home , other
-        public Contact          $requester = new Contact(),
-        public Contact          $copy_to = new Contact(),
+        public string|OrderWhereEnum   $where = OrderWhereEnum::EMPTY,
+        public array|Contact           $requester = new Contact(),
+        public array|Contact           $copy_to = new Contact(),
         //public string     $material = "",
         //public string     $volume = "",
-        public ?Carbon          $dt_of_request = null, //dt of execution time
-        public ?Carbon          $dt_of_observation = null,
-        public ?Carbon          $dt_of_observation_end = null,
-        public ?Carbon          $dt_of_analysis = null,
-        public string           $admit_reason_code = "",
-        public string           $admit_reason_name = "",
-        public array            $results = [],
-        public array            $requests = [],
-        public array            $comments = [],
+        public Carbon|string|null      $dt_of_request = null,
+        public Carbon|string|null      $dt_of_observation = null,
+        public Carbon|string|null      $dt_of_observation_end = null,
+        public Carbon|string|null      $dt_of_analysis = null,
+        public string                  $admit_reason_code = "",
+        public string                  $admit_reason_name = "",
+        public array                   $results = [],
+        public array                   $requests = [],
+        public array                   $comments = []
     )
     {
+        if (is_array($requester)) $this->requester = new Contact(...$requester);
+        if (is_array($copy_to)) $this->copy_to = new Contact(...$copy_to);
+        if (is_string($dt_of_request)) $this->dt_of_request = Carbon::create($dt_of_request);
+        if (is_string($dt_of_observation)) $this->dt_of_observation = Carbon::create($dt_of_observation);
+        if (is_string($dt_of_observation_end)) $this->dt_of_observation_end = Carbon::create($dt_of_observation_end);
+        if (is_string($dt_of_analysis)) $this->dt_of_analysis = Carbon::create($dt_of_analysis);
+        if (is_string($order_status)) $this->order_status = OrderStatusEnum::set($order_status);
+        if (is_string($where)) $this->where = OrderWhereEnum::set($where);
+        if (is_string($control)) $this->control = OrderControlEnum::set($control);
+        $this->results = [];
+        foreach ($results as $result) {
+            $this->addResult(new Result(...$result));
+        }
+        $this->requests = [];
+        foreach ($requests as $request) {
+            $this->addRequest(new Request(...$request));
+        }
     }
 
 
     /**
      * add result to an order
-     * @param Result $result
+     * @param Result|array $result
      * @return $this
      */
-    public function addResult(Result $result = new Result()): self
+    public function addResult(Result|array $result = new Result()): self
     {
-        $new = true;
+        if (is_array($result)) $result = new Result(...$result);
         foreach ($this->results as $r) {
             if ($result->test_code == $r->test_code) {
-                $new = false;
+                return $this;
             }
         }
-        if ($new) {
-            $this->results[] = $result;
-        }
+        $this->results[] = $result;
         return $this;
     }
 
@@ -82,20 +97,18 @@ class Order implements RepositoryInterface
     /**
      * Add request to an order
      *
-     * @param Request $request
+     * @param Request|array $request
      * @return $this
      */
-    public function addRequest(Request $request = new Request()): self
+    public function addRequest(Request|array $request = new Request()): self
     {
-        $new = true;
+        if (is_array($request)) $request = new Request(...$request);
         foreach ($this->requests as $r) {
             if ($request->test_code == $r->test_code) {
-                $new = false;
+                return $this;
             }
         }
-        if ($new) {
-            $this->requests[] = $request;
-        }
+        $this->requests[] = $request;
         return $this;
     }
 
@@ -108,9 +121,7 @@ class Order implements RepositoryInterface
      */
     public function filterTestCodes(array|string $filter): self
     {
-        if (gettype($filter) == "string") {
-            $filter = [$filter];
-        }
+        if (is_string($filter)) $filter = [$filter];
         foreach ($this->requests as $k => $request) {
             if (in_array($request->test_code, $filter)) {
                 unset($this->requests[$k]);
@@ -131,13 +142,12 @@ class Order implements RepositoryInterface
     /**
      * Give all requested testcodes
      *
+     * @param string|array $filter
      * @return array
      */
     public function getRequestedTestcodes(string|array $filter = []): array
     {
-        if (!is_array($filter)) {
-            $filter = [$filter];
-        }
+        if (is_string($filter)) $filter = [$filter];
         $testcodes = [];
         foreach ($this->requests as $request) {
             if (!in_array($request->test_code, $filter)) {
@@ -152,19 +162,12 @@ class Order implements RepositoryInterface
     /**
      * Dump state
      *
+     * @param bool $compact
      * @return array
      */
-    public function toArray(): array
+    public function toArray(bool $compact = false): array
     {
-        $results = [];
-        foreach ($this->results as $result) {
-            $results[] = $result->toArray();
-        }
-        $requests = [];
-        foreach ($this->requests as $request) {
-            $requests[] = $request->toArray();
-        }
-        return [
+        return $this->compact([
             'control' => $this->control->value,
             'request_nr' => $this->request_nr,
             'lab_nr' => $this->lab_nr,
@@ -173,55 +176,25 @@ class Order implements RepositoryInterface
             'order_status' => $this->order_status->value,
             //'result_status' => $this->result_status,
             'where' => $this->where->value,
-            'requester' => $this->requester->toArray(),
-            'copy_to' => $this->copy_to->toArray(),
+            'requester' => $this->requester->toArray($compact),
+            'copy_to' => $this->copy_to->toArray($compact),
             //'material' => $this->material,
             //'volume' => $this->volume,
             'dt_of_request' => $this->dt_of_request?->format("Y-m-d H:i:s"),
             'dt_of_observation' => $this->dt_of_observation?->format("Y-m-d H:i:s"),
             'dt_of_observation_end' => $this->dt_of_observation_end?->format("Y-m-d H:i:s"),
             'dt_of_analysis' => $this->dt_of_analysis?->format("Y-m-d H:i:s"),
-            'results' => $results,
-            'requests' => $requests,
+            'results' => array_map(fn($value) => $value->toArray($compact), $this->results),
+            'requests' => array_map(fn($value) => $value->toArray($compact), $this->requests),
             'comments' => $this->comments,
             'admit_reason_code' => $this->admit_reason_code,
             'admit_reason_name' => $this->admit_reason_name,
-        ];
+        ], $compact);
     }
 
+    //backwards compatibility
     public function fromArray(array $data): Order
     {
-        $this->control = OrderControlEnum::set($data['control']);
-        $this->request_nr = $data['request_nr'];
-        $this->lab_nr = $data['lab_nr'];
-        $this->complete = $data['complete'];
-        $this->priority = $data['priority'];
-        $this->order_status = OrderStatusEnum::set($data['order_status']);
-        $this->where = OrderWhereEnum::set($data['where']);
-        $this->requester = (new Contact())->fromArray($data['requester']);
-        $this->copy_to = (new Contact())->fromArray($data['copy_to']);
-        $this->admit_reason_name = $data['admit_reason_name'];
-        $this->admit_reason_code = $data['admit_reason_code'];
-        if ($data['dt_of_request']) {
-            $this->dt_of_request = Carbon::create($data['dt_of_request']);
-        }
-        if ($data['dt_of_observation']) {
-            $this->dt_of_observation = Carbon::create($data['dt_of_observation']);
-        }
-        if ($data['dt_of_observation_end']) {
-            $this->dt_of_observation_end = Carbon::create($data['dt_of_observation_end']);
-        }
-        if ($data['dt_of_analysis']) {
-            $this->dt_of_analysis = Carbon::create($data['dt_of_analysis']);
-        }
-
-        foreach ($data['results'] as $result) {
-            $this->addResult((new Result())->fromArray($result));
-        }
-        foreach ($data['requests'] as $requests) {
-            $this->addRequest((new Request())->fromArray($requests));
-        }
-        $this->comments = $data['comments'];
-        return $this;
+        return new Order(...$data);
     }
 }

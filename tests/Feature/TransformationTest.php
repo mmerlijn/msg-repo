@@ -22,12 +22,13 @@ class TransformationTest extends TestCase
             ->setPatient((new Patient())->setDob("10-11-2004")->setName(['name' => 'John Doe']))
             ->setReceiver((new Contact())
                 ->setPhone("0612341234")
-                ->setAddress(new Address(street: 'D. Street', city: 'Amsterdam'))
+                ->setAddress(new Address(city: 'Amsterdam', street: 'D. Street'))
                 ->setName(new Name(lastname: 'Doe'))
                 ->setOrganisation(new Organisation(name: 'XILE')))
             ->setOrder((new Order())
                 ->addRequest((new Request(test_code: "CRP", test_name: "CRP", test_source: "99zdl")))
-                ->addResult((new Result(value: "6 mnd", test_code: "COVIDURG", test_source: "99zdl", test_name: "Urgentie?", other_test_name: "Binnen 6 maanden", other_test_source: "99zda"))));
+                ->addResult((new Result(value: "6 mnd", test_code: "COVIDURG", test_name: "Urgentie?", test_source: "99zdl", other_test_name: "Binnen 6 maanden", other_test_source: "99zda"))));
+
         $array = $msg->toArray();
         $msg2 = (new Msg())->fromArray($array);
         $this->assertSame($msg->toArray(), $msg2->toArray());

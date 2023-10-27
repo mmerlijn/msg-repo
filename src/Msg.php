@@ -7,69 +7,67 @@ use Carbon\Carbon;
 class Msg implements RepositoryInterface
 {
 
-    use HasCommentsTrait;
+    use HasCommentsTrait, CompactTrait;
 
     /**
-     * @param Patient $patient
-     * @param Order $order
-     * @param Contact $sender
-     * @param Contact $receiver
-     * @param Carbon $datetime
-     * @param MsgType $msgType
+     * @param array|Patient $patient
+     * @param array|Order $order
+     * @param array|Contact $sender
+     * @param array|Contact $receiver
+     * @param string|Carbon $datetime
+     * @param array|MsgType $msgType
      * @param string $id
      * @param string $security_id
      * @param string $processing_id
      * @param array $comments
      */
     public function __construct(
-        public Patient $patient = new Patient,
-        public Order   $order = new Order,
-        public Contact $sender = new Contact(),
-        public Contact $receiver = new Contact(),
-        public Carbon  $datetime = new Carbon,
-        public MsgType $msgType = new MsgType,
-        public string  $id = "",
-        public string  $security_id = "",
-        public string  $processing_id = "",
-        public array   $comments = [],
+        public array|Patient $patient = new Patient,
+        public array|Order   $order = new Order,
+        public array|Contact $sender = new Contact,
+        public array|Contact $receiver = new Contact,
+        public string|Carbon $datetime = new Carbon,
+        public array|MsgType $msgType = new MsgType,
+        public string        $id = "",
+        public string        $security_id = "",
+        public string        $processing_id = "",
+        public array         $comments = [],
     )
     {
+        if (is_array($patient)) $this->patient = new Patient(...$patient);
+        if (is_array($order)) $this->order = new Order(...$order);
+        if (is_array($sender)) $this->sender = new Contact(...$sender);
+        if (is_array($receiver)) $this->receiver = new Contact(...$receiver);
+        if (is_string($datetime)) $this->datetime = Carbon::create($datetime);
+        if (is_array($msgType)) $this->msgType = new MsgType(...$msgType);
     }
 
     /**
      * dump state
      *
+     * @param bool $compact
      * @return array
      */
-    public function toArray(): array
+    public function toArray(bool $compact = false): array
     {
-        return [
-            'patient' => $this->patient->toArray(),
-            'order' => $this->order->toArray(),
-            'sender' => $this->sender->toArray(),
-            'receiver' => $this->receiver->toArray(),
+        return $this->compact([
+            'patient' => $this->patient->toArray($compact),
+            'order' => $this->order->toArray($compact),
+            'sender' => $this->sender->toArray($compact),
+            'receiver' => $this->receiver->toArray($compact),
             'datetime' => $this->datetime->format('Y-m-d H:i:s'),
-            'msgType' => $this->msgType->toArray(),
+            'msgType' => $this->msgType->toArray($compact),
             'id' => $this->id,
             'security_id' => $this->security_id,
             'processing_id' => $this->processing_id,
             'comments' => $this->comments,
-        ];
+        ], $compact);
     }
 
+    //backwards compatibility
     public function fromArray(array $data): self
     {
-        $this->setPatient($data['patient']);
-        $this->order = (new Order())->fromArray($data['order']);
-        $this->sender = (new Contact())->fromArray($data['sender']);
-        $this->receiver = (new Contact())->fromArray($data['receiver']);
-        $this->datetime = Carbon::create($data['datetime']);
-        $this->msgType = new MsgType(...$data['msgType']);
-        $this->id = $data['id'];
-        $this->security_id = $data['security_id'];
-        $this->processing_id = $data['processing_id'];
-        $this->comments = $data['comments'];
-        return $this;
+        return new Msg(...$data);
     }
 
     public function toJson(): string
@@ -85,16 +83,13 @@ class Msg implements RepositoryInterface
     /**
      * set patient to msg object
      *
-     * @param Patient $patient
+     * @param array|Patient $patient
      * @return $this
      */
     public function setPatient(array|Patient $patient): self
     {
-        if (gettype($patient) == 'array') {
-            $this->patient = (new Patient())->fromArray($patient);
-        } else {
-            $this->patient = $patient;
-        }
+        if (is_array($patient)) $patient = new Patient(...$patient);
+        $this->patient = $patient;
         return $this;
     }
 

@@ -35,4 +35,23 @@ class ContactTest extends \mmerlijn\msgRepo\tests\TestCase
         $this->assertSame("XILE", $contact->organisation->name);
         $this->assertSame("Doe", $contact->name->lastname);
     }
+
+    public function test_compact()
+    {
+        $contact = (new Contact())
+            ->setPhone("0612341234")
+            ->setAddress(new Address(city: 'Amsterdam', street: 'D. Street'))
+            ->setName(new Name(lastname: 'Doe'))
+            ->setOrganisation(new Organisation(name: 'XILE'));
+        $this->assertIsArray($contact->toArray(true));
+        $this->assertArrayHasKey('phone', $contact->toArray(true));
+        $this->assertArrayHasKey('address', $contact->toArray(true));
+        $this->assertArrayHasKey('name', $contact->toArray(true));
+        $this->assertArrayHasKey('organisation', $contact->toArray(true));
+        $this->assertArrayHasKey('street', $contact->toArray(true)['address']);
+        $this->assertArrayHasKey('name', $contact->toArray(true)['organisation']);
+        $this->assertArrayHasKey('lastname', $contact->toArray(true)['name']);
+        $this->assertArrayNotHasKey('postcode', $contact->toArray(true)['address']);
+        $this->assertArrayNotHasKey('sex', $contact->toArray(true));
+    }
 }

@@ -8,6 +8,7 @@ use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
 class Name implements RepositoryInterface
 {
+    use CompactTrait;
 
     /**
      * @param string $initials
@@ -32,9 +33,7 @@ class Name implements RepositoryInterface
         public ?string               $salutation = "",
     )
     {
-        if (gettype($this->sex) == 'string') {
-            $this->sex = PatientSexEnum::set($this->sex);
-        }
+        if (is_string($this->sex)) $this->sex = PatientSexEnum::set($this->sex);
         $this->lastname = StripUnwanted::format($lastname ?? "");
         $this->own_lastname = StripUnwanted::format($own_lastname ?? "");
         $this->prefix = StripUnwanted::format($prefix ?? "");
@@ -45,11 +44,12 @@ class Name implements RepositoryInterface
 
     /** Export state
      *
+     * @param bool $compact
      * @return array
      */
-    public function toArray(): array
+    public function toArray(bool $compact = false): array
     {
-        return [
+        return $this->compact([
             'initials' => $this->initials,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
@@ -59,7 +59,7 @@ class Name implements RepositoryInterface
             'name' => $this->name,
             'sex' => $this->sex->value,
             'salutation' => $this->sex->namePrefix(),
-        ];
+        ], $compact);
     }
 
 
@@ -100,7 +100,7 @@ class Name implements RepositoryInterface
      *
      * @return string
      */
-    public function getInitialsForStorage()
+    public function getInitialsForStorage(): string
     {
         return strtoupper(preg_replace('/[^A-z]/', "", $this->initials));
     }
@@ -112,24 +112,6 @@ class Name implements RepositoryInterface
     {
         return $this->sex->namePrefix() . $this->getName();
     }
-
-    /**
-     * set sex
-     *
-     * @param string $sex
-     * @return $this
-     */
-    public function setSex(PatientSexEnum|string $sex): self
-    {
-        if (gettype($sex) == "string") {
-            $this->sex = PatientSexEnum::set($sex);
-        } else {
-            $this->sex = $sex;
-        }
-        $this->salutation = $this->sex->namePrefix();
-        return $this;
-    }
-
 
     /**
      * reformat name data

@@ -49,7 +49,7 @@ class FormatPhone
      */
     public static function forSMS(string $number, string $countryCode = "nl"): string
     {
-        if (!preg_match('/(06){1}[0-9]{8}/', $number)) {
+        if (!preg_match('/^(06)[0-9]{8}$/', $number)) {
             throw new \Exception('Not a mobile phone: ' . $number);
         }
         if (!array_key_exists($countryCode, static::$countryPrefixes)) {
@@ -60,7 +60,7 @@ class FormatPhone
 
     public static function isSmsPhone(string $number): bool
     {
-        if (!preg_match('/(06){1}[0-9]{8}/', $number)) {
+        if (!preg_match('/^(06)[0-9]{8}$/', $number)) {
             return false;
         }
         return true;
@@ -79,7 +79,7 @@ class FormatPhone
 
     public static function addCityNetNumber(string $number, string $city): string
     {
-        if (!preg_match('/^(0){1}/', $number) and strlen($number) < 10) {
+        if (!preg_match('/^(0)/', $number) and strlen($number) < 10) {
             return static::cityNetNumbers($city) . $number;
         }
         return $number;
@@ -101,9 +101,13 @@ class FormatPhone
         "0800", "082", "084", "085", "087", "088",
         "0900", "0906", "0909", "091", "0970", "0971", "0972", "0973", "0974", "0975", "0976", "0977", "0978"
     ];
-    private static array $countryPrefixes = ['ru' => '+7', 'gr' => '+30', 'nl' => '+31', 'be' => '+32', 'fr' => '+33', 'es' => '+34', 'hu' => '+36', 'it' => '+39', 'ro' => '+40', 'at' => '+43', 'dk' => '+45', 'se' => '+46', 'no' => '+47', 'pl' => '+48', 'de' => '+49', 'tr' => '+90', 'gi' => '+350', 'pt' => '+351',
-        'lu' => '+352', 'ie' => '+353', 'is' => '+354', 'al' => '+355', 'mt' => '+356', 'cy' => '+357', 'fi' => '+358', 'bg' => '+359', 'lt' => '+370', 'lv' => '+371', 'ee' => '+372', 'md' => '+373', 'am' => '+374',
-        'by' => '+375', 'ad' => '+376', 'mc' => '+377', 'sm' => '+378', 'ua' => '+380', 'rs' => '+381', 'me' => '+382', 'xk' => '+383', 'hr' => '+385', 'si' => '+386', 'ba' => '+387', 'mk' => '+389',
+    private static array $countryPrefixes = ['ru' => '+7', 'gr' => '+30', 'nl' => '+31', 'be' => '+32', 'fr' => '+33',
+        'es' => '+34', 'hu' => '+36', 'it' => '+39', 'ro' => '+40', 'at' => '+43', 'dk' => '+45',
+        'se' => '+46', 'no' => '+47', 'pl' => '+48', 'de' => '+49', 'tr' => '+90', 'gi' => '+350', 'pt' => '+351',
+        'lu' => '+352', 'ie' => '+353', 'is' => '+354', 'al' => '+355', 'mt' => '+356', 'cy' => '+357',
+        'fi' => '+358', 'bg' => '+359', 'lt' => '+370', 'lv' => '+371', 'ee' => '+372', 'md' => '+373', 'am' => '+374',
+        'by' => '+375', 'ad' => '+376', 'mc' => '+377', 'sm' => '+378', 'ua' => '+380', 'rs' => '+381', 'me' => '+382',
+        'xk' => '+383', 'hr' => '+385', 'si' => '+386', 'ba' => '+387', 'mk' => '+389',
         'cz' => '+420', 'sk' => '+421', 'li' => '+423', 'ge' => '+995'];
 
 

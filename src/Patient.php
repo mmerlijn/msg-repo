@@ -8,92 +8,84 @@ use mmerlijn\msgRepo\Enums\PatientSexEnum;
 class Patient implements RepositoryInterface
 {
 
-    use HasAddressTrait, HasNameTrait;
+    use HasAddressTrait, HasNameTrait, CompactTrait;
 
 
     /**
-     * @param PatientSexEnum $sex
-     * @param Name $name
-     * @param Carbon|null $dob
+     * @param PatientSexEnum|string $sex
+     * @param Name|array $name
+     * @param Carbon|string|null $dob
      * @param string $bsn
-     * @param Address $address
-     * @param Address|null $address2
-     * @param array $phones
-     * @param Insurance|null $insurance
-     * @param array $ids
+     * @param Address|array $address
+     * @param Address|array|null $address2
+     * @param array|null $phones
+     * @param Insurance|array|null $insurance
+     * @param array|null $ids
      * @param string|null $last_requester
      * @param string|null $email
      */
     public function __construct(
-        public PatientSexEnum $sex = PatientSexEnum::EMPTY,
-        public Name           $name = new Name,
-        public ?Carbon        $dob = null,
-        public string         $bsn = "",
-        public Address        $address = new Address,
-        public ?Address       $address2 = null,
-        public array          $phones = [],
-        public ?Insurance     $insurance = null,
-        public array          $ids = [],
-        public ?string        $last_requester = null,
-        public ?string        $email = null,
+        public PatientSexEnum|string $sex = PatientSexEnum::EMPTY,
+        public Name|array            $name = new Name,
+        public Carbon|string|null    $dob = null,
+        public string                $bsn = "",
+        public Address|array         $address = new Address,
+        public Address|array|null    $address2 = null,
+        public ?array                $phones = [],
+        public Insurance|array|null  $insurance = null,
+        public ?array                $ids = [],
+        public ?string               $last_requester = null,
+        public ?string               $email = null,
     )
     {
+        if (is_string($sex)) $this->sex = PatientSexEnum::set($sex);
+        if (is_string($dob)) $this->dob = Carbon::create($dob);
+        if (is_array($name)) $this->name = new Name(...$name);
+        if (is_array($address)) $this->address = new Address(...$address);
+        if (is_array($address2)) $this->address2 = new Address(...$address2);
+        if (is_array($insurance)) $this->insurance = new Insurance(...$insurance);
+        $this->ids = [];
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                $this->addId(new Id(...$id));
+            }
+        }
+        if ($bsn) $this->setBsn($bsn);
+        $this->phones = [];
+        if (is_array($phones)) {
+            foreach ($phones as $phone) {
+                $this->addPhone($phone);
+            }
+        }
     }
 
     /**
      * Dump state
      *
+     * @param bool $compact
      * @return array
      */
-    public function toArray(): array
+    public function toArray(bool $compact = false): array
     {
-        $ids_array = [];
-        foreach ($this->ids as $id) {
-            $ids_array[] = $id->toArray();
-        }
-        $phone_array = [];
-        foreach ($this->phones as $phone) {
-            $phone_array[] = $phone->number;
-        }
-        return [
+        return $this->compact([
             'sex' => $this->sex->value,
-            'name' => $this->name->toArray(),
+            'name' => $this->name->toArray($compact),
             'dob' => $this->dob?->format('Y-m-d'),
             'bsn' => $this->bsn,
-            'address' => $this->address->toArray(),
-            'address2' => $this->address2?->toArray(),
-            'phones' => $phone_array,
-            'insurance' => $this->insurance?->toArray(),
-            'ids' => $ids_array,
+            'address' => $this->address->toArray($compact),
+            'address2' => $this->address2?->toArray($compact),
+            'insurance' => $this->insurance?->toArray($compact),
             'last_requester' => $this->last_requester ?? "",
             'email' => $this->email,
-        ];
+            'phones' => array_map(fn($value) => $value->number, $this->phones),
+            'ids' => array_map(fn($value) => $value->toArray($compact), $this->ids),
+        ], $compact);
     }
 
+    //backwards compatibility
     public function fromArray(array $data): self
     {
-        $this->setSex($data['sex']);
-        $this->setName($data['name']);
-        $this->setDob($data['dob']);
-        $this->setBsn($data['bsn']);
-        $this->setAddress($data['address']);
-        if (!empty($data['address2'])) {
-            $this->setAddress2($data['address2']);
-        }
-
-        foreach ($data['phones'] as $phone) {
-            $this->addPhone($phone);
-        }
-        if (!empty($data['insurance'])) {
-            $this->setInsurance($data['insurance']);
-        }
-        foreach ($data['ids'] as $id) {
-            $this->addId(new Id(...$id));
-        }
-        $this->last_requester = $data['last_requester'];
-        $this->email = $data['email'] ?? null;
-
-        return $this;
+        return new Patient(...$data);
     }
 
     /**
@@ -145,7 +137,7 @@ class Patient implements RepositoryInterface
     public function setBsn($bsn): self
     {
         if ($bsn) {
-            $this->addId(new Id(id: $bsn, type: 'bsn'));
+            $this->addId(new Id(id: $bsn, authority: "NLMINBIZA", type: 'bsn'));
             $this->bsn = $bsn;
             $this->setBsnFirst();
         }
@@ -161,9 +153,7 @@ class Patient implements RepositoryInterface
      */
     public function addPhone(Phone|string $phone): self
     {
-        if (gettype($phone) == "string") {
-            $phone = new Phone($phone);
-        }
+        if (is_string($phone)) $phone = new Phone($phone);
         if (!$this->phoneExist($phone->number)) {
             $this->phones[] = $phone;
         }
@@ -174,16 +164,16 @@ class Patient implements RepositoryInterface
     /**
      * check for dubbel phone numbers in phone array
      *
-     * @param $value
+     * @param string $value
      * @return bool
      */
-    private function phoneExist($value): bool
+    private function phoneExist(string $value): bool
     {
         if (!$value) {
             return true;
         }
         foreach ($this->phones as $p) {
-            if ($p->number == $value)
+            if (str_replace([" ", '-', '(0)', '.'], "", $p->number) == str_replace([" ", '-', '(0)', '.'], "", $value))
                 return true;
         }
         return false;
@@ -192,16 +182,13 @@ class Patient implements RepositoryInterface
 
     /**
      * set insurance to patient object
-     * @param Insurance $insurance
+     * @param array|Insurance $insurance
      * @return $this
      */
     public function setInsurance(array|Insurance $insurance = new Insurance()): self
     {
-        if (gettype($insurance) == 'array') {
-            $this->insurance = (new Insurance())->fromArray($insurance);
-        } else {
-            $this->insurance = $insurance;
-        }
+        if (is_array($insurance)) $insurance = new Insurance(...$insurance);
+        $this->insurance = $insurance;
         return $this;
     }
 
@@ -209,17 +196,13 @@ class Patient implements RepositoryInterface
     /**
      * set second address for patient
      *
-     * @param Address $address
+     * @param array|Address $address
      * @return $this
      */
     public function setAddress2(array|Address $address = new Address()): self
     {
-        if (gettype($address) == 'array') {
-            $this->address2 = new Address(...$address);
-        } else {
-            $this->address2 = $address;
-        }
-
+        if (is_array($address)) $address = new Address(...$address);
+        $this->address2 = $address;
         return $this;
     }
 
@@ -232,13 +215,8 @@ class Patient implements RepositoryInterface
      */
     public function setDob(string|Carbon $dob): self
     {
-        if ($dob) {
-            if (gettype($dob) == "string") {
-                $this->dob = Carbon::create($dob);
-            } else {
-                $this->dob = $dob;
-            }
-        }
+        if (is_string($dob)) $dob = Carbon::create($dob);
+        $this->dob = $dob;
         return $this;
     }
 
@@ -250,11 +228,8 @@ class Patient implements RepositoryInterface
      */
     public function setSex(PatientSexEnum|string $sex): self
     {
-        if (gettype($sex) == "string") {
-            $this->sex = PatientSexEnum::set($sex);
-        } else {
-            $this->sex = $sex;
-        }
+        if (is_string($sex)) $sex = PatientSexEnum::set($sex);
+        $this->sex = $sex;
         return $this;
     }
 

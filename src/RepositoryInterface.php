@@ -4,6 +4,6 @@ namespace mmerlijn\msgRepo;
 
 interface RepositoryInterface
 {
-    public function toArray(): array;
-    
+    public function toArray(bool $compact = false): array;
+
 }

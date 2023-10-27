@@ -5,7 +5,7 @@ namespace mmerlijn\msgRepo;
 class Request implements RepositoryInterface
 {
 
-    use HasCommentsTrait;
+    use HasCommentsTrait, CompactTrait;
 
     /**
      * @param string $test_code
@@ -14,7 +14,7 @@ class Request implements RepositoryInterface
      * @param string $other_test_code
      * @param string $other_test_name
      * @param string $other_test_source
-     * @param array $comments
+     * @param array $comments array of strings
      * @param bool $change
      */
     public function __construct(
@@ -38,11 +38,12 @@ class Request implements RepositoryInterface
     /**
      * dump state
      *
+     * @param bool $compact
      * @return array
      */
-    public function toArray(): array
+    public function toArray(bool $compact = false): array
     {
-        return [
+        return $this->compact([
             'test_code' => $this->test_code,
             'test_name' => $this->test_name,
             'test_source' => $this->test_source,
@@ -51,19 +52,12 @@ class Request implements RepositoryInterface
             'other_test_source' => $this->other_test_source,
             'comments' => $this->comments,
             'change' => $this->change,
-        ];
+        ], $compact);
     }
 
+    //backwards compatibility
     public function fromArray(array $data): Request
     {
-        $this->test_code = $data['test_code'];
-        $this->test_name = $data['test_name'];
-        $this->test_source = $data['test_source'];
-        $this->other_test_code = $data['other_test_code'];
-        $this->other_test_name = $data['other_test_name'];
-        $this->other_test_source = $data['other_test_source'];
-        $this->comments = $data['comments'];
-        $this->change = $data['change'];
-        return $this;
+        return new Request(...$data);
     }
 }

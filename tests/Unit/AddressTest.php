@@ -125,4 +125,17 @@ class AddressTest extends TestCase
         $this->assertSame('Amsterdam', $address->city);
         $this->assertArrayHasKey('postcode', $address->toArray());
     }
+
+    public function test_compact()
+    {
+        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street 4 1", country: "NL");
+        $this->assertSame([
+            'postcode' => '1040AB',
+            'city' => 'Amsterdam',
+            'street' => 'Long Street',
+            'building' => '4-1',
+            'building_nr' => '4',
+            'building_addition' => '1',
+        ], $address->toArray(true));
+    }
 }

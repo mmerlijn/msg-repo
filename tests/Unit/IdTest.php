@@ -13,4 +13,12 @@ class IdTest extends \mmerlijn\msgRepo\tests\TestCase
         $this->assertSame("NNNLD", $id->code);
         $this->assertArrayHasKey('id', $id->toArray());
     }
+
+    public function test_compact()
+    {
+        $id = new Id(id: "123456782");
+        $this->assertIsArray($id->toArray(true));
+        $this->assertArrayHasKey('id', $id->toArray(true));
+        $this->assertArrayNotHasKey('authority', $id->toArray(true));
+    }
 }
