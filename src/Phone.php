@@ -88,6 +88,6 @@ class Phone
      *
      * @var array[]
      */
-    private $countryPrefixes = ["nl" => "+31", "be" => "+32", "fr" => "+33", "it" => "+39", "de" => "+49"];
+    private array $countryPrefixes = ["nl" => "+31", "be" => "+32", "fr" => "+33", "it" => "+39", "de" => "+49"];
 
 }

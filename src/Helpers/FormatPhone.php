@@ -12,6 +12,7 @@ class FormatPhone
      */
     public static function format(string $number): string
     {
+        if ($number == "nb") return "nb";
         $number = preg_replace('/[^0-9+]/', '', $number);
         if (str_starts_with($number, '00')) {
             $number = preg_replace('/^00/', '+', $number);
