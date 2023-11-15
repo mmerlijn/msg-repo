@@ -160,6 +160,10 @@ class Patient implements RepositoryInterface
         return $this;
     }
 
+    public function getPhone(): string
+    {
+        return $this->phones[0]->number ?? "";
+    }
 
     /**
      * check for dubbel phone numbers in phone array

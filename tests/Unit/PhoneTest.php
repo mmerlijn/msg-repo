@@ -65,12 +65,16 @@ class PhoneTest extends \mmerlijn\msgRepo\tests\TestCase
     {
         $p = new Phone("nb");
         $this->assertSame('nb', $p->number);
+        $this->assertSame('nb', (string)$p);
+        $this->assertSame('nb', $p->format());
 
         $p = new Phone(" nb ");
         $this->assertSame('nb', $p->number);
 
         $p = new Phone("nb123");
         $this->assertSame('123', $p->number);
+
+
     }
 
 
