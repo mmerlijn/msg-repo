@@ -158,6 +158,16 @@ class Order implements RepositoryInterface
         return $testcodes;
     }
 
+    public function getResultByTestcode(string $test_code): ?Result
+    {
+        foreach ($this->results as $result) {
+            if ($result->test_code == $test_code) {
+                return $result;
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Dump state

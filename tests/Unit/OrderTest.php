@@ -110,4 +110,16 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
         $this->assertSame('HOME', $order->toArray()['where']);
         $this->assertSame('L', $order->where->getHl7());
     }
+
+    public function test_getResult()
+    {
+        $order = new Order();
+        $order->addResult(new Result(test_code: "ABC"));
+        $order->addResult(new Result(test_code: "ABD"));
+        $order->addResult(new Result(test_code: "ABE"));
+        $this->assertSame("ABC", $order->getResultByTestcode("ABC")->test_code);
+        $this->assertSame("ABD", $order->getResultByTestcode("ABD")->test_code);
+        $this->assertSame("ABE", $order->getResultByTestcode("ABE")->test_code);
+        $this->assertNull($order->getResultByTestcode("ABF"));
+    }
 }
