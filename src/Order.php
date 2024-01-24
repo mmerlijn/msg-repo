@@ -99,7 +99,6 @@ class Order implements RepositoryInterface
         return $this;
     }
 
-
     /**
      * Add request to an order
      *
@@ -134,9 +133,9 @@ class Order implements RepositoryInterface
             }
         }
 
-        foreach ($this->requests as $k => $request) {
-            if (in_array($request->test_code, $filter)) {
-                unset($this->requests[$k]);
+        foreach ($this->results as $k => $result) {
+            if (in_array($result->test_code, $filter)) {
+                unset($this->results[$k]);
             }
         }
         $this->results = array_values($this->results);
