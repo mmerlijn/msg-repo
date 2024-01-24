@@ -18,10 +18,12 @@ class Order implements RepositoryInterface
      * @param string|int $lab_nr
      * @param bool $complete
      * @param bool $priority
+     * @param Carbon|string|null $start_date
      * @param string|OrderStatusEnum $order_status
      * @param string|OrderWhereEnum $where home , other
      * @param array|Contact $requester
      * @param array|Contact $copy_to
+     * @param array|Contact $entered_by
      * @param Carbon|string|null $dt_of_request dt of execution time
      * @param Carbon|string|null $dt_of_observation
      * @param Carbon|string|null $dt_of_observation_end
@@ -38,6 +40,7 @@ class Order implements RepositoryInterface
         public string|int              $lab_nr = "", //internal processing nr
         public bool                    $complete = true,
         public bool                    $priority = false,
+        public Carbon|string|null      $start_date = null,
         public string|OrderStatusEnum  $order_status = OrderStatusEnum::FINAL,
         //public string     $result_status = "", //F=final, C=correction
         public string|OrderWhereEnum   $where = OrderWhereEnum::EMPTY,
@@ -60,6 +63,7 @@ class Order implements RepositoryInterface
         if (is_array($requester)) $this->requester = new Contact(...$requester);
         if (is_array($copy_to)) $this->copy_to = new Contact(...$copy_to);
         if (is_array($entered_by)) $this->entered_by = new Contact(...$this->entered_by);
+        if (is_string($this->start_date)) $this->start_date = Carbon::create($this->start_date);
         if (is_string($dt_of_request)) $this->dt_of_request = Carbon::create($dt_of_request);
         if (is_string($dt_of_observation)) $this->dt_of_observation = Carbon::create($dt_of_observation);
         if (is_string($dt_of_observation_end)) $this->dt_of_observation_end = Carbon::create($dt_of_observation_end);
@@ -185,6 +189,7 @@ class Order implements RepositoryInterface
             'lab_nr' => $this->lab_nr,
             'complete' => $this->complete,
             'priority' => $this->priority,
+            'start_date' => $this->start_date?->format("Y-m-d"),
             'order_status' => $this->order_status->value,
             //'result_status' => $this->result_status,
             'where' => $this->where->value,
