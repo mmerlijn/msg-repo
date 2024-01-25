@@ -26,6 +26,7 @@ class Result implements RepositoryInterface
      * @param array $comments
      * @param bool $done item is processed
      * @param bool $change item is changed
+     * @param string $only_for_request_test_code code of the request this result belongs to
      */
     public function __construct(
         public string                $type_of_value = "",
@@ -45,6 +46,7 @@ class Result implements RepositoryInterface
         public array                 $comments = [],
         public bool                  $done = true,
         public bool                  $change = false,
+        public string                $only_for_request_test_code = '',
     )
     {
         $this->value = StripUnwanted::format($value, 'comment');
