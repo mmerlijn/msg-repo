@@ -73,11 +73,13 @@ class Order implements RepositoryInterface
         if (is_string($control)) $this->control = OrderControlEnum::set($control);
         $this->results = [];
         foreach ($results as $result) {
-            $this->addResult(new Result(...$result));
+            if (is_array($result)) $result = new Result(...$result);
+            $this->addResult($result);
         }
         $this->requests = [];
         foreach ($requests as $request) {
-            $this->addRequest(new Request(...$request));
+            if (is_array($request)) $request = new Request(...$request);
+            $this->addRequest($request);
         }
     }
 
