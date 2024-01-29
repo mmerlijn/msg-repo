@@ -97,7 +97,7 @@ class Patient implements RepositoryInterface
     {
         $overwrite = false;
         foreach ($this->ids as $k => $v) {
-            if ($v->type == $id->type or $v->authority == $id->authority or $v->code == $id->code) {
+            if (($v->type == $id->type and $v->type) or $v->authority == $id->authority or $v->code == $id->code) {
                 $this->ids[$k] = $id; //overwrite
                 $overwrite = true;
             }

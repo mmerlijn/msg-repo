@@ -98,4 +98,16 @@ class PatientTest extends TestCase
         $p->addPhone("");
         $this->assertSame(1, count($p->phones));
     }
+
+    public function test_add_ids()
+    {
+        $p = new Patient();
+        $p->addId(new Id(id: 'ZD12341234', authority: "zorgdomein", code: "VN"));
+        $p->addId(new Id(id: 'ABC123123123', authority: 'SALT', code: 'PI'));
+        $p->addId(new Id(id: "123456783", type: 'bsn'));
+
+        $this->assertSame("123456783", $p->ids[0]->id);
+        $this->assertSame("ZD12341234", $p->ids[1]->id);
+        $this->assertSame("ABC123123123", $p->ids[2]->id);
+    }
 }
