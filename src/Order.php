@@ -47,6 +47,7 @@ class Order implements RepositoryInterface
         public array|Contact           $requester = new Contact(),
         public array|Contact           $copy_to = new Contact(),
         public array|Contact           $entered_by = new Contact(),
+        public array|Organisation      $organisation = new Organisation(),
         //public string     $material = "",
         //public string     $volume = "",
         public Carbon|string|null      $dt_of_request = null,
@@ -63,6 +64,7 @@ class Order implements RepositoryInterface
         if (is_array($requester)) $this->requester = new Contact(...$requester);
         if (is_array($copy_to)) $this->copy_to = new Contact(...$copy_to);
         if (is_array($entered_by)) $this->entered_by = new Contact(...$this->entered_by);
+        if (is_array($organisation)) $this->organisation = new Organisation(...$this->organisation);
         if (is_string($this->start_date)) $this->start_date = Carbon::create($this->start_date);
         if (is_string($dt_of_request)) $this->dt_of_request = Carbon::create($dt_of_request);
         if (is_string($dt_of_observation)) $this->dt_of_observation = Carbon::create($dt_of_observation);
@@ -197,6 +199,7 @@ class Order implements RepositoryInterface
             'requester' => $this->requester->toArray($compact),
             'copy_to' => $this->copy_to->toArray($compact),
             'entered_by' => $this->entered_by->toArray($compact),
+            'organisation' => $this->organisation->toArray($compact),
             //'material' => $this->material,
             //'volume' => $this->volume,
             'dt_of_request' => $this->dt_of_request?->format("Y-m-d H:i:s"),

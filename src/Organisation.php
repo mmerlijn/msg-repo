@@ -19,6 +19,8 @@ class Organisation implements RepositoryInterface
         public string            $name = "",
         public string            $department = "",
         public string            $short = "",
+        public string|null       $agbcode = null,
+        public string|null       $source = null,
         public Phone|string|null $phone = null,
     )
     {
@@ -41,6 +43,7 @@ class Organisation implements RepositoryInterface
             'department' => $this->department,
             'short' => $this->short,
             'phone' => (string)$this->phone,
+            'agbcode' => $this->agbcode,
         ], $compact);
     }
 
