@@ -27,6 +27,7 @@ class Result implements RepositoryInterface
      * @param bool $done item is processed
      * @param bool $change item is changed
      * @param string $only_for_request_test_code code of the request this result belongs to
+     * @param array $options
      */
     public function __construct(
         public string                $type_of_value = "",
@@ -47,10 +48,16 @@ class Result implements RepositoryInterface
         public bool                  $done = true,
         public bool                  $change = false,
         public string                $only_for_request_test_code = '',
+        public array                 $options = [],
     )
     {
         $this->value = StripUnwanted::format($value, 'comment');
         if (is_string($this->abnormal_flag)) $this->abnormal_flag = ResultFlagEnum::set($this->abnormal_flag);
+        $this->options = [];
+        foreach ($options as $option) {
+            if (is_array($option)) $option = new Request(...$option);
+            $this->addOption($option);
+        }
     }
 
     /**
@@ -77,6 +84,7 @@ class Result implements RepositoryInterface
             'comments' => $this->comments,
             'done' => $this->done,
             'change' => $this->change,
+            'options' => array_map(fn($value) => $value->toArray($compact), $this->options),
         ], $compact);
     }
 
@@ -84,5 +92,17 @@ class Result implements RepositoryInterface
     public function fromArray(array $data): Result
     {
         return new Result(...$data);
+    }
+
+    public function addOption(Option|array $option = new Option()): self
+    {
+        if (is_array($option)) $option = new Result(...$option);
+        foreach ($this->options as $r) {
+            if ($option->label == $r->label) {
+                return $this;
+            }
+        }
+        $this->options[] = $option;
+        return $this;
     }
 }
