@@ -144,4 +144,16 @@ class Msg implements RepositoryInterface
         $this->msgType = $msgType;
         return $this;
     }
+
+    /**
+     * Add a comment to the msg
+     *
+     * @param string $comment
+     * @return $this
+     */
+    public function addComment(string $comment): self
+    {
+        $this->comments[] = $comment;
+        return $this;
+    }
 }
