@@ -57,6 +57,9 @@ class Patient implements RepositoryInterface
                 $this->addPhone($phone);
             }
         }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->email = null;
+        }
     }
 
     /**

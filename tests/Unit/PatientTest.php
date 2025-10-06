@@ -110,4 +110,12 @@ class PatientTest extends TestCase
         $this->assertSame("ZD12341234", $p->ids[1]->id);
         $this->assertSame("ABC123123123", $p->ids[2]->id);
     }
+
+    public function test_patient_email()
+    {
+        $p = new Patient(name: new Name(), dob: Carbon::now()->subYears(34)->startOfDay(), address: new Address(postcode: "1040AB"), email: "a@b.c");
+        $this->assertSame("a@b.c", $p->email);
+        $p = new Patient(name: new Name(), dob: Carbon::now()->subYears(34)->startOfDay(), address: new Address(postcode: "1040AB"), email: "abc");
+        $this->assertNull($p->email);
+    }
 }
