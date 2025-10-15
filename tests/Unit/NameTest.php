@@ -10,16 +10,21 @@ class NameTest extends TestCase
 {
     public function test_name_setter()
     {
-        $name = new Name(own_lastname: "Doe", lastname: "Cloud", initials: 'J.F.', own_prefix: "de");
+        $name = new Name(initials: 'J.F.', lastname: "Cloud", own_lastname: "Doe", own_prefix: "de");
         $this->assertSame($name->own_lastname, "Doe");
         $this->assertArrayHasKey('lastname', $name->toArray());
         $this->assertSame('JF', $name->initials);
         $this->assertSame("Cloud - de Doe", $name->getLastnames());
 
-        $name = new Name(own_lastname: "Doe", lastname: "", initials: 'RAJ', own_prefix: "");
+        $name = new Name(initials: 'RAJ', lastname: "", own_lastname: "Doe", own_prefix: "");
         $this->assertSame("Doe", $name->own_lastname);
         $this->assertSame('RAJ', $name->initials);
         $this->assertSame("Doe", $name->getLastnames());
+
+        $name = new Name(initials: 'RAJ', lastname: "", own_lastname: "AmeÃ©", own_prefix: "");
+        $this->assertSame("Ameé", $name->own_lastname);
+        $this->assertSame('RAJ', $name->initials);
+        $this->assertSame("Ameé", $name->getLastnames());
     }
 
     public function test_splitter()
