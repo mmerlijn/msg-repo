@@ -62,6 +62,7 @@ Array
 
             [dob] => 
             [bsn] => 
+            [email] =>
             [address] => Array
                 (
                     [postcode] => 
