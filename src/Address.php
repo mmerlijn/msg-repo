@@ -30,8 +30,13 @@ class Address implements RepositoryInterface
         public string $country = "NL",
     )
     {
+        $this->postcode = StripUnwanted::format($postcode ?? "","postcode");
         $this->street = ucwords(strtolower(StripUnwanted::format($street ?? "", 'street')));
         $this->city = ucwords(strtolower(StripUnwanted::format($city ?? "", 'street')));
+        $this->building = StripUnwanted::format($building ?? "",'street');
+        $this->building_nr = StripUnwanted::format($building_nr ?? "",'street');
+        $this->building_addition = StripUnwanted::format($building_addition ?? "", 'street');
+
         $a = FormatAddress::getAddress($this);
         $this->street = $a['street'];
         $this->building = $a['building'];

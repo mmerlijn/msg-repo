@@ -126,6 +126,15 @@ class AddressTest extends TestCase
         $this->assertArrayHasKey('postcode', $address->toArray());
     }
 
+    public function test_with_unwanted_chars()
+    {
+        $address = new Address(postcode: "1040 AB\E\r", city: "AMSTERDAM", street: " Long Street. ", building: " 56 A ", country: "NL");
+        $this->assertSame('Long Street.', $address->street);
+        $this->assertSame('56', $address->building_nr);
+        $this->assertSame('A', $address->building_addition);
+        $this->assertSame('Amsterdam', $address->city);
+        $this->assertSame('1040AB', $address->postcode);
+    }
     public function test_compact()
     {
         $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street 4 1", country: "NL");
