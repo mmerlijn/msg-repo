@@ -16,11 +16,12 @@ class PatientTest extends TestCase
 {
     public function test_patient_setter()
     {
-        $patient = new Patient(name: new Name(), address: new Address(postcode: "1040AB"), dob: Carbon::now()->subYears(34)->startOfDay());
+        $patient = new Patient(name: new Name(), dob: Carbon::now()->subYears(34)->startOfDay(), address: new Address(postcode: "1040AB"), gp: '01234567');
         $patient->name->lastname = "Doe";
         $this->assertSame("1040AB", $patient->address->postcode);
         $this->assertIsArray($patient->toArray());
         $this->assertArrayHasKey('dob', $patient->toArray());
+        $this->assertSame("01234567", $patient->gp);
     }
 
     public function test_bsn_setter()

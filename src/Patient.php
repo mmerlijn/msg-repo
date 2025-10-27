@@ -23,6 +23,7 @@ class Patient implements RepositoryInterface
      * @param array|null $ids
      * @param string|null $last_requester
      * @param string|null $email
+     * @param string|null $gp
      */
     public function __construct(
         public PatientSexEnum|string $sex = PatientSexEnum::EMPTY,
@@ -36,6 +37,7 @@ class Patient implements RepositoryInterface
         public ?array                $ids = [],
         public ?string               $last_requester = null,
         public ?string               $email = null,
+        public ?string               $gp = null,
     )
     {
         if (is_string($sex)) $this->sex = PatientSexEnum::set($sex);
@@ -79,6 +81,7 @@ class Patient implements RepositoryInterface
             'address2' => $this->address2?->toArray($compact),
             'insurance' => $this->insurance?->toArray($compact),
             'last_requester' => $this->last_requester ?? "",
+            'gp' => $this->gp ?? "",
             'email' => $this->email,
             'phones' => array_map(fn($value) => $value->number, $this->phones),
             'ids' => array_map(fn($value) => $value->toArray($compact), $this->ids),
