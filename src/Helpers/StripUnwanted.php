@@ -7,20 +7,13 @@ class StripUnwanted
     public static function format(string $input, $type = 'names'): string
     {
         $output = self::charsetFix($input);
+        $output = self::hl7formating($output);
         if ($type == 'names') {
 
             $output = preg_replace('/-/', '', $output);
-            $output = self::hl7formating($output);
             $output = preg_replace('/\./', '', $output);
-
-
-        } elseif ($type == 'street') {
-
-            $output = self::hl7formating($output);
-
         }elseif($type == 'postcode'){
 
-            $output = self::hl7formating($output);
             $output = preg_replace('/\s+/', '', $output);
 
         } else {
@@ -33,7 +26,8 @@ class StripUnwanted
 
     private static function hl7formating(string $input): string
     {
-        $output = preg_replace('/(\*.*\**)/', '', $input);
+        $output = preg_replace('/(\\\T\\\)/','&', $input);
+        $output = preg_replace('/(\*.*\**)/', '', $output);
         $output = preg_replace('/\\\.*\\\/', '', $output);
         $output = preg_replace('/\\\r/', '', $output);
         $output = preg_replace('/\\\E/', '', $output);
