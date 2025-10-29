@@ -94,6 +94,12 @@ class NameTest extends TestCase
         $this->assertSame('EP', $name->initials);
         $this->assertSame('', $name->own_prefix);
         $this->assertSame('Groot', $name->own_lastname);
+
+        //TODO
+        //$name = new Name(name: "Dhr. EP Groot");
+        //$this->assertSame('EP', $name->initials);
+        //$this->assertSame('', $name->own_prefix);
+        //$this->assertSame('Groot', $name->own_lastname);
     }
     public function test_reverse_name()
     {
