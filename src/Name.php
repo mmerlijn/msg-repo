@@ -177,9 +177,18 @@ class Name implements RepositoryInterface
 
     private function lookForInitialsInLastname($name, string $name_type): void
     {
+        foreach (['Dhr.','Mvr.','Mv','Dr.','Prof.'] as $salutation) {
+            if (str_starts_with($name, $salutation)) {
+                $name = trim(trim($name, $salutation));
+                if (!$this->salutation) {
+                    $this->salutation = $salutation;
+                }
+            }
+        }
         //look for initials
         $s_parts = preg_split('/(?:\. | )/', $name);
         if (!$this->initials) {
+            $s_parts = [...explode(".", $s_parts[0]), ...array_slice($s_parts, 1)];
             $t = false;
             $ln = [];
             foreach ($s_parts as $p) {

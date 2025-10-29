@@ -82,8 +82,19 @@ class NameTest extends TestCase
         $this->assertSame('P', $name->initials);
         $this->assertSame('van der', $name->prefix);
         $this->assertSame('Vaart', $name->lastname);
-    }
+        $name = new Name(name: "E.P. Groot");
+        $this->assertSame('EP', $name->initials);
+        $this->assertSame('', $name->own_prefix);
+        $this->assertSame('Groot', $name->own_lastname);
 
+    }
+    public function test_fullname2()
+    {
+        $name = new Name(name: "Dhr. E.P. Groot");
+        $this->assertSame('EP', $name->initials);
+        $this->assertSame('', $name->own_prefix);
+        $this->assertSame('Groot', $name->own_lastname);
+    }
     public function test_reverse_name()
     {
         $name = new Name(name: "Vaart van der-de Groen", sex: PatientSexEnum::FEMALE, initials: "P");
@@ -146,7 +157,7 @@ class NameTest extends TestCase
 
     public function test_salutation()
     {
-        $name = new Name(own_lastname: "Doe", lastname: "Cloud", initials: 'J.F.', own_prefix: "de", sex: PatientSexEnum::MALE);
+        $name = new Name(initials: 'J.F.', lastname: "Cloud", own_lastname: "Doe", own_prefix: "de", sex: PatientSexEnum::MALE);
         $array = $name->toArray();
         $this->assertSame('M', $array['sex']);
         $this->assertSame('Dhr. ', $array['salutation']);
@@ -156,14 +167,14 @@ class NameTest extends TestCase
     //test null lastname
     public function test_null_lastname()
     {
-        $name = new Name(own_lastname: 'Doe', lastname: null, initials: 'J', prefix: null, name: null, salutation: null);
+        $name = new Name(initials: 'J', lastname: null, prefix: null, own_lastname: 'Doe', name: null, salutation: null);
         $array = $name->toArray();
         $this->assertSame("", $array['lastname']);
     }
 
     public function test_format()
     {
-        $name = new Name(own_lastname: "Sier***", lastname: 'Vis*ws*');
+        $name = new Name(lastname: 'Vis*ws*', own_lastname: "Sier***");
         $array = $name->toArray();
         $this->assertSame('Sier', $array['own_lastname']);
         $this->assertSame('Vis', $array['lastname']);
