@@ -14,6 +14,7 @@ class Request implements RepositoryInterface
      * @param string $other_test_code
      * @param string $other_test_name
      * @param string $other_test_source
+     * @param string $id
      * @param array $comments array of strings
      * @param bool $change
      */
@@ -26,7 +27,7 @@ class Request implements RepositoryInterface
         public string $other_test_code = '',
         public string $other_test_name = '',
         public string $other_test_source = '',
-
+        public string $id = "",
         //public string           $units = "",
         //public string           $quantity = "",
         public array  $comments = [],
@@ -52,6 +53,7 @@ class Request implements RepositoryInterface
             'other_test_source' => $this->other_test_source,
             'comments' => $this->comments,
             'change' => $this->change,
+            'id' => $this->id,
         ], $compact);
     }
 
