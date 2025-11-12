@@ -49,7 +49,13 @@ class Patient implements RepositoryInterface
         $this->ids = [];
         if (is_array($ids)) {
             foreach ($ids as $id) {
-                $this->addId(new Id(...$id));
+                if(is_array($id)){
+                    $this->addId(new Id(...$id));
+                    continue;
+                }
+                if($id instanceof Id){
+                    $this->addId($id);
+                }
             }
         }
         if ($bsn) $this->setBsn($bsn);

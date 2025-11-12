@@ -54,15 +54,25 @@ class NameTest extends TestCase
         $this->assertSame("Vaart", $name->lastname);
         $this->assertSame("de", $name->own_prefix);
         $this->assertSame("Groen", $name->own_lastname);
+
+        $name = new Name(name: "A. Van Karnebek");
+        $this->assertSame("van", $name->own_prefix);
+        $this->assertSame("Karnebek", $name->own_lastname);
+        $this->assertSame("A", $name->initials);
+
+        $name = new Name(name: "W.A.R.S. Thijnissen",sex: PatientSexEnum::FEMALE);
+        $this->assertSame("", $name->own_prefix);
+        $this->assertSame("Thijnissen", $name->own_lastname);
+        $this->assertSame("WARS", $name->initials);
     }
 
     public function test_fullname()
     {
-        $name = new Name(name: "Vaart van der-de Groen", sex: PatientSexEnum::FEMALE, initials: "P");
+        $name = new Name(initials: "P", name: "Vaart van der-de Groen", sex: PatientSexEnum::FEMALE);
         $this->assertSame("Mevr. P. van der Vaart - de Groen", $name->getFullName());
-        $name = new Name(name: "Vaart van der", sex: PatientSexEnum::MALE, initials: "P");
+        $name = new Name(initials: "P", name: "Vaart van der", sex: PatientSexEnum::MALE);
         $this->assertSame("Dhr. P. van der Vaart", $name->getFullName());
-        $name = new Name(name: "Vaart van der", initials: "P");
+        $name = new Name(initials: "P", name: "Vaart van der");
         $this->assertSame("P. van der Vaart", $name->getFullName());
         $name = new Name(name: "Vaart van der");
         $this->assertSame("van der Vaart", $name->getFullName());
@@ -146,7 +156,7 @@ class NameTest extends TestCase
 
     public function test_changing_name()
     {
-        $name = new Name(name: "de Graaf-van Wege", own_prefix: "van", own_lastname: 'Wege', prefix: "de", lastname: "Graaf");
+        $name = new Name(lastname: "Graaf", prefix: "de", own_lastname: 'Wege', own_prefix: "van", name: "de Graaf-van Wege");
         $name->initials = "AB.34";
         $name->lastname = "van der velden";
         $name->prefix = "";
