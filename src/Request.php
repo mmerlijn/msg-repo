@@ -20,14 +20,19 @@ class Request implements RepositoryInterface
      */
     public function __construct(
 
-        public string $test_code = "",
-        public string $test_name = "",
-        public string $test_source = '',
+        public string $test_code = "", //deprecated
+        public string $test_name = "", //deprecated
+        public string $test_source = '', //deprecated
+        public ?TestCode $test=null,
 
-        public string $other_test_code = '',
-        public string $other_test_name = '',
-        public string $other_test_source = '',
+        public string $other_test_code = '', //deprecated
+        public string $other_test_name = '', //deprecated
+        public string $other_test_source = '', //deprecated
+        public ?TestCode $other_test=null,
+
         public string $id = "",
+        public ?TestCode $container = null,
+
         //public string           $units = "",
         //public string           $quantity = "",
         public array  $comments = [],
@@ -54,6 +59,9 @@ class Request implements RepositoryInterface
             'comments' => $this->comments,
             'change' => $this->change,
             'id' => $this->id,
+            'container' => $this->container?->toArray($compact),
+            'test' => $this->test?->toArray($compact),
+            'other_test' => $this->other_test?->toArray($compact),
         ], $compact);
     }
 
@@ -61,5 +69,30 @@ class Request implements RepositoryInterface
     public function fromArray(array $data): Request
     {
         return new Request(...$data);
+    }
+
+    public function setTest(TestCode|array $test): void
+    {
+        if (is_array($test)) {
+            $this->test = new TestCode(...$test);
+        }else{
+            $this->test = $test;
+        }
+    }
+    public function setOtherTest(TestCode|array $test): void
+    {
+        if (is_array($test)) {
+            $this->other_test = new TestCode(...$test);
+        }else{
+            $this->other_test = $test;
+        }
+    }
+    public function setContainer(TestCode|array $container): void
+    {
+        if (is_array($container)) {
+            $this->container = new TestCode(...$container);
+        }else{
+            $this->container = $container;
+        }
     }
 }

@@ -35,11 +35,11 @@ class Result implements RepositoryInterface
         public string                $test_code = "",
         public string                $test_name = "",
         public string                $test_source = '',
-
+        public ?TestCode          $testCode = null,
         public string                $other_test_code = '',
         public string                $other_test_name = '',
         public string                $other_test_source = '',
-
+        public ?TestCode          $otherTestCode = null,
         public string                $units = "",
         public string                $quantity = "",
         public string                $reference_range = "",
@@ -75,9 +75,11 @@ class Result implements RepositoryInterface
             'test_code' => $this->test_code,
             'test_name' => $this->test_name,
             'test_source' => $this->test_source,
+            'test' => $this->testCode?->toArray($compact),
             'other_test_code' => $this->other_test_code,
             'other_test_name' => $this->other_test_name,
             'other_test_source' => $this->other_test_source,
+            'other_test' => $this->otherTestCode?->toArray($compact),
             'quantity' => $this->quantity,
             'reference_range' => $this->reference_range,
             'abnormal_flag' => $this->abnormal_flag->value,
@@ -104,5 +106,22 @@ class Result implements RepositoryInterface
         }
         $this->options[] = $option;
         return $this;
+    }
+
+    public function setTest(TestCode|array $test): void
+    {
+        if (is_array($test)) {
+            $this->test = new TestCode(...$test);
+        }else{
+            $this->test = $test;
+        }
+    }
+    public function setOtherTest(TestCode|array $test): void
+    {
+        if (is_array($test)) {
+            $this->other_test = new TestCode(...$test);
+        }else{
+            $this->other_test = $test;
+        }
     }
 }
