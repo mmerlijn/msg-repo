@@ -5,7 +5,7 @@ namespace mmerlijn\msgRepo\tests\Feature;
 
 use mmerlijn\msgRepo\Address;
 use mmerlijn\msgRepo\Contact;
-use mmerlijn\msgRepo\Enums\ValueType;
+use mmerlijn\msgRepo\Enums\ValueTypeEnum;
 use mmerlijn\msgRepo\Msg;
 use mmerlijn\msgRepo\Name;
 use mmerlijn\msgRepo\Order;
@@ -28,7 +28,7 @@ class TransformationTest extends TestCase
                 ->setOrganisation(new Organisation(name: 'XILE')))
             ->setOrder((new Order())
                 ->addRequest((new Request(test: ["CRP", "CRP",  "99zdl"]))
-                    ->addResult((new Result(type: ValueType::CE, test: ["COVIDURG",  "Urgentie?",  "99zdl"]))
+                    ->addResult((new Result(type: ValueTypeEnum::CE, test: ["COVIDURG",  "Urgentie?",  "99zdl"]))
                         ->addValue(["","Binnen 6 maanden", "99zda"]))));
 
         $array = $msg->toArray();

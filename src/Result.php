@@ -3,7 +3,7 @@
 namespace mmerlijn\msgRepo;
 
 use mmerlijn\msgRepo\Enums\ResultFlagEnum;
-use mmerlijn\msgRepo\Enums\ValueType;
+use mmerlijn\msgRepo\Enums\ValueTypeEnum;
 use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
 class Result implements RepositoryInterface
@@ -12,7 +12,7 @@ class Result implements RepositoryInterface
     use HasCommentsTrait, CompactTrait;
 
     /**
-     * @param ValueType $type
+     * @param ValueTypeEnum $type
      * @param string|float|int $value
      * @param array|TestCode $test
      * @param string $units
@@ -26,7 +26,7 @@ class Result implements RepositoryInterface
      * @param array $values
      */
     public function __construct(
-        public string|ValueType      $type = ValueType::ST,
+        public string|ValueTypeEnum  $type = ValueTypeEnum::ST,
         public string|float|int      $value = "",
         public array|TestCode        $test = new TestCode,
         public string                $units = "",
@@ -51,7 +51,7 @@ class Result implements RepositoryInterface
         foreach ($comments as $c) {
             $this->addComment($c);
         }
-        $this->type = ValueType::isValueType($value, $this->values);
+        $this->type = ValueTypeEnum::isValueType($value, $this->values);
     }
 
     /**
@@ -94,7 +94,7 @@ class Result implements RepositoryInterface
         }
         $this->values[] = $value;
         if(!empty($this->values)){
-            $this->type = ValueType::CE;
+            $this->type = ValueTypeEnum::CE;
         }
         return $this;
     }
