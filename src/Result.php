@@ -107,4 +107,9 @@ class Result implements RepositoryInterface
             $this->test = $test;
         }
     }
+
+    public function hasValues(): bool
+    {
+        return !empty($this->values);
+    }
 }

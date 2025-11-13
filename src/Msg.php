@@ -20,6 +20,7 @@ class Msg implements RepositoryInterface
      * @param string $security_id
      * @param string $processing_id
      * @param array $comments
+     * @param string|null $default_source
      */
     public function __construct(
         public array|Patient $patient = new Patient,
@@ -32,6 +33,7 @@ class Msg implements RepositoryInterface
         public string        $security_id = "",
         public string        $processing_id = "",
         public array         $comments = [],
+        public ?string       $default_source = "L",
     )
     {
         $this->setPatient($patient);
@@ -65,6 +67,7 @@ class Msg implements RepositoryInterface
             'security_id' => $this->security_id,
             'processing_id' => $this->processing_id,
             'comments' => $this->comments,
+            'default_source' => $this->default_source,
         ], $compact);
     }
 
