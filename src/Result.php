@@ -16,9 +16,11 @@ class Result implements RepositoryInterface
      * @param string $test_code
      * @param string $test_name
      * @param string $test_source
+     * @param TestCode|null $test
      * @param string $other_test_code
      * @param string $other_test_name
      * @param string $other_test_source
+     * @param TestCode|null $otherTest
      * @param string $units
      * @param string $quantity
      * @param string $reference_range
@@ -35,11 +37,11 @@ class Result implements RepositoryInterface
         public string                $test_code = "",
         public string                $test_name = "",
         public string                $test_source = '',
-        public ?TestCode          $testCode = null,
+        public ?TestCode             $test = null,
         public string                $other_test_code = '',
         public string                $other_test_name = '',
         public string                $other_test_source = '',
-        public ?TestCode          $otherTestCode = null,
+        public ?TestCode             $otherTest = null,
         public string                $units = "",
         public string                $quantity = "",
         public string                $reference_range = "",
@@ -112,15 +114,16 @@ class Result implements RepositoryInterface
     {
         if (is_array($test)) {
             $this->test = new TestCode(...$test);
-        }else{
+        } else {
             $this->test = $test;
         }
     }
+
     public function setOtherTest(TestCode|array $test): void
     {
         if (is_array($test)) {
             $this->other_test = new TestCode(...$test);
-        }else{
+        } else {
             $this->other_test = $test;
         }
     }
