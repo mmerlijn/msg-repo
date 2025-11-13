@@ -18,10 +18,9 @@ class MsgType implements RepositoryInterface
         public string $trigger = "",
         public string $structure = "",
         public string $version = "",
-        public string $charset = "",
+        public string $charset = "8859/1",
     )
-    {
-    }
+    {}
 
     /**
      * Dump state

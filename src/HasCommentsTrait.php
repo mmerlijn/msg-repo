@@ -10,23 +10,33 @@ trait HasCommentsTrait
     /**
      * add comment to comments array for current object
      *
-     * @param string $comment
-     * @return $this
+     * @param Comment|array|string $comment
+     * @return Msg|HasCommentsTrait|Order|Request|Result
      */
-    public function addComment(string $comment): self
+    public function addComment(Comment|array|string $comment): self
     {
-        $this->comments[] = trim(StripUnwanted::format($comment, 'comment'));
+        if (is_array($comment)) {
+            $comment = new Comment(...$comment);
+        } elseif (is_string($comment)) {
+            $comment = new Comment(text: $comment);
+        }
+        $comment->text = trim(StripUnwanted::format($comment->text, 'comment'));
+        $this->comments[] = $comment;
         return $this;
     }
-
 
     /**
      * Reset/clear all comments
      *
      * @return void
      */
-    public function resetComments()
+    public function resetComments(): void
     {
         $this->comments = [];
+    }
+
+    public function hasComments(): bool
+    {
+        return !empty($this->comments);
     }
 }

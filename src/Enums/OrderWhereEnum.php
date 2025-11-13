@@ -8,14 +8,14 @@ enum OrderWhereEnum: string
     case OTHER = "OTHER"; //Other
     case EMPTY = "";
 
-    public static function set(string $status): self
+    public static function set(OrderWhereEnum|string $status): self
     {
+        if ($status instanceof OrderWhereEnum) {
+            return $status;
+        }
         return match (strtoupper($status)) {
-            "HOME" => self::HOME,
-            "H" => self::HOME,
-            "L" => self::HOME,
-            'OTHER' => self::OTHER,
-            'O' => self::OTHER,
+            "HOME", "H", "L" => self::HOME,
+            'OTHER', 'O' => self::OTHER,
             default => self::EMPTY,
         };
     }

@@ -11,4 +11,5 @@ trait CompactTrait
         }
         return array_filter($array, fn($value) => !is_null($value) and $value !== '' and $value !== []);
     }
+
 }

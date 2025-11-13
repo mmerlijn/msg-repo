@@ -21,13 +21,13 @@ class Address implements RepositoryInterface
      */
     public function __construct(
         public string $postcode = "",
-        public string $postbus = "",
         public string $city = "",
         public string $street = "",
         public string $building = "",
         public string $building_nr = "",
         public string $building_addition = "",
         public string $country = "NL",
+        public string $postbus = "",
     )
     {
         $this->postcode = StripUnwanted::format($postcode ?? "","postcode");
@@ -59,8 +59,8 @@ class Address implements RepositoryInterface
             'building' => $this->building,
             'building_nr' => $this->building_nr,
             'building_addition' => $this->building_addition,
+            'country' => $this->country,
             'postbus' => $this->postbus,
-            'country' => $this->country == 'NL' ? '' : $this->country
         ], $compact);
     }
 

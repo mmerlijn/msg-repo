@@ -5,41 +5,39 @@ namespace mmerlijn\msgRepo;
 class Request implements RepositoryInterface
 {
 
-    use HasCommentsTrait, CompactTrait,HasResultsTrait;
+    use HasCommentsTrait, CompactTrait, HasResultsTrait;
 
     /**
-     * @param string $test_code
-     * @param string $test_name
-     * @param string $test_source
-     * @param string $other_test_code
-     * @param string $other_test_name
-     * @param string $other_test_source
+     * @param array|TestCode $test
+     * @param array|TestCode $other_test
      * @param string $id
+     * @param array|TestCode $container
      * @param array $comments array of strings
      * @param bool $change
+     * @param array $results
      */
     public function __construct(
 
-        public string $test_code = "", //deprecated
-        public string $test_name = "", //deprecated
-        public string $test_source = '', //deprecated
-        public ?TestCode $test=null,
-
-        public string $other_test_code = '', //deprecated
-        public string $other_test_name = '', //deprecated
-        public string $other_test_source = '', //deprecated
-        public ?TestCode $other_test=null,
-
-        public string $id = "",
-        public ?TestCode $container = null,
-
-        //public string           $units = "",
-        //public string           $quantity = "",
-        public array  $comments = [],
-        public bool   $change = false,
-        public array $results = [],
+        public array|TestCode $test = new TestCode,
+        public array|TestCode $other_test = new TestCode,
+        public array|TestCode $container = new TestCode,
+        public array    $comments = [],
+        public bool     $change = false,
+        public string   $id = "",
+        public array    $results = [],
     )
     {
+        $this->setTest($test);
+        $this->setOtherTest($other_test);
+        $this->setContainer($container);
+        $this->results = [];
+        foreach ($results as $result) {
+            $this->addResult($result);
+        }
+        $this->comments = [];
+        foreach ($comments as $comment) {
+            $this->addComment($comment);
+        }
     }
 
     /**
@@ -51,18 +49,12 @@ class Request implements RepositoryInterface
     public function toArray(bool $compact = false): array
     {
         return $this->compact([
-            'test_code' => $this->test_code,
-            'test_name' => $this->test_name,
-            'test_source' => $this->test_source,
-            'other_test_code' => $this->other_test_code,
-            'other_test_name' => $this->other_test_name,
-            'other_test_source' => $this->other_test_source,
-            'comments' => $this->comments,
+            'test' => $this->test->toArray($compact),
+            'other_test' => $this->other_test->toArray($compact),
+            'container' => $this->container?->toArray($compact),
+            'comments' => array_map(fn($value) => $value->toArray($compact), $this->comments),
             'change' => $this->change,
             'id' => $this->id,
-            'container' => $this->container?->toArray($compact),
-            'test' => $this->test?->toArray($compact),
-            'other_test' => $this->other_test?->toArray($compact),
             'results' => array_map(fn($value) => $value->toArray($compact), $this->results),
         ], $compact);
     }
@@ -77,23 +69,25 @@ class Request implements RepositoryInterface
     {
         if (is_array($test)) {
             $this->test = new TestCode(...$test);
-        }else{
+        } else {
             $this->test = $test;
         }
     }
+
     public function setOtherTest(TestCode|array $test): void
     {
         if (is_array($test)) {
             $this->other_test = new TestCode(...$test);
-        }else{
+        } else {
             $this->other_test = $test;
         }
     }
+
     public function setContainer(TestCode|array $container): void
     {
         if (is_array($container)) {
             $this->container = new TestCode(...$container);
-        }else{
+        } else {
             $this->container = $container;
         }
     }

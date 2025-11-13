@@ -16,17 +16,14 @@ class StripUnwanted
 
             $output = preg_replace('/\s+/', '', $output);
 
-        } else {
-
-            $output = preg_replace('/\\\.br\\\/', '. ', $output);
-
         }
         return trim($output);
     }
 
     private static function hl7formating(string $input): string
     {
-        $output = preg_replace('/(\\\T\\\)/','&', $input);
+        $output = preg_replace('/\\\.br\\\/', '. ', $input);
+        $output = preg_replace('/(\\\T\\\)/','&', $output);
         $output = preg_replace('/(\*.*\**)/', '', $output);
         $output = preg_replace('/\\\.*\\\/', '', $output);
         $output = preg_replace('/\\\r/', '', $output);

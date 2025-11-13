@@ -11,6 +11,7 @@ use mmerlijn\msgRepo\Name;
 use mmerlijn\msgRepo\Organisation;
 use mmerlijn\msgRepo\Patient;
 use mmerlijn\msgRepo\Request;
+use mmerlijn\msgRepo\TestCode;
 use mmerlijn\msgRepo\tests\TestCase;
 
 class MsgTest extends TestCase
@@ -100,7 +101,7 @@ class MsgTest extends TestCase
                     source: 'VEKTIS',
                 ),
                 requests: [
-                    new Request(test_code: 'DUMMY', test_name: 'DUMMY', test_source: 'L')
+                    new Request(test: new TestCode(code: 'DUM', name: 'DUMMY', source: 'L'))
                 ],
             ));
         $this->assertSame("ORM", $msgRepo->msgType->type);
@@ -120,9 +121,9 @@ class MsgTest extends TestCase
         $this->assertSame("A", $msgRepo->order->entered_by->name->initials);
         $this->assertSame("Testarts", $msgRepo->order->entered_by->name->own_lastname);
         $this->assertSame("VEKTIS", $msgRepo->order->entered_by->source);
-        $this->assertSame("DUMMY", $msgRepo->order->requests[0]->test_code);
-        $this->assertSame("DUMMY", $msgRepo->order->requests[0]->test_name);
-        $this->assertSame("L", $msgRepo->order->requests[0]->test_source);
+        $this->assertSame("DUM", $msgRepo->order->requests[0]->test->code);
+        $this->assertSame("DUMMY", $msgRepo->order->requests[0]->test->name);
+        $this->assertSame("L", $msgRepo->order->requests[0]->test->source);
 
     }
 }

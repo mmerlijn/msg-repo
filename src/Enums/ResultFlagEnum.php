@@ -9,8 +9,11 @@ enum ResultFlagEnum: string
     case EMPTY = "";
 
 
-    public static function set(string $flag): self
+    public static function set(ResultFlagEnum|string $flag): self
     {
+        if ($flag instanceof ResultFlagEnum) {
+            return $flag;
+        }
         return match (strtoupper($flag)) {
             "H", "HIGH", ">" => self::HIGH,
             "LOW", "L", "<" => self::LOW,

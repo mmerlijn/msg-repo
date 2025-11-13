@@ -8,13 +8,14 @@ enum OrderStatusEnum: string
     case CORRECTION = "C";
     case EMPTY = "";
 
-    public static function set(string $status): self
+    public static function set(OrderStatusEnum|string $status): self
     {
+        if ($status instanceof OrderStatusEnum) {
+            return $status;
+        }
         return match (strtoupper($status)) {
-            "F" => self::FINAL,
-            "FINAL" => self::FINAL,
-            'C' => self::CORRECTION,
-            'CORRECTION' => self::CORRECTION,
+            "F", "FINAL" => self::FINAL,
+            'C', 'CORRECTION' => self::CORRECTION,
             default => self::EMPTY,
         };
     }

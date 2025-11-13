@@ -9,8 +9,11 @@ enum PatientSexEnum: string
     case OTHER = "X";
     case EMPTY = "";
 
-    public static function set(string $sex): self
+    public static function set(PatientSexEnum|string $sex): self
     {
+        if ($sex instanceof PatientSexEnum) {
+            return $sex;
+        }
         $sex = strtoupper($sex);
         if (in_array($sex, ['F', "V"])) {
             return self::FEMALE;

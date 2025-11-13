@@ -7,7 +7,7 @@ use Carbon\Carbon;
 class Msg implements RepositoryInterface
 {
 
-    use HasCommentsTrait, CompactTrait;
+    use HasCommentsTrait, CompactTrait, HasDateTrait;
 
     /**
      * @param array|Patient $patient
@@ -34,12 +34,16 @@ class Msg implements RepositoryInterface
         public array         $comments = [],
     )
     {
-        if (is_array($patient)) $this->patient = new Patient(...$patient);
-        if (is_array($order)) $this->order = new Order(...$order);
-        if (is_array($sender)) $this->sender = new Contact(...$sender);
-        if (is_array($receiver)) $this->receiver = new Contact(...$receiver);
-        if (is_string($datetime)) $this->datetime = Carbon::create($datetime);
-        if (is_array($msgType)) $this->msgType = new MsgType(...$msgType);
+        $this->setPatient($patient);
+        $this->setOrder($order);
+        $this->setSender($sender);
+        $this->setReceiver($receiver);
+        $this->setMsgType($msgType);
+        $this->datetime = $this->formatDate($datetime);
+        $this->comments = [];
+        foreach ($comments as $comment) {
+            $this->addComment($comment);
+        }
     }
 
     /**
@@ -97,11 +101,12 @@ class Msg implements RepositoryInterface
     /**
      * Set order details to msg object
      *
-     * @param Order $order
+     * @param array|Order $order
      * @return $this
      */
-    public function setOrder(Order $order): self
+    public function setOrder(array|Order $order): self
     {
+        if (is_array($order)) $order = new Order(...$order);
         $this->order = $order;
         return $this;
     }
@@ -113,8 +118,9 @@ class Msg implements RepositoryInterface
      * @param Contact $sender
      * @return $this
      */
-    public function setSender(Contact $sender): self
+    public function setSender(array|Contact $sender): self
     {
+        if (is_array($sender)) $sender = new Contact(...$sender);
         $this->sender = $sender;
         return $this;
     }
@@ -123,11 +129,12 @@ class Msg implements RepositoryInterface
     /**
      * Set the msg receiver
      *
-     * @param Contact $receiver
+     * @param array|Contact $receiver
      * @return $this
      */
-    public function setReceiver(Contact $receiver): self
+    public function setReceiver(array|Contact $receiver): self
     {
+        if (is_array($receiver)) $receiver = new Contact(...$receiver);
         $this->receiver = $receiver;
         return $this;
     }
@@ -136,24 +143,13 @@ class Msg implements RepositoryInterface
     /**
      * Set message type
      *
-     * @param MsgType $msgType
+     * @param array|MsgType $msgType
      * @return $this
      */
-    public function setMsgType(MsgType $msgType): self
+    public function setMsgType(array|MsgType $msgType): self
     {
+        if (is_array($msgType)) $msgType = new MsgType(...$msgType);
         $this->msgType = $msgType;
-        return $this;
-    }
-
-    /**
-     * Add a comment to the msg
-     *
-     * @param string $comment
-     * @return $this
-     */
-    public function addComment(string $comment): self
-    {
-        $this->comments[] = $comment;
         return $this;
     }
 }

@@ -13,20 +13,22 @@ class Organisation implements RepositoryInterface
      * @param string $name
      * @param string $department
      * @param string $short
-     * @param Phone|string|null $phone
+     * @param string|null $agbcode
+     * @param string|null $source
+     * @param Phone|string $phone
      */
     public function __construct(
-        public string            $name = "",
-        public string            $department = "",
-        public string            $short = "",
-        public string|null       $agbcode = null,
-        public string|null       $source = null,
-        public Phone|string|null $phone = null,
+        public string       $name = "",
+        public string       $department = "",
+        public string       $short = "",
+        public string|null  $agbcode = null,
+        public string|null  $source = null,
+        public Phone|string $phone = new Phone,
     )
     {
-        if (is_string($phone)) $this->phone = new Phone($phone);
+        $this->setPhone($phone);
         $this->name = StripUnwanted::format($name);
-        $this->department = StripUnwanted::format($this->department);
+        $this->department = StripUnwanted::format($department);
     }
 
 
@@ -42,8 +44,10 @@ class Organisation implements RepositoryInterface
             'name' => $this->name,
             'department' => $this->department,
             'short' => $this->short,
-            'phone' => (string)$this->phone,
             'agbcode' => $this->agbcode,
+            'source' => $this->source,
+            'phone' => (string)$this->phone,
+
         ], $compact);
     }
 

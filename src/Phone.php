@@ -7,7 +7,7 @@ use mmerlijn\msgRepo\Helpers\FormatPhone;
 class Phone
 {
     /**
-     * @param string $number
+     * @param string|null $number
      */
     public function __construct(public ?string $number = null)
     {
@@ -54,7 +54,7 @@ class Phone
      * @param string $countryCode
      * @return string
      */
-    public function withCountryCode(string $countryCode = "nl")
+    public function withCountryCode(string $countryCode = "nl"): string
     {
         return FormatPhone::withCountryCode($this->number, $countryCode);
     }

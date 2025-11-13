@@ -1,6 +1,6 @@
 # Message Repository
 
-Repository to store healthcare data
+Repository to store healthcare data V3
 
 installation
 
@@ -45,147 +45,292 @@ $msg = (new Msg)->fromArray($array);
 Repository tree
 
 ```php
-Array
-(
-    [patient] => Array
-        (
-            [sex] => 
-            [name] => Array
-                (
-                    [initials] => 
-                    [lastname] => 
-                    [prefix] => 
-                    [own_lastname] => 
-                    [own_prefix] => 
-                    [name] => 
-                )
-
-            [dob] => 
-            [bsn] => 
-            [email] =>
-            [address] => Array
-                (
-                    [postcode] => 
-                    [city] => 
-                    [street] => 
-                    [building] => 
-                    [building_nr] => 
-                    [building_addition] => 
-                    [postbus] => 
-                    [country] => NL
-                )
-
-            [address2] => 
-            [phones] => Array
-                (
-                )
-
-            [insurance] => 
-            [ids] => Array
-                (
-                )
-
-        )
-
-    [order] => Array
-        (
-            [control] => N
-            [request_nr] => 
-            [lab_nr] => 
-            [complete] => 1
-            [priority] => 
-            [order_status] => 
-            [where] => 
-            [requester] => Array
-                (
-                    [agbcode] => 
-                    [source] => 
-                    [name] => Array
-                        (
-                            [initials] => 
-                            [lastname] => 
-                            [prefix] => 
-                            [own_lastname] => 
-                            [own_prefix] => 
-                            [name] => 
-                        )
-
-                    [address] => 
-                    [phone] => 
-                    [type] => 
-                    [organisation] => 
-                )
-
-            [copy_to] => Array
-                (
-                    [agbcode] => 
-                    [source] => 
-                    [name] => Array
-                        (
-                            [initials] => 
-                            [lastname] => 
-                            [prefix] => 
-                            [own_lastname] => 
-                            [own_prefix] => 
-                            [name] => 
-                        )
-
-                    [address] => 
-                    [phone] => 
-                    [type] => 
-                    [organisation] => 
-                )
-
-            [dt_of_request] => 
-            [dt_of_observation] => 
-            [dt_of_observation_end] => 
-            [dt_of_analysis] => 
-            [results] => Array
-                (
-                )
-
-            [requests] => Array
-                (
-                )
-
-            [comments] => Array
-                (
-                )
-
-        )
-
-    [sender] => Array
-        (
-            [application] => 
-            [device] => 
-            [facility] => 
-            [contact] => 
-        )
-
-    [receiver] => Array
-        (
-            [contact] => 
-            [application] => 
-            [device] => 
-            [facility] => 
-        )
-
-    [datetime] => 2022-01-22 12:08:40
-    [msgType] => Array
-        (
-            [type] => 
-            [trigger] => 
-            [structure] => 
-            [version] => 
-        )
-
-    [id] => 
-    [security_id] => 
-    [processing_id] => 
-    [comments] => Array
-        (
-        )
-
-)
+array:10 [
+  "patient" => array:12 [
+    "sex" => ""
+    "name" => array:9 [
+      "initials" => ""
+      "firstname" => ""
+      "lastname" => ""
+      "prefix" => ""
+      "own_lastname" => ""
+      "own_prefix" => ""
+      "name" => ""
+      "sex" => ""
+      "salutation" => ""
+    ]
+    "dob" => null
+    "bsn" => ""
+    "address" => array:8 [
+      "postcode" => ""
+      "city" => ""
+      "street" => ""
+      "building" => ""
+      "building_nr" => ""
+      "building_addition" => ""
+      "country" => "NL"
+      "postbus" => ""
+    ]
+    "address2" => null
+    "phones" => []
+    "insurance" => array:5 [
+      "uzovi" => ""
+      "policy_nr" => ""
+      "company_name" => ""
+      "phone" => ""
+      "address" => array:8 [
+        "postcode" => ""
+        "city" => ""
+        "street" => ""
+        "building" => ""
+        "building_nr" => ""
+        "building_addition" => ""
+        "country" => "NL"
+        "postbus" => ""
+      ]
+    ]
+    "ids" => []
+    "last_requester" => ""
+    "email" => null
+    "gp" => ""
+  ]
+  "order" => array:20 [
+    "control" => "NEW"
+    "request_nr" => ""
+    "lab_nr" => ""
+    "complete" => true
+    "priority" => false
+    "start_date" => null
+    "order_status" => "F"
+    "where" => ""
+    "requester" => array:11 [
+      "agbcode" => ""
+      "name" => array:9 [
+        "initials" => ""
+        "firstname" => ""
+        "lastname" => ""
+        "prefix" => ""
+        "own_lastname" => ""
+        "own_prefix" => ""
+        "name" => ""
+        "sex" => ""
+        "salutation" => ""
+      ]
+      "source" => ""
+      "address" => array:8 [
+        "postcode" => ""
+        "city" => ""
+        "street" => ""
+        "building" => ""
+        "building_nr" => ""
+        "building_addition" => ""
+        "country" => "NL"
+        "postbus" => ""
+      ]
+      "phone" => ""
+      "type" => ""
+      "organisation" => array:6 [
+        "name" => ""
+        "department" => ""
+        "short" => ""
+        "agbcode" => null
+        "source" => null
+        "phone" => ""
+      ]
+      "application" => ""
+      "device" => ""
+      "facility" => ""
+      "location" => ""
+    ]
+    "copy_to" => array:11 [
+      "agbcode" => ""
+      "name" => array:9 [
+        "initials" => ""
+        "firstname" => ""
+        "lastname" => ""
+        "prefix" => ""
+        "own_lastname" => ""
+        "own_prefix" => ""
+        "name" => ""
+        "sex" => ""
+        "salutation" => ""
+      ]
+      "source" => ""
+      "address" => array:8 [
+        "postcode" => ""
+        "city" => ""
+        "street" => ""
+        "building" => ""
+        "building_nr" => ""
+        "building_addition" => ""
+        "country" => "NL"
+        "postbus" => ""
+      ]
+      "phone" => ""
+      "type" => ""
+      "organisation" => array:6 [
+        "name" => ""
+        "department" => ""
+        "short" => ""
+        "agbcode" => null
+        "source" => null
+        "phone" => ""
+      ]
+      "application" => ""
+      "device" => ""
+      "facility" => ""
+      "location" => ""
+    ]
+    "entered_by" => array:11 [
+      "agbcode" => ""
+      "name" => array:9 [
+        "initials" => ""
+        "firstname" => ""
+        "lastname" => ""
+        "prefix" => ""
+        "own_lastname" => ""
+        "own_prefix" => ""
+        "name" => ""
+        "sex" => ""
+        "salutation" => ""
+      ]
+      "source" => ""
+      "address" => array:8 [
+        "postcode" => ""
+        "city" => ""
+        "street" => ""
+        "building" => ""
+        "building_nr" => ""
+        "building_addition" => ""
+        "country" => "NL"
+        "postbus" => ""
+      ]
+      "phone" => ""
+      "type" => ""
+      "organisation" => array:6 [
+        "name" => ""
+        "department" => ""
+        "short" => ""
+        "agbcode" => null
+        "source" => null
+        "phone" => ""
+      ]
+      "application" => ""
+      "device" => ""
+      "facility" => ""
+      "location" => ""
+    ]
+    "organisation" => array:6 [
+      "name" => ""
+      "department" => ""
+      "short" => ""
+      "agbcode" => null
+      "source" => null
+      "phone" => ""
+    ]
+    "dt_of_request" => null
+    "dt_of_observation" => null
+    "dt_of_observation_end" => null
+    "dt_of_analysis" => null
+    "results" => []
+    "requests" => []
+    "comments" => []
+    "admit_reason" => array:3 [
+      "code" => ""
+      "name" => ""
+      "source" => ""
+    ]
+  ]
+  "sender" => array:11 [
+    "agbcode" => ""
+    "name" => array:9 [
+      "initials" => ""
+      "firstname" => ""
+      "lastname" => ""
+      "prefix" => ""
+      "own_lastname" => ""
+      "own_prefix" => ""
+      "name" => ""
+      "sex" => ""
+      "salutation" => ""
+    ]
+    "source" => ""
+    "address" => array:8 [
+      "postcode" => ""
+      "city" => ""
+      "street" => ""
+      "building" => ""
+      "building_nr" => ""
+      "building_addition" => ""
+      "country" => "NL"
+      "postbus" => ""
+    ]
+    "phone" => ""
+    "type" => ""
+    "organisation" => array:6 [
+      "name" => ""
+      "department" => ""
+      "short" => ""
+      "agbcode" => null
+      "source" => null
+      "phone" => ""
+    ]
+    "application" => ""
+    "device" => ""
+    "facility" => ""
+    "location" => ""
+  ]
+  "receiver" => array:11 [
+    "agbcode" => ""
+    "name" => array:9 [
+      "initials" => ""
+      "firstname" => ""
+      "lastname" => ""
+      "prefix" => ""
+      "own_lastname" => ""
+      "own_prefix" => ""
+      "name" => ""
+      "sex" => ""
+      "salutation" => ""
+    ]
+    "source" => ""
+    "address" => array:8 [
+      "postcode" => ""
+      "city" => ""
+      "street" => ""
+      "building" => ""
+      "building_nr" => ""
+      "building_addition" => ""
+      "country" => "NL"
+      "postbus" => ""
+    ]
+    "phone" => ""
+    "type" => ""
+    "organisation" => array:6 [
+      "name" => ""
+      "department" => ""
+      "short" => ""
+      "agbcode" => null
+      "source" => null
+      "phone" => ""
+    ]
+    "application" => ""
+    "device" => ""
+    "facility" => ""
+    "location" => ""
+  ]
+  "datetime" => "2025-11-13 19:20:49"
+  "msgType" => array:5 [
+    "type" => ""
+    "trigger" => ""
+    "structure" => ""
+    "version" => ""
+    "charset" => "8859/1"
+  ]
+  "id" => ""
+  "security_id" => ""
+  "processing_id" => ""
+  "comments" => []
+]
 ```
 

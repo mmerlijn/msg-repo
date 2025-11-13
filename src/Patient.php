@@ -8,7 +8,7 @@ use mmerlijn\msgRepo\Enums\PatientSexEnum;
 class Patient implements RepositoryInterface
 {
 
-    use HasAddressTrait, HasNameTrait, CompactTrait;
+    use HasAddressTrait, HasNameTrait, CompactTrait, HasDateTrait;
 
 
     /**
@@ -19,7 +19,7 @@ class Patient implements RepositoryInterface
      * @param Address|array $address
      * @param Address|array|null $address2
      * @param array|null $phones
-     * @param Insurance|array|null $insurance
+     * @param Insurance|array $insurance
      * @param array|null $ids
      * @param string|null $last_requester
      * @param string|null $email
@@ -33,27 +33,27 @@ class Patient implements RepositoryInterface
         public Address|array         $address = new Address,
         public Address|array|null    $address2 = null,
         public ?array                $phones = [],
-        public Insurance|array|null  $insurance = null,
+        public Insurance|array       $insurance = new Insurance,
         public ?array                $ids = [],
         public ?string               $last_requester = null,
         public ?string               $email = null,
         public ?string               $gp = null,
     )
     {
-        if (is_string($sex)) $this->sex = PatientSexEnum::set($sex);
-        if (is_string($dob)) $this->dob = Carbon::create($dob);
-        if (is_array($name)) $this->name = new Name(...$name);
-        if (is_array($address)) $this->address = new Address(...$address);
+        $this->sex = PatientSexEnum::set($sex);
+        $this->dob = $this->formatDate($dob);
+        $this->setName($name);
+        $this->setAddress($address);
         if (is_array($address2)) $this->address2 = new Address(...$address2);
-        if (is_array($insurance)) $this->insurance = new Insurance(...$insurance);
+        $this->setInsurance($insurance);
         $this->ids = [];
         if (is_array($ids)) {
             foreach ($ids as $id) {
-                if(is_array($id)){
+                if (is_array($id)) {
                     $this->addId(new Id(...$id));
                     continue;
                 }
-                if($id instanceof Id){
+                if ($id instanceof Id) {
                     $this->addId($id);
                 }
             }
@@ -85,12 +85,13 @@ class Patient implements RepositoryInterface
             'bsn' => $this->bsn,
             'address' => $this->address->toArray($compact),
             'address2' => $this->address2?->toArray($compact),
-            'insurance' => $this->insurance?->toArray($compact),
-            'last_requester' => $this->last_requester ?? "",
-            'gp' => $this->gp ?? "",
-            'email' => $this->email,
             'phones' => array_map(fn($value) => $value->number, $this->phones),
+            'insurance' => $this->insurance->toArray($compact),
             'ids' => array_map(fn($value) => $value->toArray($compact), $this->ids),
+            'last_requester' => $this->last_requester ?? "",
+            'email' => $this->email,
+            'gp' => $this->gp ?? "",
+
         ], $compact);
     }
 
@@ -239,7 +240,7 @@ class Patient implements RepositoryInterface
     /**
      * set patient sex
      *
-     * @param string $sex
+     * @param PatientSexEnum|string $sex
      * @return $this
      */
     public function setSex(PatientSexEnum|string $sex): self
@@ -254,7 +255,7 @@ class Patient implements RepositoryInterface
      *
      * @return void
      */
-    private function setBsnFirst()
+    private function setBsnFirst(): void
     {
         $deleted = false;
         foreach ($this->ids as $k => $id) {

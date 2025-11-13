@@ -13,7 +13,7 @@ trait HasNameTrait
      */
     public function setName(Name|array $name = new Name()): self
     {
-        if (gettype($name) == 'array') {
+        if (is_array($name)) {
             $this->name = new Name(...$name);
         } else {
             $this->name = $name;

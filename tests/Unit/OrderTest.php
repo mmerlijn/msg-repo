@@ -7,6 +7,7 @@ use mmerlijn\msgRepo\Enums\OrderWhereEnum;
 use mmerlijn\msgRepo\Order;
 use mmerlijn\msgRepo\Request;
 use mmerlijn\msgRepo\Result;
+use mmerlijn\msgRepo\TestCode;
 
 class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
 {
@@ -15,11 +16,11 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
         $order = new Order();
         $order->requester->name->lastname = "Doe";
         $order->addComment('This is fun');
-        $order->addResult(new Result(value: 20, test_name: 'CODAC'));
+        $order->addResult(new Result(value: 20, test: new TestCode(name: 'CODAC')));
         $array = $order->toArray();
         $this->assertArrayHasKey('comments', $array);
-        $this->assertSame('This is fun', $array['comments'][0]);
-        $this->assertSame('CODAC', $order->results[0]->test_name);
+        $this->assertSame('This is fun', $array['comments'][0]['text']);
+        $this->assertSame('CODAC', $order->results[0]->test->name);
     }
 
     public function test_add_result_with_comment()
@@ -27,64 +28,65 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
         $order = new Order();
         $order->addResult(new Result());
         $order->results[0]->addComment("Hello World");
-        $this->assertSame("Hello World", $order->results[0]->comments[0]);
+        $this->assertSame("Hello World", $order->results[0]->comments[0]->text);
     }
 
     public function test_add_multiple_results()
     {
         $order = new Order();
-        $order->addResult(new Result(test_code: "ABC"));
-        $order->addResult(new Result(test_code: "CBA"));
+        $order->addResult(new Result(test: new TestCode(code: "ABC")));
+        $order->addResult(new Result(test: new TestCode( code:"CBA")));
         $this->assertSame(2, count($order->results));
     }
 
     public function test_add_dubble_result()
     {
         $order = new Order();
-        $order->addResult(new Result(test_code: "ABC"));
-        $order->addResult(new Result(test_code: "ABC"));
+        $order->addResult(new Result(test: new TestCode(code: "ABC")));
+        $order->addResult(new Result(test: new TestCode( code:"ABC")));
         $this->assertSame(1, count($order->results));
     }
 
     public function test_add_dubble_request()
     {
         $order = new Order();
-        $order->addRequest(new Request(test_code: "ABC"));
-        $order->addRequest(new Request(test_code: "ABC"));
+        $order->addRequest(new Request(test: new TestCode(code: "ABC")));
+        $order->addRequest(new Request(test: new TestCode(code: "ABC")));
         $this->assertSame(1, count($order->requests));
     }
 
     public function test_filter_by_testcode()
     {
         $order = new Order();
-        $order->addRequest(new Request(test_code: "ABC"));
-        $order->addRequest(new Request(test_code: "ABD"));
-        $order->addRequest(new Request(test_code: "ABE"));
+        $order->addRequest(new Request(test: new TestCode(code: "ABC")));
+        $order->addRequest(new Request(test: new TestCode(code: "ABB")));
+        $order->addRequest(new Request(test: new TestCode(code: "ABD")));
+        $order->addRequest(new Request(test: new TestCode(code: "ABE")));
         $order->filterTestCodes(["ABD", "ABE", "AAA"]);
-        $this->assertSame(1, count($order->requests));
+        $this->assertSame(2, count($order->requests));
     }
 
     public function test_get_testcodes()
     {
         $order = new Order();
-        $order->addRequest(new Request(test_code: "ABC"));
-        $order->addRequest(new Request(test_code: "ABD"));
-        $order->addRequest(new Request(test_code: "ABE"));
+        $order->addRequest(new Request(test: new TestCode(code: "ABC")));
+        $order->addRequest(new Request(test: new TestCode(code: "ABD")));
+        $order->addRequest(new Request(test: new TestCode(code: "ABE")));
         $this->assertSame(["ABC", "ABD", "ABE"], $order->getRequestedTestcodes());
     }
 
     public function test_get_filtered_testcodes()
     {
         $order = new Order();
-        $order->addRequest(new Request(test_code: "ABC"));
-        $order->addRequest(new Request(test_code: "ABD"));
-        $order->addRequest(new Request(test_code: "ABE"));
+        $order->addRequest(new Request(test: new TestCode(code: "ABC")));
+        $order->addRequest(new Request(test: new TestCode(code: "ABD")));
+        $order->addRequest(new Request(test: new TestCode(code: "ABE")));
         $this->assertSame(["ABC", "ABE"], $order->getRequestedTestcodes('ABD'));
 
         $order = new Order();
-        $order->addRequest(new Request(test_code: "ABC"));
-        $order->addRequest(new Request(test_code: "ABD"));
-        $order->addRequest(new Request(test_code: "ABE"));
+        $order->addRequest(new Request(test: new TestCode(code: "ABC")));
+        $order->addRequest(new Request(test: new TestCode(code: "ABD")));
+        $order->addRequest(new Request(test: new TestCode(code: "ABE")));
         $this->assertSame(["ABE"], $order->getRequestedTestcodes(['ABD', 'ABC']));
     }
 
@@ -114,12 +116,12 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
     public function test_getResult()
     {
         $order = new Order();
-        $order->addResult(new Result(test_code: "ABC"));
-        $order->addResult(new Result(test_code: "ABD"));
-        $order->addResult(new Result(test_code: "ABE"));
-        $this->assertSame("ABC", $order->getResultByTestcode("ABC")->test_code);
-        $this->assertSame("ABD", $order->getResultByTestcode("ABD")->test_code);
-        $this->assertSame("ABE", $order->getResultByTestcode("ABE")->test_code);
+        $order->addResult(new Result(test: new TestCode(code: "ABC")));
+        $order->addResult(new Result(test: new TestCode(code: "ABD")));
+        $order->addResult(new Result(test: new TestCode(code: "ABE")));
+        $this->assertSame("ABC", $order->getResultByTestcode("ABC")->test->code);
+        $this->assertSame("ABD", $order->getResultByTestcode("ABD")->test->code);
+        $this->assertSame("ABE", $order->getResultByTestcode("ABE")->test->code);
         $this->assertNull($order->getResultByTestcode("ABF"));
     }
 }

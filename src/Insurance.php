@@ -14,19 +14,19 @@ class Insurance implements RepositoryInterface
      * @param string $uzovi
      * @param string $policy_nr
      * @param string $company_name
-     * @param string|Phone|null $phone
-     * @param array|Address|null $address
+     * @param string|Phone $phone
+     * @param array|Address $address
      */
     public function __construct(
         public string             $uzovi = "",
         public string             $policy_nr = "",
         public string             $company_name = "",
-        public null|string|Phone  $phone = null,
-        public null|array|Address $address = null,
+        public string|Phone  $phone = new Phone,
+        public array|Address $address = new Address,
     )
     {
-        if (is_string($phone)) $this->phone = new Phone($phone);
-        if (is_array($address)) $this->address = new Address(...$address);
+        $this->setPhone($phone);
+        $this->setAddress($address);
         $this->company_name = StripUnwanted::format($company_name);
     }
 

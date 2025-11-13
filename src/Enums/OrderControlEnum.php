@@ -10,8 +10,11 @@ enum OrderControlEnum: string
     case RESULT = "RESULT"; //RESULT
     case EMPTY = "";
 
-    public static function set(string $control): self
+    public static function set(OrderControlEnum|string $control): self
     {
+        if ($control instanceof self) {
+            return $control;
+        }
         $control = strtoupper($control);
         return match ($control) {
             "NEW" => self::NEW,

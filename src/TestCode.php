@@ -2,6 +2,8 @@
 
 namespace mmerlijn\msgRepo;
 
+use mmerlijn\msgRepo\Helpers\StripUnwanted;
+
 class TestCode implements RepositoryInterface
 {
     use CompactTrait;
@@ -12,12 +14,12 @@ class TestCode implements RepositoryInterface
      * @param string $source
      */
     public function __construct(
-        public string $code,
+        public string $code = "",
         public string $name = "",
         public string $source = "",
     )
     {
-
+        $this->name = StripUnwanted::format($name);
     }
 
     /**
@@ -35,6 +37,10 @@ class TestCode implements RepositoryInterface
         ], $compact);
     }
 
+    public function fromArray(array $data): TestCode
+    {
+        return new TestCode(...$data);
+    }
 
 
 }

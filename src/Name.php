@@ -33,7 +33,7 @@ class Name implements RepositoryInterface
         public ?string               $salutation = "",
     )
     {
-        if (is_string($this->sex)) $this->sex = PatientSexEnum::set($this->sex);
+        $this->sex = PatientSexEnum::set($this->sex);
         $this->lastname = StripUnwanted::format($lastname ?? "");
         $this->own_lastname = StripUnwanted::format($own_lastname ?? "");
         $this->prefix = StripUnwanted::format($prefix ?? "");
