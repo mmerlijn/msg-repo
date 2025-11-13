@@ -10,7 +10,7 @@ use mmerlijn\msgRepo\Enums\OrderWhereEnum;
 class Order implements RepositoryInterface
 {
 
-    use HasCommentsTrait, CompactTrait;
+    use HasCommentsTrait, CompactTrait, HasResultsTrait;
 
     /**
      * @param string|OrderControlEnum $control N=new, C=Cancel
@@ -86,22 +86,6 @@ class Order implements RepositoryInterface
     }
 
 
-    /**
-     * add result to an order
-     * @param Result|array $result
-     * @return $this
-     */
-    public function addResult(Result|array $result = new Result()): self
-    {
-        if (is_array($result)) $result = new Result(...$result);
-        foreach ($this->results as $r) {
-            if ($result->test_code == $r->test_code) {
-                return $this;
-            }
-        }
-        $this->results[] = $result;
-        return $this;
-    }
 
     /**
      * Add request to an order

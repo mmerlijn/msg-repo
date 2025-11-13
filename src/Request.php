@@ -5,7 +5,7 @@ namespace mmerlijn\msgRepo;
 class Request implements RepositoryInterface
 {
 
-    use HasCommentsTrait, CompactTrait;
+    use HasCommentsTrait, CompactTrait,HasResultsTrait;
 
     /**
      * @param string $test_code
@@ -37,6 +37,7 @@ class Request implements RepositoryInterface
         //public string           $quantity = "",
         public array  $comments = [],
         public bool   $change = false,
+        public array $results = [],
     )
     {
     }
@@ -62,6 +63,7 @@ class Request implements RepositoryInterface
             'container' => $this->container?->toArray($compact),
             'test' => $this->test?->toArray($compact),
             'other_test' => $this->other_test?->toArray($compact),
+            'results' => array_map(fn($value) => $value->toArray($compact), $this->results),
         ], $compact);
     }
 
