@@ -40,6 +40,7 @@ class Result implements RepositoryInterface
         public string                $only_for_request_test_code = '',
     )
     {
+        if(is_string($type)) $this->type = ValueTypeEnum::tryFrom($type) ?? ValueTypeEnum::ST;
         $this->setTest($test);
         $this->value = StripUnwanted::format($value, 'comment');
         $this->abnormal_flag = ResultFlagEnum::set($this->abnormal_flag);
@@ -51,7 +52,7 @@ class Result implements RepositoryInterface
         foreach ($comments as $c) {
             $this->addComment($c);
         }
-        $this->type = ValueTypeEnum::isValueType($value, $this->values);
+        $this->type = ValueTypeEnum::isValueType($value, $this->values, $this->type);
     }
 
     /**
