@@ -41,7 +41,7 @@ class Result implements RepositoryInterface
         public string                $other_test_code = '',
         public string                $other_test_name = '',
         public string                $other_test_source = '',
-        public ?TestCode             $otherTest = null,
+        public ?TestCode             $other_test = null,
         public string                $units = "",
         public string                $quantity = "",
         public string                $reference_range = "",
