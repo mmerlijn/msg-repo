@@ -5,34 +5,38 @@ namespace mmerlijn\msgRepo;
 class Request implements RepositoryInterface
 {
 
-    use HasCommentsTrait, CompactTrait, HasResultsTrait;
+    use HasCommentsTrait, CompactTrait, HasObservationsTrait, HasSpecimensTrait;
 
     /**
      * @param array|TestCode $test
      * @param array|TestCode $other_test
-     * @param string $id
-     * @param array|TestCode $container
      * @param array $comments array of strings
      * @param bool $change
-     * @param array $results
+     * @param string $id
+     * @param array $observations
+     * @param array $specimens
      */
     public function __construct(
 
         public array|TestCode $test = new TestCode,
         public array|TestCode $other_test = new TestCode,
-        public array|TestCode $container = new TestCode,
-        public array    $comments = [],
-        public bool     $change = false,
-        public string   $id = "",
-        public array    $results = [],
+        public bool           $change = false,
+        public string         $id = "",
+        public string         $clinical_info = "",
+        public array          $observations = [],
+        public array          $specimens = [],
+        public array          $comments = [],
     )
     {
         $this->setTest($test);
         $this->setOtherTest($other_test);
-        $this->setContainer($container);
-        $this->results = [];
-        foreach ($results as $result) {
-            $this->addResult($result);
+        $this->observations = [];
+        foreach ($observations as $result) {
+            $this->addObservation($result);
+        }
+        $this->specimens = [];
+        foreach ($specimens as $specimen) {
+            $this->addSpecimen($specimen);
         }
         $this->comments = [];
         foreach ($comments as $comment) {
@@ -51,11 +55,12 @@ class Request implements RepositoryInterface
         return $this->compact([
             'test' => $this->test->toArray($compact),
             'other_test' => $this->other_test->toArray($compact),
-            'container' => $this->container?->toArray($compact),
-            'comments' => array_map(fn($value) => $value->toArray($compact), $this->comments),
             'change' => $this->change,
             'id' => $this->id,
-            'results' => array_map(fn($value) => $value->toArray($compact), $this->results),
+            'clinical_info' => $this->clinical_info,
+            'observations' => array_map(fn($value) => $value->toArray($compact), $this->observations),
+            'specimens' => array_map(fn($value) => $value->toArray($compact), $this->specimens),
+            'comments' => array_map(fn($value) => $value->toArray($compact), $this->comments),
         ], $compact);
     }
 
@@ -83,12 +88,9 @@ class Request implements RepositoryInterface
         }
     }
 
-    public function setContainer(TestCode|array $container): void
+
+    public function hasOtherTest(): bool
     {
-        if (is_array($container)) {
-            $this->container = new TestCode(...$container);
-        } else {
-            $this->container = $container;
-        }
+        return $this->other_test->code or $this->other_test->value;
     }
 }

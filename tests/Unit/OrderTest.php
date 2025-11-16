@@ -6,7 +6,7 @@ use mmerlijn\msgRepo\Enums\OrderControlEnum;
 use mmerlijn\msgRepo\Enums\OrderWhereEnum;
 use mmerlijn\msgRepo\Order;
 use mmerlijn\msgRepo\Request;
-use mmerlijn\msgRepo\Result;
+use mmerlijn\msgRepo\Observation;
 use mmerlijn\msgRepo\TestCode;
 
 class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
@@ -15,36 +15,29 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
     {
         $order = new Order();
         $order->requester->name->lastname = "Doe";
-        $order->addComment('This is fun');
-        $order->addResult(new Result(value: 20, test: new TestCode(name: 'CODAC')));
+        $order->addRequest(new Request(observations: [new Observation(value: 20, test: new TestCode(value: 'CODAC'))]));
         $array = $order->toArray();
-        $this->assertArrayHasKey('comments', $array);
-        $this->assertSame('This is fun', $array['comments'][0]['text']);
-        $this->assertSame('CODAC', $order->results[0]->test->name);
+        $this->assertArrayHasKey('requests', $array);
+        $this->assertSame('CODAC', $order->requests[0]->observations[0]->test->value);
     }
 
-    public function test_add_result_with_comment()
+
+    public function test_add_multiple_observations()
     {
-        $order = new Order();
-        $order->addResult(new Result());
-        $order->results[0]->addComment("Hello World");
-        $this->assertSame("Hello World", $order->results[0]->comments[0]->text);
+        $order = (new Order())->addRequest(new Request(test: new TestCode(code: "GG", value: "Test ABC")));
+        $order->addObservation(new Observation(test: new TestCode(code: "ABD", value: "Test ABD")), 'all');
+        $this->assertSame(1, count($order->requests));
+        $order->addObservation(new Observation(test: new TestCode( code:"CBA")),'x');
+        $this->assertSame(1, count($order->requests));
     }
 
-    public function test_add_multiple_results()
+    public function test_add_dubble_observation()
     {
-        $order = new Order();
-        $order->addResult(new Result(test: new TestCode(code: "ABC")));
-        $order->addResult(new Result(test: new TestCode( code:"CBA")));
-        $this->assertSame(2, count($order->results));
-    }
+        $order = (new Order())->addRequest(new Request(test: new TestCode(code: "GG", value: "Test ABC")));
+        $order->addObservation(new Observation(test: new TestCode(code: "ABD", value: "Test ABD")), 'all');
+        $order->addObservation(new Observation(test: new TestCode(code: "ABD", value: "Test ABD")), 'all');
+        $this->assertSame(1, count($order->requests));
 
-    public function test_add_dubble_result()
-    {
-        $order = new Order();
-        $order->addResult(new Result(test: new TestCode(code: "ABC")));
-        $order->addResult(new Result(test: new TestCode( code:"ABC")));
-        $this->assertSame(1, count($order->results));
     }
 
     public function test_add_dubble_request()
@@ -115,13 +108,13 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
 
     public function test_getResult()
     {
-        $order = new Order();
-        $order->addResult(new Result(test: new TestCode(code: "ABC")));
-        $order->addResult(new Result(test: new TestCode(code: "ABD")));
-        $order->addResult(new Result(test: new TestCode(code: "ABE")));
-        $this->assertSame("ABC", $order->getResultByTestcode("ABC")->test->code);
-        $this->assertSame("ABD", $order->getResultByTestcode("ABD")->test->code);
-        $this->assertSame("ABE", $order->getResultByTestcode("ABE")->test->code);
-        $this->assertNull($order->getResultByTestcode("ABF"));
+        $order = (new Order())->addRequest(new Request(test: new TestCode(code: "GG", value: "Test ABC")));
+        $order->addObservation(new Observation(test: new TestCode(code: "ABC")));
+        $order->addObservation(new Observation(test: new TestCode(code: "ABD")));
+        $order->addObservation(new Observation(test: new TestCode(code: "ABE")));
+        $this->assertSame("ABC", $order->getObservationByTestcode("ABC")->test->code);
+        $this->assertSame("ABD", $order->getObservationByTestcode("ABD")->test->code);
+        $this->assertSame("ABE", $order->getObservationByTestcode("ABE")->test->code);
+        $this->assertNull($order->getObservationByTestcode("ABF"));
     }
 }

@@ -10,16 +10,16 @@ class TestCode implements RepositoryInterface
 
     /**
      * @param string $code
-     * @param string $name
+     * @param string $value
      * @param string $source
      */
     public function __construct(
         public string $code = "",
-        public string $name = "",
+        public string $value = "",
         public string $source = "",
     )
     {
-        $this->name = StripUnwanted::format($name);
+        $this->value = StripUnwanted::format($value);
     }
 
     /**
@@ -32,7 +32,7 @@ class TestCode implements RepositoryInterface
     {
         return $this->compact([
             "code" => $this->code,
-            "name" => $this->name,
+            "value" => $this->value,
             "source" => $this->source,
         ], $compact);
     }

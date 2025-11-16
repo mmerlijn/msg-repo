@@ -6,13 +6,19 @@ use mmerlijn\msgRepo\Enums\ResultFlagEnum;
 use mmerlijn\msgRepo\Enums\ValueTypeEnum;
 use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
-class Result implements RepositoryInterface
+
+/*
+ * Observation / Result of a test
+ *
+ *
+ */
+class Observation implements RepositoryInterface
 {
 
     use HasCommentsTrait, CompactTrait;
 
     /**
-     * @param ValueTypeEnum $type
+     * @param string|ValueTypeEnum $type
      * @param string|float|int $value
      * @param array|TestCode $test
      * @param string $units
@@ -22,7 +28,6 @@ class Result implements RepositoryInterface
      * @param array $comments
      * @param bool $done item is processed
      * @param bool $change item is changed
-     * @param string $only_for_request_test_code code of the request this result belongs to
      * @param array $values
      */
     public function __construct(
@@ -37,7 +42,6 @@ class Result implements RepositoryInterface
         public bool                  $done = true,
         public bool                  $change = false,
         public array                 $values = [], //multiple values for this result
-        public string                $only_for_request_test_code = '',
     )
     {
         if(is_string($type)) $this->type = ValueTypeEnum::tryFrom($type) ?? ValueTypeEnum::ST;
@@ -79,22 +83,22 @@ class Result implements RepositoryInterface
     }
 
     //backwards compatibility
-    public function fromArray(array $data): Result
+    public function fromArray(array $data): Observation
     {
-        return new Result(...$data);
+        return new Observation(...$data);
     }
 
     public function addValue(TestCode|array $value = new TestCode()): self
     {
         if (is_array($value)) $value = new TestCode(...$value);
-        $value->name = StripUnwanted::format($value->name, 'comment');
+        $value->value = StripUnwanted::format($value->value, 'comment');
         foreach ($this->values as $r) {
             if ($value->code and $value->code == $r->code) {
                 return $this;
             }
         }
         $this->values[] = $value;
-        if(!empty($this->values)){
+        if($this->hasValues()){
             $this->type = ValueTypeEnum::CE;
         }
         return $this;

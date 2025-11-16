@@ -8,7 +8,7 @@ use mmerlijn\msgRepo\Enums\PatientSexEnum;
 class Patient implements RepositoryInterface
 {
 
-    use HasAddressTrait, HasNameTrait, CompactTrait, HasDateTrait;
+    use HasAddressTrait, HasNameTrait, CompactTrait, HasDateTrait, HasCommentsTrait;
 
 
     /**
@@ -24,6 +24,7 @@ class Patient implements RepositoryInterface
      * @param string|null $last_requester
      * @param string|null $email
      * @param string|null $gp
+     * @param array $comments
      */
     public function __construct(
         public PatientSexEnum|string $sex = PatientSexEnum::EMPTY,
@@ -38,6 +39,7 @@ class Patient implements RepositoryInterface
         public ?string               $last_requester = null,
         public ?string               $email = null,
         public ?string               $gp = null,
+        public array                 $comments = [],
     )
     {
         $this->sex = PatientSexEnum::set($sex);
@@ -68,6 +70,10 @@ class Patient implements RepositoryInterface
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->email = null;
         }
+        $this->comments = [];
+        foreach ($comments as $comment) {
+            $this->addComment($comment);
+        }
     }
 
     /**
@@ -91,6 +97,7 @@ class Patient implements RepositoryInterface
             'last_requester' => $this->last_requester ?? "",
             'email' => $this->email,
             'gp' => $this->gp ?? "",
+            'comments' => array_map(fn($value) => $value->toArray($compact), $this->comments),
 
         ], $compact);
     }

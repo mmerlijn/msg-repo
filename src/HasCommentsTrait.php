@@ -11,7 +11,7 @@ trait HasCommentsTrait
      * add comment to comments array for current object
      *
      * @param Comment|array|string $comment
-     * @return Msg|HasCommentsTrait|Order|Request|Result
+     * @return Msg|HasCommentsTrait|Order|Request|Observation
      */
     public function addComment(Comment|array|string $comment): self
     {

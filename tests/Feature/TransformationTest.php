@@ -12,7 +12,7 @@ use mmerlijn\msgRepo\Order;
 use mmerlijn\msgRepo\Organisation;
 use mmerlijn\msgRepo\Patient;
 use mmerlijn\msgRepo\Request;
-use mmerlijn\msgRepo\Result;
+use mmerlijn\msgRepo\Observation;
 use PHPUnit\Framework\TestCase;
 
 class TransformationTest extends TestCase
@@ -28,7 +28,7 @@ class TransformationTest extends TestCase
                 ->setOrganisation(new Organisation(name: 'XILE')))
             ->setOrder((new Order())
                 ->addRequest((new Request(test: ["CRP", "CRP",  "99zdl"]))
-                    ->addResult((new Result(type: ValueTypeEnum::CE, test: ["COVIDURG",  "Urgentie?",  "99zdl"]))
+                    ->addObservation((new Observation(type: ValueTypeEnum::CE, test: ["COVIDURG",  "Urgentie?",  "99zdl"]))
                         ->addValue(["","Binnen 6 maanden", "99zda"]))));
 
         $array = $msg->toArray();

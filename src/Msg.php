@@ -66,7 +66,7 @@ class Msg implements RepositoryInterface
             'id' => $this->id,
             'security_id' => $this->security_id,
             'processing_id' => $this->processing_id,
-            'comments' => $this->comments,
+            'comments' => array_map(fn($value) => $value->toArray($compact), $this->comments),
             'default_source' => $this->default_source,
         ], $compact);
     }

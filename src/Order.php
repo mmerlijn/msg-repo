@@ -10,7 +10,7 @@ use mmerlijn\msgRepo\Enums\OrderWhereEnum;
 class Order implements RepositoryInterface
 {
 
-    use HasCommentsTrait, CompactTrait, HasResultsTrait, HasOrganisationTrait, HasDateTrait;
+    use  CompactTrait, HasOrganisationTrait, HasDateTrait;
 
     /**
      * @param string|OrderControlEnum $control N=new, C=Cancel
@@ -25,15 +25,12 @@ class Order implements RepositoryInterface
      * @param array|Contact $copy_to
      * @param array|Contact $entered_by
      * @param array|Organisation $organisation
-     * @param Carbon|string|null $dt_of_request dt of execution time
-     * @param Carbon|string|null $dt_of_observation
-     * @param Carbon|string|null $dt_of_observation_end
-     * @param Carbon|string|null $dt_of_analysis
-     * @param string $admit_reason_code
-     * @param string $admit_reason_name
-     * @param array $results array if Results
+     * @param Carbon|string|null $request_at dt of execution time
+     * @param Carbon|string|null $observation_at
+     * @param Carbon|string|null $observation_end_at
+     * @param Carbon|string|null $analysis_at
      * @param array $requests array of Requests
-     * @param array $comments array of strings
+     * @param array|Testcode $admit_reason
      */
     public function __construct(
         public string|OrderControlEnum $control = OrderControlEnum::NEW,
@@ -48,13 +45,11 @@ class Order implements RepositoryInterface
         public array|Contact           $copy_to = new Contact,
         public array|Contact           $entered_by = new Contact,
         public array|Organisation      $organisation = new Organisation,
-        public Carbon|string|null      $dt_of_request = null,
-        public Carbon|string|null      $dt_of_observation = null,
-        public Carbon|string|null      $dt_of_observation_end = null,
-        public Carbon|string|null      $dt_of_analysis = null,
-        public array                   $results = [],
+        public Carbon|string|null      $request_at = null,
+        public Carbon|string|null      $observation_at = null,
+        public Carbon|string|null      $observation_end_at = null,
+        public Carbon|string|null      $analysis_at = null,
         public array                   $requests = [],
-        public array                   $comments = [],
         public array|Testcode          $admit_reason = new TestCode,
     )
     {
@@ -63,25 +58,18 @@ class Order implements RepositoryInterface
         if (is_array($entered_by)) $this->entered_by = new Contact(...$entered_by);
         $this->setOrganisation($organisation);
         $this->start_date = $this->formatDate($start_date);
-        $this->dt_of_request = $this->formatDate($dt_of_request);
-        $this->dt_of_observation = $this->formatDate($dt_of_observation);
-        $this->dt_of_observation_end = $this->formatDate($dt_of_observation_end);
-        $this->dt_of_analysis = $this->formatDate($dt_of_analysis);
+        $this->request_at = $this->formatDate($request_at);
+        $this->observation_at = $this->formatDate($observation_at);
+        $this->observation_end_at = $this->formatDate($observation_end_at);
+        $this->analysis_at = $this->formatDate($analysis_at);
         $this->order_status = OrderStatusEnum::set($order_status);
         $this->where = OrderWhereEnum::set($where);
         $this->control = OrderControlEnum::set($control);
-        $this->results = [];
-        foreach ($results as $result) {
-            $this->addResult($result);
-        }
         $this->requests = [];
         foreach ($requests as $request) {
             $this->addRequest($request);
         }
         $this->comments =[];
-        foreach ($comments as $comment) {
-            $this->addComment($comment);
-        }
         $this->setAdmitReason($admit_reason);
     }
     /**
@@ -100,21 +88,16 @@ class Order implements RepositoryInterface
             'priority' => $this->priority,
             'start_date' => $this->start_date?->format("Y-m-d"),
             'order_status' => $this->order_status->value,
-            //'result_status' => $this->result_status,
             'where' => $this->where->value,
             'requester' => $this->requester->toArray($compact),
             'copy_to' => $this->copy_to->toArray($compact),
             'entered_by' => $this->entered_by->toArray($compact),
             'organisation' => $this->organisation->toArray($compact),
-            //'material' => $this->material,
-            //'volume' => $this->volume,
-            'dt_of_request' => $this->dt_of_request?->format("Y-m-d H:i:s"),
-            'dt_of_observation' => $this->dt_of_observation?->format("Y-m-d H:i:s"),
-            'dt_of_observation_end' => $this->dt_of_observation_end?->format("Y-m-d H:i:s"),
-            'dt_of_analysis' => $this->dt_of_analysis?->format("Y-m-d H:i:s"),
-            'results' => array_map(fn($value) => $value->toArray($compact), $this->results),
+            'request_at' => $this->request_at?->format("Y-m-d H:i:s"),
+            'observation_at' => $this->observation_at?->format("Y-m-d H:i:s"),
+            'observation_end_at' => $this->observation_end_at?->format("Y-m-d H:i:s"),
+            'analysis_at' => $this->analysis_at?->format("Y-m-d H:i:s"),
             'requests' => array_map(fn($value) => $value->toArray($compact), $this->requests),
-            'comments' => array_map(fn($value) => $value->toArray($compact), $this->comments),
             'admit_reason' => $this->admit_reason->toArray($compact),
         ], $compact);
     }
@@ -151,15 +134,23 @@ class Order implements RepositoryInterface
         foreach ($this->requests as $k => $request) {
             if (in_array($request->test->code, $filter)) {
                 unset($this->requests[$k]);
+            }else{
+                //also remove from observations
+                foreach ($request->observations as $k2 => $obs) {
+                        if (in_array($obs->test->code,$filter)) {
+                            unset($this->requests[$k]->observations[$k2]);
+                        }
+                }
+                $this->requests[$k]->observations = array_values($this->requests[$k]->observations);
+                // also remove from specimens
+                foreach ($request->specimens as $k3 => $spec) {
+                    if (in_array($spec->test->code, $filter)) {
+                        unset($this->requests[$k]->specimens[$k3]);
+                    }
+                }
+                $this->requests[$k]->specimens = array_values($this->requests[$k]->specimens);
             }
         }
-
-        foreach ($this->results as $k => $result) {
-            if (in_array($result->test->code, $filter)) {
-                unset($this->results[$k]);
-            }
-        }
-        $this->results = array_values($this->results);
         $this->requests = array_values($this->requests);
         return $this;
     }
@@ -184,18 +175,56 @@ class Order implements RepositoryInterface
         return $testcodes;
     }
 
-    public function getResultByTestcode(string $test_code): ?Result
+    public function getObservationByTestcode(string $test_code): ?Observation
     {
-        foreach ($this->results as $result) {
-            if ($result->test->code == $test_code) {
-                return $result;
+        foreach ($this->requests as $request) {
+            foreach ($request->observations as $observation) {
+                if ($observation->test->code == $test_code) {
+                    return $observation;
+                }
             }
         }
         return null;
     }
+    public function getSpecimenByTestcode(string $test_code): ?Specimen
+    {
+        foreach ($this->requests as $request) {
+            foreach ($request->specimens as $specimen) {
+                if ($specimen->test->code == $test_code) {
+                    return $specimen;
+                }
+            }
+        }        return null;
+    }
+    public function getAllObservations(string|array $filter = []): array
+    {
+        if (is_string($filter)) $filter = [$filter];
+        $observations = [];
+        foreach ($this->requests as $request) {
+            foreach ($request->observations as $observation) {
+                if (!in_array($observation->test->code, $filter)) {
+                    $observations[$observation->test->code] = $observation->value;
+                }
+            }
+        }
+        return $observations;
+    }
 
-
-
+    public function addObservation(Observation $observation, string $to='all'): self
+    {
+        if ($to == 'all') {
+            foreach ($this->requests as $k => $request) {
+                $this->requests[$k]->addObservation($observation);
+            }
+        } else {
+            foreach ($this->requests as $k => $request) {
+                if ($request->test->code == $to) {
+                    $this->requests[$k]->addObservation($observation);
+                }
+            }
+        }
+        return $this;
+    }
 
     //backwards compatibility
     public function fromArray(array $data): Order
