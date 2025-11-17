@@ -96,6 +96,11 @@ class NameTest extends TestCase
         $this->assertSame('EP', $name->initials);
         $this->assertSame('', $name->own_prefix);
         $this->assertSame('Groot', $name->own_lastname);
+        $name = new Name(name: "Jansen, L");
+        $this->assertSame('L', $name->initials);
+        $this->assertSame('', $name->own_prefix);
+        $this->assertSame('Jansen', $name->own_lastname);
+
 
     }
     public function test_fullname2()

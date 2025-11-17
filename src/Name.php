@@ -120,6 +120,11 @@ class Name implements RepositoryInterface
      */
     public function format(): void
     {
+        if(str_contains($this->name, ",")){
+            $parts = explode(",", $this->name);
+            $this->name = trim($parts[0]);
+            $this->initials = trim(str_replace(".","", $parts[1]));
+        }
         if ($this->name and !$this->lastname and !$this->own_lastname) {
             $this->splitName();
         }
@@ -149,7 +154,7 @@ class Name implements RepositoryInterface
      *
      * @return void
      */
-    private function splitName()
+    private function splitName(): void
     {
         $parts = explode("-", $this->name);
         if (count($parts) == 2) {
