@@ -18,6 +18,7 @@ class Specimen implements RepositoryInterface
      * @param bool|null $available
      * @param Testcode|array $container
      * @param array $observations
+     * @param string $location
      */
     public function __construct(
         public string         $id = "",
@@ -25,6 +26,7 @@ class Specimen implements RepositoryInterface
         public bool|null      $available = null,
         public Testcode|array $container = new TestCode(),
         public array          $observations = [],
+        public string         $location = "",
     )
     {
         $this->setTest($test);
@@ -50,6 +52,7 @@ class Specimen implements RepositoryInterface
             'available' => $this->available,
             'container' => $this->container->toArray($compact),
             'observations' => array_map(fn($value) => $value->toArray($compact), $this->observations),
+            'location' => $this->location,
         ], $compact);
     }
 

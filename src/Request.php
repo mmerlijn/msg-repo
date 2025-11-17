@@ -10,11 +10,13 @@ class Request implements RepositoryInterface
     /**
      * @param array|TestCode $test
      * @param array|TestCode $other_test
-     * @param array $comments array of strings
      * @param bool $change
      * @param string $id
+     * @param string $clinical_info
+     * @param bool $priority
      * @param array $observations
      * @param array $specimens
+     * @param array $comments array of strings
      */
     public function __construct(
 
@@ -23,6 +25,7 @@ class Request implements RepositoryInterface
         public bool           $change = false,
         public string         $id = "",
         public string         $clinical_info = "",
+        public bool           $priority = false,
         public array          $observations = [],
         public array          $specimens = [],
         public array          $comments = [],
@@ -58,6 +61,7 @@ class Request implements RepositoryInterface
             'change' => $this->change,
             'id' => $this->id,
             'clinical_info' => $this->clinical_info,
+            'priority' => $this->priority,
             'observations' => array_map(fn($value) => $value->toArray($compact), $this->observations),
             'specimens' => array_map(fn($value) => $value->toArray($compact), $this->specimens),
             'comments' => array_map(fn($value) => $value->toArray($compact), $this->comments),
