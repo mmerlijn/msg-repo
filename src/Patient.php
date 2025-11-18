@@ -4,6 +4,7 @@ namespace mmerlijn\msgRepo;
 
 use Carbon\Carbon;
 use mmerlijn\msgRepo\Enums\PatientSexEnum;
+use mmerlijn\msgRepo\Helpers\AgbcodeValidator;
 
 class Patient implements RepositoryInterface
 {
@@ -278,5 +279,9 @@ class Patient implements RepositoryInterface
         if ($bsn ?? false and $deleted) {
             array_splice($this->ids, 0, 0, [$bsn]);
         }
+    }
+    public function hasValidBsn(): bool
+    {
+        return AgbcodeValidator::validate($this->getBsn());
     }
 }

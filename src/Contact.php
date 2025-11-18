@@ -2,6 +2,8 @@
 
 namespace mmerlijn\msgRepo;
 
+use mmerlijn\msgRepo\Helpers\AgbcodeValidator;
+
 class Contact implements RepositoryInterface
 {
 
@@ -67,6 +69,10 @@ class Contact implements RepositoryInterface
     public function fromArray(array $data): Contact
     {
         return new Contact(...$data);
+    }
+    public function hasValidAgbcode(): bool
+    {
+        return AgbcodeValidator::validate($this->agbcode);
     }
 
 
