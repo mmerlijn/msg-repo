@@ -15,8 +15,9 @@ trait HasObservationsTrait
     public function addObservation(Observation|array $observation = new Observation()): self
     {
         if (is_array($observation)) $observation = new Observation(...$observation);
-        foreach ($this->observations as $r) {
+        foreach ($this->observations as $k=>$r) {
             if ($observation->test->code == $r->test->code) {
+                $this->observations[$k]->value = StripUnwanted::format($observation->value, 'observation');
                 return $this;
             }
         }
