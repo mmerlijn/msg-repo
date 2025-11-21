@@ -13,7 +13,7 @@ class Request implements RepositoryInterface
      * @param bool $change
      * @param string $id
      * @param string $clinical_info
-     * @param bool $priority
+     * @param null|bool $priority
      * @param array $observations
      * @param array $specimens
      * @param array $comments array of strings
@@ -25,7 +25,7 @@ class Request implements RepositoryInterface
         public bool           $change = false,
         public string         $id = "",
         public string         $clinical_info = "",
-        public bool           $priority = false,
+        public null|bool      $priority = null,
         public array          $observations = [],
         public array          $specimens = [],
         public array          $comments = [],
