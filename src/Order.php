@@ -123,7 +123,7 @@ class Order implements RepositoryInterface
 
 
     /**
-     * Filter out unwanted testcodes
+     * Filter out unwanted testcodes and their observations/specimens
      *
      * @param array|string $filter
      * @return $this
@@ -175,6 +175,12 @@ class Order implements RepositoryInterface
         return $testcodes;
     }
 
+    /**
+     * Get observation by testcode
+     *
+     * @param string $test_code
+     * @return Observation|null
+     */
     public function getObservationByTestcode(string $test_code): ?Observation
     {
         foreach ($this->requests as $request) {
@@ -186,6 +192,13 @@ class Order implements RepositoryInterface
         }
         return null;
     }
+
+    /**
+     * Get specimen by testcode
+     *
+     * @param string $test_code
+     * @return Specimen|null
+     */
     public function getSpecimenByTestcode(string $test_code): ?Specimen
     {
         foreach ($this->requests as $request) {
@@ -196,6 +209,13 @@ class Order implements RepositoryInterface
             }
         }        return null;
     }
+
+    /**
+     * Give all observations as testcode=>value array
+     *
+     * @param string|array $filter
+     * @return array
+     */
     public function getAllObservations(string|array $filter = []): array
     {
         if (is_string($filter)) $filter = [$filter];
@@ -210,6 +230,26 @@ class Order implements RepositoryInterface
         return $observations;
     }
 
+    /**
+     * Remove all observations from all requests
+     *
+     * @return $this
+     */
+    public function removeAllObservations(): self
+    {
+        foreach ($this->requests as $k => $request) {
+            $this->requests[$k]->observations = [];
+        }
+        return $this;
+    }
+
+    /**
+     * Add observation to all requests or to a specific testcode request
+     *
+     * @param Observation $observation
+     * @param string $to 'all' or specific request testcode
+     * @return $this
+     */
     public function addObservation(Observation $observation, string $to='all'): self
     {
         if ($to == 'all') {
@@ -232,6 +272,10 @@ class Order implements RepositoryInterface
         return new Order(...$data);
     }
 
+    /**
+     * @param array|Testcode $admit_reason
+     * @return $this
+     */
     public function setAdmitReason(array|Testcode $admit_reason): self
     {
         if (is_array($admit_reason)) {
@@ -241,8 +285,18 @@ class Order implements RepositoryInterface
         return $this;
     }
 
+    /**
+     * Check if order has requests
+     *
+     * @return bool
+     */
     public function hasRequests(): bool
     {
         return !empty($this->requests);
+    }
+
+    public function countRequests(): int
+    {
+        return count($this->requests);
     }
 }
