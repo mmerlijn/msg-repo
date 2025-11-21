@@ -39,7 +39,12 @@ class MsgType implements RepositoryInterface
         ], $compact);
     }
 
-    //backwards compatibility
+    /**
+     * Restore state from array
+     *
+     * @param array $data
+     * @return MsgType
+     */
     public function fromArray(array $data): MsgType
     {
         return new MsgType(...$data);

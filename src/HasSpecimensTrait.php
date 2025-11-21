@@ -2,7 +2,6 @@
 
 namespace mmerlijn\msgRepo;
 
-use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
 trait HasSpecimensTrait
 {
@@ -24,6 +23,10 @@ trait HasSpecimensTrait
         return $this;
     }
 
+    /**
+     * check if specimens are present
+     * @return bool
+     */
     public function hasSpecimens(): bool
     {
         return !empty($this->specimens);

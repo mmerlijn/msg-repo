@@ -122,8 +122,12 @@ class Name implements RepositoryInterface
     {
         if(str_contains($this->name, ",")){
             $parts = explode(",", $this->name);
-            $this->name = trim($parts[0]);
-            $this->initials = trim(str_replace(".","", $parts[1]));
+            $o = $this->hasPrefix($parts[0]);
+            if($o->prefix) $this->own_prefix = $o->prefix;
+            $this->name = trim($o->name);
+            $o = $this->hasPrefix($parts[1]);
+            if($o->prefix) $this->own_prefix = $o->prefix;
+            $this->initials = trim(str_replace(".","", $o->name));
         }
         if ($this->name and !$this->lastname and !$this->own_lastname) {
             $this->splitName();
@@ -170,7 +174,7 @@ class Name implements RepositoryInterface
      *
      * @return void
      */
-    private function splitPrefixesFromNames()
+    private function splitPrefixesFromNames(): void
     {
         $tmp = FormatName::nameSplitter($this->lastname ?? "", $this->prefix ?? "");
         $this->lastname = ucwords(strtolower($tmp['lastname']));
@@ -191,7 +195,7 @@ class Name implements RepositoryInterface
             }
         }
         //look for initials
-        $s_parts = preg_split('/(?:\. | )/', $name);
+        $s_parts = preg_split('/\. | /', $name);
         if (!$this->initials) {
             $s_parts = [...explode(".", $s_parts[0]), ...array_slice($s_parts, 1)];
             $t = false;
@@ -214,4 +218,103 @@ class Name implements RepositoryInterface
         }
     }
 
+     private function hasPrefix(string $text): object
+    {
+        $prefix_list = [
+            "aan 't",
+            "a/d",
+            "aan de",
+            "aan het",
+            "abd-el",
+            "bij 't",
+            "bij de",
+            "by 't",
+            "de l'",
+            "de la",
+            "de sousa",
+            "del saz",
+            "dos reis",
+            "in 't",
+            "in den",
+            "in der",
+            "in de",
+            "op 't",
+            "op den",
+            "op der",
+            "op het",
+            "op ten",
+            "op de",
+            "uit den",
+            "uit de",
+            "uyt de",
+            "uyt den",
+            "van 't",
+            "van den",
+            "van der",
+            "van de",
+            "van het",
+            "van t",
+            "van ter",
+            "ven der",
+            "von der",
+            "voor den",
+            "voor de",
+            "voor in 't",
+            "voor in",
+            "v d",
+            "v t",
+            "v.'t",
+            "v.d",
+            "v.d.",
+            "v/d",
+            "v/t",
+            "vd",
+            "v.",
+            "w/v",
+            "zum",
+            "'d",
+            "'t",
+            "della",
+            "del",
+            "dem",
+            "den",
+            "der",
+            "des",
+            "dez",
+            "de",
+            "di",
+            "dos",
+            "do",
+            "du",
+            "el",
+            "en",
+            "er",
+            "es",
+            "het",
+            "et",
+            "im",
+            "l'",
+            "la",
+            "le",
+            "lo",
+            "ten",
+            "ter",
+            "te",
+            "van",
+            "vdn",
+            "vdr",
+            "vom",
+            "von",
+        ];
+        $text = trim($text);
+        foreach ($prefix_list as $p) {
+            if($text==$p or str_starts_with($text, $p." ") or str_ends_with($text, " ".$p)){
+                //found prefix, return prefix and rest of text
+                $name = trim(str_replace($p, "", $text));
+                return (object)['prefix'=>$p, 'name'=>$name];
+            }
+        }
+        return (object)['prefix'=>'', 'name'=>$text];
+
+    }
 }

@@ -47,7 +47,13 @@ class Insurance implements RepositoryInterface
         ], $compact);
     }
 
-    // backwards compatibility
+
+    /**
+     * Restore state from array
+     *
+     * @param array $data
+     * @return Insurance
+     */
     public function fromArray(array $data): Insurance
     {
         return new Insurance(...$data);

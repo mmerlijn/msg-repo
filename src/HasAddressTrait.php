@@ -9,7 +9,7 @@ trait HasAddressTrait
      * set the address for current object
      *
      * @param Address|array $address
-     * @return $this
+     * @return Insurance|Contact|HasAddressTrait|Patient
      */
     public function setAddress(Address|array $address = new Address()): self
     {

@@ -35,6 +35,11 @@ trait HasCommentsTrait
         $this->comments = [];
     }
 
+    /**
+     * Check if there are comments
+     *
+     * @return bool
+     */
     public function hasComments(): bool
     {
         return !empty($this->comments);

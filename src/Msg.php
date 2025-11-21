@@ -14,7 +14,7 @@ class Msg implements RepositoryInterface
      * @param array|Order $order
      * @param array|Contact $sender
      * @param array|Contact $receiver
-     * @param string|Carbon $datetime
+     * @param string|Carbon|null $datetime
      * @param array|MsgType $msgType
      * @param string $id
      * @param string $security_id
@@ -27,7 +27,7 @@ class Msg implements RepositoryInterface
         public array|Order   $order = new Order,
         public array|Contact $sender = new Contact,
         public array|Contact $receiver = new Contact,
-        public string|Carbon $datetime = new Carbon,
+        public null|string|Carbon $datetime = new Carbon,
         public array|MsgType $msgType = new MsgType,
         public string        $id = "",
         public string        $security_id = "",
@@ -71,17 +71,33 @@ class Msg implements RepositoryInterface
         ], $compact);
     }
 
-    //backwards compatibility
+    /**
+     * restore state from array
+     *
+     * @param array $data
+     * @return Msg
+     */
     public function fromArray(array $data): self
     {
         return new Msg(...$data);
     }
 
+    /**
+     * Convert to json
+     *
+     * @return string
+     */
     public function toJson(): string
     {
         return json_encode($this->toArray());
     }
 
+    /**
+     * Restore state from json
+     *
+     * @param string $json
+     * @return Msg
+     */
     public function fromJson(string $json): Msg
     {
         return $this->fromArray(json_decode($json, true));
@@ -100,7 +116,6 @@ class Msg implements RepositoryInterface
         return $this;
     }
 
-
     /**
      * Set order details to msg object
      *
@@ -114,11 +129,10 @@ class Msg implements RepositoryInterface
         return $this;
     }
 
-
     /**
      * Set the msg sender
      *
-     * @param Contact $sender
+     * @param array|Contact $sender
      * @return $this
      */
     public function setSender(array|Contact $sender): self
@@ -127,7 +141,6 @@ class Msg implements RepositoryInterface
         $this->sender = $sender;
         return $this;
     }
-
 
     /**
      * Set the msg receiver

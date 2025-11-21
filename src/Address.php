@@ -64,7 +64,11 @@ class Address implements RepositoryInterface
         ], $compact);
     }
 
-    //backwards compatibility
+    /** create from array
+     *
+     * @param array $data
+     * @return Address
+     */
     public function fromArray(array $data): Address
     {
         return new Address(...$data);

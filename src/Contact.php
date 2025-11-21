@@ -65,11 +65,22 @@ class Contact implements RepositoryInterface
         ], $compact);
     }
 
-    //backwards compatibility
+    /**
+     * restore state from array
+     *
+     * @param array $data
+     * @return Contact
+     */
     public function fromArray(array $data): Contact
     {
         return new Contact(...$data);
     }
+
+    /**
+     * Validate agbcode
+     *
+     * @return bool
+     */
     public function hasValidAgbcode(): bool
     {
         return AgbcodeValidator::validate($this->agbcode);

@@ -25,6 +25,10 @@ trait HasObservationsTrait
         return $this;
     }
 
+    /**
+     * check if there are observations
+     * @return bool
+     */
     public function hasObservations(): bool
     {
         return !empty($this->observations);

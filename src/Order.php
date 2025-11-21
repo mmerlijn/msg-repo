@@ -69,7 +69,6 @@ class Order implements RepositoryInterface
         foreach ($requests as $request) {
             $this->addRequest($request);
         }
-        $this->comments =[];
         $this->setAdmitReason($admit_reason);
     }
     /**

@@ -29,11 +29,11 @@ class NameTest extends TestCase
 
     public function test_splitter()
     {
-        $name = new Name(name: "Doe van der");
+        $name = new Name(name: "Doe, van der");
         $this->assertSame("van der", $name->own_prefix);
         $this->assertSame("Doe", $name->own_lastname);
 
-        $name = new Name(name: "Doe, van der");
+        $name = new Name(name: "Doe van der");
         $this->assertSame("van der", $name->own_prefix);
         $this->assertSame("Doe", $name->own_lastname);
 

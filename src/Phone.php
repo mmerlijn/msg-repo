@@ -2,6 +2,7 @@
 
 namespace mmerlijn\msgRepo;
 
+use Exception;
 use mmerlijn\msgRepo\Helpers\FormatPhone;
 
 class Phone
@@ -64,7 +65,7 @@ class Phone
      *
      * @param string $countryCode
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function forSms(string $countryCode = "nl"): string
     {

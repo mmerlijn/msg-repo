@@ -38,10 +38,21 @@ class Comment implements RepositoryInterface
         ], $compact);
     }
 
+    /**
+     * restore state from array
+     *
+     * @param array $data
+     * @return Comment
+     */
     public function fromArray(array $data): Comment
     {
         return new Comment(...$data);
     }
+
+    /**
+     * @param array|TestCode $type
+     * @return void
+     */
     public function setType(array|TestCode $type): void
     {
         if (is_array($type)) {
