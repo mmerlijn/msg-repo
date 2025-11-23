@@ -7,7 +7,7 @@ class AgbcodeValidator
     public static function validate(string $agbcode): bool
     {
         // Dutch AGB code validation: 8 digits
-        if (!preg_match('/^\d{8}$/', trim($agbcode))) {
+        if (!(preg_match('/^\d{8}$/', trim($agbcode))==1)) {
             return false;
         }
         return true;
