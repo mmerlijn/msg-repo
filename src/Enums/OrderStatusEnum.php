@@ -4,6 +4,7 @@ namespace mmerlijn\msgRepo\Enums;
 
 enum OrderStatusEnum: string
 {
+    use StringEnumTrait;
     case FINAL = "F";
     case CORRECTION = "C";
     case EMPTY = "";

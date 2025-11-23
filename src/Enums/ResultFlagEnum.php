@@ -4,6 +4,7 @@ namespace mmerlijn\msgRepo\Enums;
 
 enum ResultFlagEnum: string
 {
+    use StringEnumTrait;
     case HIGH = "H"; //new
     case LOW = "L"; //Cancel
     case EMPTY = "";

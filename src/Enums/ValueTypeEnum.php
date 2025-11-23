@@ -4,6 +4,7 @@ namespace mmerlijn\msgRepo\Enums;
 
 enum ValueTypeEnum: string
 {
+    use StringEnumTrait;
     case ST = 'ST';
     case NM = 'NM';
     case CE = 'CE';

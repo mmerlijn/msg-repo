@@ -4,6 +4,7 @@ namespace mmerlijn\msgRepo\Enums;
 
 enum OrderWhereEnum: string
 {
+    use StringEnumTrait;
     case HOME = "HOME"; //Home
     case OTHER = "OTHER"; //Other
     case EMPTY = "";

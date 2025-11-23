@@ -4,6 +4,7 @@ namespace mmerlijn\msgRepo\Enums;
 
 enum PatientSexEnum: string
 {
+    use StringEnumTrait;
     case FEMALE = "F";
     case MALE = "M";
     case OTHER = "X";

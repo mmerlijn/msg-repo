@@ -4,6 +4,7 @@ namespace mmerlijn\msgRepo\Enums;
 
 enum OrderControlEnum: string
 {
+    use StringEnumTrait;
     case NEW = "NEW"; //new
     case CANCEL = "CANCEL"; //Cancel
     case CHANGE = "CHANGE"; //CHANGE

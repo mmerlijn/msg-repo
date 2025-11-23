@@ -4,6 +4,7 @@ namespace mmerlijn\msgRepo\Enums;
 
 enum ObservationTestCodeEnum: string
 {
+    use StringEnumTrait;
     case YY = "YY"; //Prikopmerking
     case ZZ = "ZZ"; //Prikdatum
     case AI = "AI"; //Klinische opmerking
