@@ -19,4 +19,13 @@ it('can validate ABGCODE', function () {
         )
     );
     expect($contact->hasValidAgbcode())->toBeFalse();
+    $contact = new \mmerlijn\msgRepo\Contact(
+        agbcode: '',
+        name: new \mmerlijn\msgRepo\Name(
+            initials: 'P.',
+            firstname: 'Piet',
+            lastname: 'Jansen'
+        )
+    );
+    expect($contact->hasValidAgbcode())->toBeFalse();
 });

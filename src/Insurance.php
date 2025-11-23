@@ -58,4 +58,9 @@ class Insurance implements RepositoryInterface
     {
         return new Insurance(...$data);
     }
+
+    public function hasData():bool
+    {
+        return $this->uzovi || $this->policy_nr || $this->company_name;
+    }
 }

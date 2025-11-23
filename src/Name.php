@@ -62,6 +62,10 @@ class Name implements RepositoryInterface
         ], $compact);
     }
 
+    public function hasData(): bool
+    {
+        return (bool)($this->initials || $this->own_lastname || $this->lastname || $this->name);
+    }
 
     /** Get lastnames only
      *

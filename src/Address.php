@@ -83,4 +83,9 @@ class Address implements RepositoryInterface
     {
         return $this->street . " " . $this->building . "\n" . $this->postcode . " " . $this->city;
     }
+
+    public function hasData():bool
+    {
+        return $this->street !== "" || $this->building !== "" || $this->postcode !== "" || $this->city !== "";
+    }
 }

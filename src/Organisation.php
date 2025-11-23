@@ -57,4 +57,9 @@ class Organisation implements RepositoryInterface
         return new Organisation(...$data);
     }
 
+    public function hasData():bool
+    {
+        return $this->name  || $this->department  || $this->agbcode  || $this->source ;
+    }
+
 }

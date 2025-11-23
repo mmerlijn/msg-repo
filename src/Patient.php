@@ -284,4 +284,13 @@ class Patient implements RepositoryInterface
     {
         return AgbcodeValidator::validate($this->getBsn());
     }
+
+    public function hasData():bool
+    {
+        return $this->name->hasData() ||
+            $this->dob ||
+            $this->bsn ||
+            $this->address->hasData() ||
+            !empty($this->ids);
+    }
 }

@@ -86,5 +86,16 @@ class Contact implements RepositoryInterface
         return AgbcodeValidator::validate($this->agbcode);
     }
 
-
+    public function hasData():bool
+    {
+        return $this->agbcode !== "" ||
+            $this->name->hasData() ||
+            $this->source !== "" ||
+            $this->address->hasData() ||
+            $this->organisation->hasData() ||
+            $this->application !== "" ||
+            $this->device !== "" ||
+            $this->facility !== "" ||
+            $this->location !== "";
+    }
 }
