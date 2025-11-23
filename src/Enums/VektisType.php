@@ -13,6 +13,8 @@ enum VektisType: string
 
     case NOT_FOUND = 'not_found';
 
+    case UNKNOWN = 'unknown';
+
     public function label(): string
     {
         return match ($this) {
@@ -20,6 +22,7 @@ enum VektisType: string
             VektisType::ZORGVERLENER => 'Zorgverlener',
             VektisType::VESTIGING => 'Vestiging',
             VektisType::NOT_FOUND => 'Niet gevonden',
+            VektisType::UNKNOWN => 'Onbekend',
         };
     }
 }

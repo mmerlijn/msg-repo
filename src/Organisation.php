@@ -2,6 +2,7 @@
 
 namespace mmerlijn\msgRepo;
 
+use mmerlijn\msgRepo\Helpers\AgbcodeValidator;
 use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
 class Organisation implements RepositoryInterface
@@ -60,6 +61,16 @@ class Organisation implements RepositoryInterface
     public function hasData():bool
     {
         return $this->name  || $this->department  || $this->agbcode  || $this->source ;
+    }
+
+    /**
+     * Validate agbcode
+     *
+     * @return bool
+     */
+    public function hasValidAgbcode(): bool
+    {
+        return AgbcodeValidator::validate($this->agbcode);
     }
 
 }
