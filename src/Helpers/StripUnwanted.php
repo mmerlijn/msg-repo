@@ -4,19 +4,16 @@ namespace mmerlijn\msgRepo\Helpers;
 
 class StripUnwanted
 {
-    public static function format(string $input, $type = 'names'): string
+    public static function format(string $input, $type = 'comment'): string
     {
         $output = self::charsetFix($input);
         $output = self::hl7formating($output);
         if ($type == 'names') {
-
             $output = preg_replace('/-/', '', $output);
             $output = preg_replace('/\./', '', $output);
             $output = preg_replace('/\s+/', ' ', $output);
         }elseif($type == 'postcode'){
-
             $output = preg_replace('/\s+/', '', $output);
-
         }
         return trim($output);
     }

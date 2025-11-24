@@ -17,7 +17,7 @@ trait HasObservationsTrait
         if (is_array($observation)) $observation = new Observation(...$observation);
         foreach ($this->observations as $k=>$r) {
             if ($observation->test->code == $r->test->code) {
-                $this->observations[$k]->value = StripUnwanted::format($observation->value, 'observation');
+                $this->observations[$k]->value = StripUnwanted::format($observation->value);
                 return $this;
             }
         }

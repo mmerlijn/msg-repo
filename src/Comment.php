@@ -19,7 +19,7 @@ class Comment implements RepositoryInterface
         public array|TestCode $type = new TestCode,
     )
     {
-        $this->text = StripUnwanted::format($text,'comment');
+        $this->text = StripUnwanted::format($text);
         $this->setType($type);
     }
 

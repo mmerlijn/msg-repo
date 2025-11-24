@@ -45,7 +45,7 @@ class Observation implements RepositoryInterface
     )
     {
         $this->setTest($test);
-        $this->value = StripUnwanted::format($value, 'comment');
+        $this->value = StripUnwanted::format($value);
         $this->abnormal_flag = ResultFlagEnum::set($this->abnormal_flag);
         $this->values = [];
         foreach ($values as $v) {
@@ -90,7 +90,7 @@ class Observation implements RepositoryInterface
     public function addValue(TestCode|array $value = new TestCode()): self
     {
         if (is_array($value)) $value = new TestCode(...$value);
-        $value->value = StripUnwanted::format($value->value, 'comment');
+        $value->value = StripUnwanted::format($value->value);
         foreach ($this->values as $r) {
             if ($value->code and $value->code == $r->code) {
                 return $this;

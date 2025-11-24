@@ -34,10 +34,10 @@ class Name implements RepositoryInterface
     )
     {
         $this->sex = PatientSexEnum::set($this->sex);
-        $this->lastname = StripUnwanted::format($lastname ?? "");
-        $this->own_lastname = StripUnwanted::format($own_lastname ?? "");
+        $this->lastname = StripUnwanted::format($lastname ?? "","names");
+        $this->own_lastname = StripUnwanted::format($own_lastname ?? "","names");
         $this->prefix = StripUnwanted::format($prefix ?? "");
-        $this->own_prefix = StripUnwanted::format($own_prefix ?? "");
+        $this->own_prefix = StripUnwanted::format($own_prefix ?? "","names");
         $this->initials = StripUnwanted::format($initials ?? "");
         $this->format();
     }
