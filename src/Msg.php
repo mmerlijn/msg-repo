@@ -171,10 +171,14 @@ class Msg implements RepositoryInterface
         return $this;
     }
 
-    public function addSegment(string $identifier,string $value="", ?int $position=null): self
+    public function setSegment(string $identifier,string $value="", ?int $position=null): self
     {
         $this->hl7Data[$identifier] = $value;
         return $this;
+    }
+    public function addSegment(string $identifier,string $value="", ?int $position=null): self
+    {
+        return $this->setSegment($identifier,$value,$position);
     }
     public function getSegment(string $identifier,string $default=""):string
     {
