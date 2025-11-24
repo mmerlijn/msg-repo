@@ -9,6 +9,7 @@ class Msg implements RepositoryInterface
 
     use HasCommentsTrait, CompactTrait, HasDateTrait;
 
+    public array $hl7Data=[];
     /**
      * @param array|Patient $patient
      * @param array|Order $order
@@ -46,6 +47,7 @@ class Msg implements RepositoryInterface
         foreach ($comments as $comment) {
             $this->addComment($comment);
         }
+
     }
 
     /**
@@ -167,5 +169,15 @@ class Msg implements RepositoryInterface
         if (is_array($msgType)) $msgType = new MsgType(...$msgType);
         $this->msgType = $msgType;
         return $this;
+    }
+
+    public function addSegment(string $identifier,string $value="", ?int $position=null): self
+    {
+        $this->hl7Data[$identifier] = $value;
+        return $this;
+    }
+    public function getSegment(string $identifier,string $default=""):string
+    {
+        return $this->hl7Data[$identifier]??$default;
     }
 }
