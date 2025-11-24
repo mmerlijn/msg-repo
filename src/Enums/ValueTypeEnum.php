@@ -11,14 +11,15 @@ enum ValueTypeEnum: string
 
     case FT = 'FT'; // Formatted Text
 
-    public static function isValueType(mixed $value,array $values, ValueTypeEnum $current=ValueTypeEnum::ST): ValueTypeEnum
+    public static function isValueType(mixed $value,array $values, ValueTypeEnum|string $current): ValueTypeEnum
     {
         if(!empty($values)){
             return ValueTypeEnum::CE;
         }
-        if(is_numeric($value)){
-            return ValueTypeEnum::NM;
+        if($current instanceof ValueTypeEnum){
+            return $current;
         }
-        return $current;
+        return ValueTypeEnum::tryFrom($current) ??
+            (is_numeric($value) ? ValueTypeEnum::NM : ValueTypeEnum::ST);
     }
 }

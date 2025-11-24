@@ -31,7 +31,7 @@ class Observation implements RepositoryInterface
      * @param array $values
      */
     public function __construct(
-        public string|ValueTypeEnum  $type = ValueTypeEnum::ST,
+        public string|ValueTypeEnum  $type="",
         public string|float|int      $value = "",
         public array|TestCode        $test = new TestCode,
         public string                $units = "",
@@ -44,7 +44,6 @@ class Observation implements RepositoryInterface
         public array                 $values = [], //multiple values for this result
     )
     {
-        if(is_string($type)) $this->type = ValueTypeEnum::tryFrom($type) ?? ValueTypeEnum::ST;
         $this->setTest($test);
         $this->value = StripUnwanted::format($value, 'comment');
         $this->abnormal_flag = ResultFlagEnum::set($this->abnormal_flag);
