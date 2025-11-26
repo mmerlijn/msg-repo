@@ -71,6 +71,7 @@ class Order implements RepositoryInterface
         }
         $this->setAdmitReason($admit_reason);
     }
+
     /**
      * Dump state
      *
@@ -133,12 +134,12 @@ class Order implements RepositoryInterface
         foreach ($this->requests as $k => $request) {
             if (in_array($request->test->code, $filter)) {
                 unset($this->requests[$k]);
-            }else{
+            } else {
                 //also remove from observations
                 foreach ($request->observations as $k2 => $obs) {
-                        if (in_array($obs->test->code,$filter)) {
-                            unset($this->requests[$k]->observations[$k2]);
-                        }
+                    if (in_array($obs->test->code, $filter)) {
+                        unset($this->requests[$k]->observations[$k2]);
+                    }
                 }
                 $this->requests[$k]->observations = array_values($this->requests[$k]->observations);
                 // also remove from specimens
@@ -206,7 +207,8 @@ class Order implements RepositoryInterface
                     return $specimen;
                 }
             }
-        }        return null;
+        }
+        return null;
     }
 
     /**
@@ -249,7 +251,7 @@ class Order implements RepositoryInterface
      * @param string $to 'all' or specific request testcode
      * @return $this
      */
-    public function addObservation(Observation $observation, string $to='all'): self
+    public function addObservation(Observation $observation, string $to = 'all'): self
     {
         if ($to == 'all') {
             foreach ($this->requests as $k => $request) {
@@ -294,6 +296,21 @@ class Order implements RepositoryInterface
         return !empty($this->requests);
     }
 
+    public function getRequestByTestcode(string $testcode): ?Request
+    {
+        foreach ($this->requests as $request) {
+            if ($request->test->code == $testcode) {
+                return $request;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Count requests
+     *
+     * @return int
+     */
     public function countRequests(): int
     {
         return count($this->requests);

@@ -58,7 +58,9 @@ it('can count requests', function () {
         ->addRequest(new \mmerlijn\msgRepo\Request(test: new TestCode(code: 'TEST3')));
 
     expect($order->countRequests())->toBe(3)
-    ->and($order->hasRequests())->toBeTrue();
+    ->and($order->hasRequests())->toBeTrue()
+    ->and($order->getRequestByTestcode('TEST2'))->not->toBeEmpty()
+    ->and($order->getRequestByTestcode('TEST4'))->toBeEmpty();
 
     $order = (new \mmerlijn\msgRepo\Order);
 

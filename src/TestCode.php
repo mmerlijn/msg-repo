@@ -17,6 +17,9 @@ class TestCode implements RepositoryInterface
         public string $code = "",
         public string $value = "",
         public string $source = "",
+        public string $a_code = "",
+        public string $a_value = "",
+        public string $a_source = "",
     )
     {
         $this->value = StripUnwanted::format($value);
@@ -34,6 +37,9 @@ class TestCode implements RepositoryInterface
             "code" => $this->code,
             "value" => $this->value,
             "source" => $this->source,
+            "a_code" => $this->a_code,
+            "a_value" => $this->a_value,
+            "a_source" => $this->a_source,
         ], $compact);
     }
 

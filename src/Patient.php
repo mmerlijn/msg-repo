@@ -130,6 +130,17 @@ class Patient implements RepositoryInterface
         return $this;
     }
 
+    public function removeIdByAuthority(string $authority): self
+    {
+        foreach ($this->ids as $k => $v) {
+            if ($v->authority == $authority) {
+                unset($this->ids[$k]);
+            }
+        }
+        $this->ids = array_values($this->ids); //reindex array
+        return $this;
+    }
+
 
     /**
      * Get bsn out of ids
