@@ -22,9 +22,9 @@ enum YesNoEnum: string
     public static function labels(): array
     {
         return [
-            'YES' => 'Ja',
-            'NO' => 'Nee',
-            '_' => 'Onbekend',
+            self::YES->value => self::YES->label(),
+            self::NO->value => self::NO->label(),
+            self::_->value => self::_->label(),
         ];
     }
 

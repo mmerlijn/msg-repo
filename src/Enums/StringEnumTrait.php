@@ -51,11 +51,23 @@ trait StringEnumTrait
     }
     public static function values(): array
     {
-        return array_values(static::array());
+        $a=[];
+        foreach((new \ReflectionClass(static::class))->getConstants() as $item){
+            $a[] = $item->value;
+        };
+        return $a;
     }
     public static function keys(): array
     {
-        return array_keys(static::array());
+        $a=[];
+        foreach((new \ReflectionClass(static::class))->getConstants() as $item){
+            $a[] = $item->name;
+        };
+        return $a;
+    }
+    public static function database(): array
+    {
+        return self::values();
     }
 
 }

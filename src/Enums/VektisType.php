@@ -25,4 +25,15 @@ enum VektisType: string
             VektisType::UNKNOWN => 'Onbekend',
         };
     }
+
+    public static function labels(): array
+    {
+        return [
+            VektisType::ONDERNEMING->value => VektisType::ONDERNEMING->label(),
+            VektisType::ZORGVERLENER->value => VektisType::ZORGVERLENER->label(),
+            VektisType::VESTIGING->value => VektisType::VESTIGING->label(),
+            VektisType::NOT_FOUND->value => VektisType::NOT_FOUND->label(),
+            VektisType::UNKNOWN->value => VektisType::UNKNOWN->label(),
+        ];
+    }
 }
