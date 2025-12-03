@@ -59,6 +59,7 @@ class Name implements RepositoryInterface
             'name' => $this->name,
             'sex' => $this->sex->value,
             'salutation' => $this->sex->namePrefix(),
+            'full_name' => $this->getFullName(),
         ], $compact);
     }
 
