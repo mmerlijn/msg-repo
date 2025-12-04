@@ -217,14 +217,18 @@ class Order implements RepositoryInterface
      * @param string|array $filter
      * @return array
      */
-    public function getAllObservations(string|array $filter = []): array
+    public function getAllObservations(string|array $filter = [], bool $asTestCode=false): array
     {
         if (is_string($filter)) $filter = [$filter];
         $observations = [];
         foreach ($this->requests as $request) {
             foreach ($request->observations as $observation) {
                 if (!in_array($observation->test->code, $filter)) {
-                    $observations[$observation->test->code] = $observation->value;
+                    if($asTestCode){
+                        $observations[$observation->test->value] = $observation;
+                    }else {
+                        $observations[$observation->test->code] = $observation->value;
+                    }
                 }
             }
         }

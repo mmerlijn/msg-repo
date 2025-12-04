@@ -45,10 +45,10 @@ $msg = (new Msg)->fromArray($array);
 Repository tree
 
 ```php
-array:10 [
-  "patient" => array:12 [
+array:11 [
+  "patient" => array:13 [
     "sex" => ""
-    "name" => array:9 [
+    "name" => array:10 [
       "initials" => ""
       "firstname" => ""
       "lastname" => ""
@@ -58,6 +58,7 @@ array:10 [
       "name" => ""
       "sex" => ""
       "salutation" => ""
+      "full_name" => ""
     ]
     "dob" => null
     "bsn" => ""
@@ -93,19 +94,20 @@ array:10 [
     "last_requester" => ""
     "email" => null
     "gp" => ""
+    "comments" => []
   ]
-  "order" => array:20 [
+  "order" => array:18 [
     "control" => "NEW"
     "request_nr" => ""
     "lab_nr" => ""
     "complete" => true
-    "priority" => false
+    "priority" => null
     "start_date" => null
     "order_status" => "F"
     "where" => ""
     "requester" => array:11 [
       "agbcode" => ""
-      "name" => array:9 [
+      "name" => array:10 [
         "initials" => ""
         "firstname" => ""
         "lastname" => ""
@@ -115,6 +117,7 @@ array:10 [
         "name" => ""
         "sex" => ""
         "salutation" => ""
+        "full_name" => ""
       ]
       "source" => ""
       "address" => array:8 [
@@ -144,7 +147,7 @@ array:10 [
     ]
     "copy_to" => array:11 [
       "agbcode" => ""
-      "name" => array:9 [
+      "name" => array:10 [
         "initials" => ""
         "firstname" => ""
         "lastname" => ""
@@ -154,6 +157,7 @@ array:10 [
         "name" => ""
         "sex" => ""
         "salutation" => ""
+        "full_name" => ""
       ]
       "source" => ""
       "address" => array:8 [
@@ -183,7 +187,7 @@ array:10 [
     ]
     "entered_by" => array:11 [
       "agbcode" => ""
-      "name" => array:9 [
+      "name" => array:10 [
         "initials" => ""
         "firstname" => ""
         "lastname" => ""
@@ -193,6 +197,7 @@ array:10 [
         "name" => ""
         "sex" => ""
         "salutation" => ""
+        "full_name" => ""
       ]
       "source" => ""
       "address" => array:8 [
@@ -228,22 +233,70 @@ array:10 [
       "source" => null
       "phone" => ""
     ]
-    "dt_of_request" => null
-    "dt_of_observation" => null
-    "dt_of_observation_end" => null
-    "dt_of_analysis" => null
-    "results" => []
-    "requests" => []
-    "comments" => []
-    "admit_reason" => array:3 [
+    "request_at" => null
+    "observation_at" => null
+    "observation_end_at" => null
+    "analysis_at" => null
+    "requests" => array:1 [
+      0 => array:9 [
+        "test" => array:6 [
+          "code" => "1234"
+          "value" => "Testnaam"
+          "source" => "L"
+          "a_code" => ""
+          "a_value" => ""
+          "a_source" => ""
+        ]
+        "other_test" => array:6 [
+          "code" => ""
+          "value" => ""
+          "source" => ""
+          "a_code" => ""
+          "a_value" => ""
+          "a_source" => ""
+        ]
+        "change" => false
+        "id" => ""
+        "clinical_info" => ""
+        "priority" => false
+        "observations" => array:1 [
+          0 => array:11 [
+            "type" => "ST"
+            "value" => ""
+            "test" => array:6 [
+              "code" => "5678"
+              "value" => "Observatiewaarde"
+              "source" => ""
+              "a_code" => ""
+              "a_value" => ""
+              "a_source" => ""
+            ]
+            "units" => ""
+            "quantity" => ""
+            "reference_range" => ""
+            "abnormal_flag" => ""
+            "comments" => []
+            "done" => true
+            "change" => false
+            "values" => []
+          ]
+        ]
+        "specimens" => []
+        "comments" => []
+      ]
+    ]
+    "admit_reason" => array:6 [
       "code" => ""
-      "name" => ""
+      "value" => ""
       "source" => ""
+      "a_code" => ""
+      "a_value" => ""
+      "a_source" => ""
     ]
   ]
   "sender" => array:11 [
     "agbcode" => ""
-    "name" => array:9 [
+    "name" => array:10 [
       "initials" => ""
       "firstname" => ""
       "lastname" => ""
@@ -253,6 +306,7 @@ array:10 [
       "name" => ""
       "sex" => ""
       "salutation" => ""
+      "full_name" => ""
     ]
     "source" => ""
     "address" => array:8 [
@@ -282,7 +336,7 @@ array:10 [
   ]
   "receiver" => array:11 [
     "agbcode" => ""
-    "name" => array:9 [
+    "name" => array:10 [
       "initials" => ""
       "firstname" => ""
       "lastname" => ""
@@ -292,6 +346,7 @@ array:10 [
       "name" => ""
       "sex" => ""
       "salutation" => ""
+      "full_name" => ""
     ]
     "source" => ""
     "address" => array:8 [
@@ -319,7 +374,7 @@ array:10 [
     "facility" => ""
     "location" => ""
   ]
-  "datetime" => "2025-11-13 19:20:49"
+  "datetime" => "2025-12-04 07:31:54"
   "msgType" => array:5 [
     "type" => ""
     "trigger" => ""
@@ -331,6 +386,7 @@ array:10 [
   "security_id" => ""
   "processing_id" => ""
   "comments" => []
+  "default_source" => "L"
 ]
 ```
 
