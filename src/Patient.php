@@ -25,6 +25,7 @@ class Patient implements RepositoryInterface
      * @param string|null $last_requester
      * @param string|null $email
      * @param string|null $last_organisation
+     * @param string|null $gp
      * @param array $comments
      */
     public function __construct(
@@ -40,6 +41,7 @@ class Patient implements RepositoryInterface
         public ?string               $last_requester = null,
         public ?string               $email = null,
         public ?string               $last_organisation = null,
+        public ?string               $gp = null,
         public array                 $comments = [],
     )
     {
@@ -98,6 +100,7 @@ class Patient implements RepositoryInterface
             'last_requester' => $this->last_requester ?? "",
             'email' => $this->email,
             'last_organisation' => $this->last_organisation ?? "",
+            'gp' => $this->gp ?? "",
             'comments' => array_map(fn($value) => $value->toArray($compact), $this->comments),
 
         ], $compact);
