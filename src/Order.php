@@ -319,4 +319,29 @@ class Order implements RepositoryInterface
     {
         return count($this->requests);
     }
+
+    public function setRequester(Contact|array $requester): self
+    {
+        if (is_array($requester)) {
+            $requester = new Contact(...$requester);
+        }
+        $this->requester = $requester;
+        return $this;
+    }
+    public function setCopyTo(Contact|array $copy_to): self
+    {
+        if (is_array($copy_to)) {
+            $copy_to = new Contact(...$copy_to);
+        }
+        $this->copy_to = $copy_to;
+        return $this;
+    }
+    public function setEnteredBy(Contact|array $entered_by): self
+    {
+        if (is_array($entered_by)) {
+            $entered_by = new Contact(...$entered_by);
+        }
+        $this->entered_by = $entered_by;
+        return $this;
+    }
 }
