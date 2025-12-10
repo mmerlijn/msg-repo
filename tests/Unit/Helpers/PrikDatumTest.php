@@ -14,7 +14,8 @@ it('can check date field', function (Carbon|string $date,Carbon $today, ?Carbon 
     ["invalid", Carbon::create(2025, 6, 1), null],
     [Carbon::create(2025,12,15), Carbon::create(2025,12,1), Carbon::create(2025,12,15)],
     ["10 mrt 2025", Carbon::create(2025,3,1), Carbon::create(2025,3,10)],
-    ["10-12-2025", Carbon::create(2025,12,1), Carbon::create(2025,12,10)]
+    ["10-12-2025", Carbon::create(2025,12,1), Carbon::create(2025,12,10)],
+    ["20251208", Carbon::create(2025, 12, 8), null],
 
 ]);
 

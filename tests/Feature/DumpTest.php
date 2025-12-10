@@ -11,4 +11,4 @@ it('dump repository', function () {
     ));
     $array = $msg->toArray();
     dd($array);
-});
+})->skip();
