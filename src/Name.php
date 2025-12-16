@@ -63,6 +63,10 @@ class Name implements RepositoryInterface
         ], $compact);
     }
 
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
     public function hasData(): bool
     {
         return (bool)($this->initials || $this->own_lastname || $this->lastname || $this->name);
@@ -87,6 +91,14 @@ class Name implements RepositoryInterface
     public function getName(): string
     {
         return trim(preg_replace('/(.)/', '$1.', $this->initials) . " " . $this->getLastnames());
+    }
+    /** Get initials + lastname
+     *
+     * @return string
+     */
+    public function getInformalName(): string
+    {
+        return trim(preg_replace('/(.)/', '$1.', ($this->firstname?:$this->initials)) . " " . $this->getLastnames());
     }
 
 
