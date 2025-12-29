@@ -28,6 +28,7 @@ class Address implements RepositoryInterface
         public string $building_addition = "",
         public string $country = "NL",
         public string $postbus = "",
+        public ?AddresTypeEnum $type = null,
     )
     {
         $this->postcode = StripUnwanted::format($postcode ?? "","postcode");

@@ -37,8 +37,10 @@ class Order implements RepositoryInterface
         public string                  $request_nr = "", //AB12341234
         public string|int              $lab_nr = "", //internal processing nr
         public bool                    $complete = true,
-        public null|bool               $priority = null,
+        public null|bool               $priority = null, //true=spoed, false=routine, null=unknown
+        public bool                    $cito = false, //true=spoed
         public Carbon|string|null      $start_date = null,
+        public Carbon|string|null      $end_date = null,
         public string|OrderStatusEnum  $order_status = OrderStatusEnum::FINAL,
         public string|OrderWhereEnum   $where = OrderWhereEnum::EMPTY,
         public array|Contact           $requester = new Contact,
@@ -58,6 +60,7 @@ class Order implements RepositoryInterface
         if (is_array($entered_by)) $this->entered_by = new Contact(...$entered_by);
         $this->setOrganisation($organisation);
         $this->start_date = $this->formatDate($start_date);
+        $this->end_date = $this->formatDate($end_date);
         $this->request_at = $this->formatDate($request_at);
         $this->observation_at = $this->formatDate($observation_at);
         $this->observation_end_at = $this->formatDate($observation_end_at);

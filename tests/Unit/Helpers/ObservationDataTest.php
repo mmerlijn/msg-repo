@@ -50,6 +50,10 @@ it('can get observationData',function(Observation $observation, ObservationTestC
         test: new TestCode(code: "YY",value: "opmerking thuisprikken",source: "99zdl")
     ), ObservationTestCodeEnum::YY, "Test"],
     [fn()=> new Observation(
+        value: "Test",
+        test: new TestCode(code: "AI",value: "klinische opmerking",source: "99zdl")
+    ), ObservationTestCodeEnum::AI, "Test"],
+    [fn()=> new Observation(
         value: "20250809",
         test: new TestCode(code: "ZZ",value: "gewenste afnamedatum",source: "99zdl")
     ), ObservationTestCodeEnum::ZZ, "20250809"],

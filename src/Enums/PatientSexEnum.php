@@ -7,7 +7,7 @@ enum PatientSexEnum: string
     use StringEnumTrait;
     case FEMALE = "F";
     case MALE = "M";
-    case OTHER = "X";
+    case OTHER = "U";
     case EMPTY = "";
 
     public static function set(PatientSexEnum|string $sex): self
@@ -20,10 +20,8 @@ enum PatientSexEnum: string
             return self::FEMALE;
         } elseif (in_array($sex, ["m", "M"])) {
             return self::MALE;
-        } elseif (in_array($sex, ["x", "X", "o", "O","u", "U"])) {
-            return self::OTHER;
         } else {
-            return self::EMPTY;
+            return self::OTHER;
         }
     }
 
@@ -32,7 +30,7 @@ enum PatientSexEnum: string
         return match ($this) {
             self::FEMALE => "V",
             self::MALE => "M",
-            self::OTHER => "X",
+            self::OTHER => "U",
             default => ""
         };
     }
@@ -48,6 +46,6 @@ enum PatientSexEnum: string
     }
     public static function selectOptions(): array
     {
-        return ['M' => 'Man', 'F' => 'Vrouw', 'X' => 'Anders'];
+        return ['M' => 'Man', 'F' => 'Vrouw', 'U' => 'Anders'];
     }
 }

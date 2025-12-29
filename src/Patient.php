@@ -43,6 +43,7 @@ class Patient implements RepositoryInterface
         public ?string               $last_organisation = null,
         public ?string               $gp = null,
         public array                 $comments = [],
+        public bool                  $multiple_births = false,
     )
     {
         $this->sex = PatientSexEnum::set($sex);
@@ -102,6 +103,7 @@ class Patient implements RepositoryInterface
             'last_organisation' => $this->last_organisation ?? "",
             'gp' => $this->gp ?? "",
             'comments' => array_map(fn($value) => $value->toArray($compact), $this->comments),
+            'multiple_births' => $this->multiple_births,
 
         ], $compact);
     }

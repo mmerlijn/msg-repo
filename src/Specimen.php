@@ -4,6 +4,7 @@ namespace mmerlijn\msgRepo;
 
 use Carbon\Carbon;
 use mmerlijn\msgRepo\Enums\ResultFlagEnum;
+use mmerlijn\msgRepo\Enums\SpecimenTypeEnum;
 use mmerlijn\msgRepo\Enums\ValueTypeEnum;
 use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
@@ -22,14 +23,18 @@ class Specimen implements RepositoryInterface
      */
     public function __construct(
         public string         $id = "",
-        public Testcode|array $test = new TestCode(),
+        public Testcode|array $type = new TestCode(),
         public bool|null      $available = null,
         public Testcode|array $container = new TestCode(),
         public array          $observations = [],
         public string         $location = "",
+        public string         $collection_method = "", //spm7.1
+        public string         $collection_source = "", //spm8.1
+        public string         $collection_source_modifier = "", //spm9.1
+
     )
     {
-        $this->setTest($test);
+        $this->setTest($type);
         $this->setContainer($container);
         $this->observations = [];
         foreach ($observations as $c) {
@@ -48,7 +53,7 @@ class Specimen implements RepositoryInterface
     {
         return $this->compact([
             'id' => $this->id,
-            'test' => $this->test->toArray($compact),
+            'type' => $this->type->toArray($compact),
             'available' => $this->available,
             'container' => $this->container->toArray($compact),
             'observations' => array_map(fn($value) => $value->toArray($compact), $this->observations),
@@ -63,12 +68,12 @@ class Specimen implements RepositoryInterface
     }
 
 
-    public function setTest(TestCode|array $test): void
+    public function setTest(TestCode|array $type): void
     {
-        if (is_array($test)) {
-            $this->test = new TestCode(...$test);
+        if (is_array($type)) {
+            $this->type = new TestCode(...$type);
         } else {
-            $this->test = $test;
+            $this->type = $type;
         }
     }
 

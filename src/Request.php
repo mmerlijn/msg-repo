@@ -26,6 +26,7 @@ class Request implements RepositoryInterface
         public string         $id = "",
         public string         $clinical_info = "",
         public null|bool      $priority = null,
+        public bool           $cito = false,
         public array          $observations = [],
         public array          $specimens = [],
         public array          $comments = [],
