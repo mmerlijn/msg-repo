@@ -2,6 +2,7 @@
 
 namespace mmerlijn\msgRepo;
 
+use mmerlijn\msgRepo\Enums\AddressTypeEnum;
 use mmerlijn\msgRepo\Helpers\FormatAddress;
 use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
@@ -28,7 +29,7 @@ class Address implements RepositoryInterface
         public string $building_addition = "",
         public string $country = "NL",
         public string $postbus = "",
-        public ?AddresTypeEnum $type = null,
+        public ?AddressTypeEnum $type = null,
     )
     {
         $this->postcode = StripUnwanted::format($postcode ?? "","postcode");
