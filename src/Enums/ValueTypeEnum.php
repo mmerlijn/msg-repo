@@ -22,4 +22,12 @@ enum ValueTypeEnum: string
         return ValueTypeEnum::tryFrom($current) ??
             (is_numeric($value) ? ValueTypeEnum::NM : ValueTypeEnum::ST);
     }
+
+    public function toEdifact():string{
+        return match(self::class){
+            self::ST, self::FT =>  "TV",
+            self::NM => "NV",
+            self::CE => "CV",
+        };
+    } //AV,CV,NR,NV,TV (mogelijke waarden)
 }
