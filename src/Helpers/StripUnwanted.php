@@ -14,6 +14,7 @@ class StripUnwanted
             $output = preg_replace('/\s+/', ' ', $output);
         }elseif($type == 'postcode'){
             $output = preg_replace('/\s+/', '', $output);
+            $output = preg_replace('/\./', '', $output);
         }
         return trim($output);
     }

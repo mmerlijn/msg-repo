@@ -260,6 +260,9 @@ class Order implements RepositoryInterface
      */
     public function addObservation(Observation $observation, string $to = 'all'): self
     {
+        if(empty($this->requests)){
+            $this->addRequest(new Request());
+        }
         if ($to == 'all') {
             foreach ($this->requests as $k => $request) {
                 $this->requests[$k]->addObservation($observation);
