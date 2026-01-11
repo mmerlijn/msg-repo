@@ -6,7 +6,7 @@ it('test FT type', function ($value,$values,$current, $expected) {
     if($current!==null) {
         expect(ValueTypeEnum::isValueType($value, $values, $current))->toBe($expected);
     }else{
-        expect(ValueTypeEnum::isValueType($value, $values))->toBe($expected);
+        expect(ValueTypeEnum::isValueType($value, $values,''))->toBe($expected);
     }
 })
 ->with([
@@ -18,4 +18,13 @@ it('test FT type', function ($value,$values,$current, $expected) {
     ["Some text",["bla"],ValueTypeEnum::CE, ValueTypeEnum::CE],
     ["text",[],ValueTypeEnum::FT, ValueTypeEnum::FT]
 
+]);
+
+it('sets edifact type',function($input, $expected){
+    expect($input->toEdifact())->toBe($expected);
+})->with([
+    [ValueTypeEnum::NM, "NV"],
+    [ValueTypeEnum::ST, "TV"],
+    [ValueTypeEnum::CE, "CV"],
+    [ValueTypeEnum::FT, "TV"],
 ]);

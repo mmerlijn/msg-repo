@@ -24,10 +24,11 @@ enum ValueTypeEnum: string
     }
 
     public function toEdifact():string{
-        return match(self::class){
+        return match($this){
             self::ST, self::FT =>  "TV",
             self::NM => "NV",
             self::CE => "CV",
+            default => "ST",
         };
     } //AV,CV,NR,NV,TV (mogelijke waarden)
 }
