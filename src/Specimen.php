@@ -2,12 +2,6 @@
 
 namespace mmerlijn\msgRepo;
 
-use Carbon\Carbon;
-use mmerlijn\msgRepo\Enums\ResultFlagEnum;
-use mmerlijn\msgRepo\Enums\SpecimenTypeEnum;
-use mmerlijn\msgRepo\Enums\ValueTypeEnum;
-use mmerlijn\msgRepo\Helpers\StripUnwanted;
-
 class Specimen implements RepositoryInterface
 {
 
@@ -15,11 +9,14 @@ class Specimen implements RepositoryInterface
 
     /**
      * @param string $id
-     * @param array|TestCode $test
+     * @param Testcode|array $type
      * @param bool|null $available
      * @param Testcode|array $container
      * @param array $observations
      * @param string $location
+     * @param string $collection_method
+     * @param string $collection_source
+     * @param string $collection_source_modifier
      */
     public function __construct(
         public string         $id = "",
