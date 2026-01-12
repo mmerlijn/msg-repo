@@ -17,7 +17,8 @@ class Order implements RepositoryInterface
      * @param string $request_nr
      * @param string|int $lab_nr
      * @param bool $complete
-     * @param null|bool $priority
+     * @param bool $priority
+     * @param bool $cito
      * @param Carbon|string|null $start_date
      * @param string|OrderStatusEnum $order_status
      * @param string|OrderWhereEnum $where home , other
@@ -37,7 +38,7 @@ class Order implements RepositoryInterface
         public string                  $request_nr = "", //AB12341234
         public string|int              $lab_nr = "", //internal processing nr
         public bool                    $complete = true,
-        public null|bool               $priority = null, //true=spoed, false=routine, null=unknown
+        public bool                    $priority = false, //true=spoed, false=routine, null=unknown
         public bool                    $cito = false, //true=spoed
         public Carbon|string|null      $start_date = null,
         public Carbon|string|null      $end_date = null,
