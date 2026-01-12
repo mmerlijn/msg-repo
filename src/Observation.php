@@ -20,15 +20,15 @@ class Observation implements RepositoryInterface
     /**
      * @param string|ValueTypeEnum $type
      * @param string|float|int $value
-     * @param array|TestCode $test
+     * @param TestCode $test
      * @param string $units
      * @param string $quantity
      * @param string $reference_range
      * @param ResultFlagEnum|string $abnormal_flag H = high, L = low
-     * @param array $comments
+     * @param Comment[] $comments
      * @param bool $done item is processed
      * @param bool $change item is changed
-     * @param array $values
+     * @param TestCode[] $values
      */
     public function __construct(
         public string|ValueTypeEnum  $type="",

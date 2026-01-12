@@ -11,7 +11,7 @@ class Comment implements RepositoryInterface
     /**
      * @param string $text
      * @param string $source
-     * @param array|TestCode $type
+     * @param TestCode $type
      */
     public function __construct(
         public string $text = "",

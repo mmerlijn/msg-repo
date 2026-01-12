@@ -8,15 +8,15 @@ class Request implements RepositoryInterface
     use HasCommentsTrait, CompactTrait, HasObservationsTrait, HasSpecimensTrait;
 
     /**
-     * @param array|TestCode $test
-     * @param array|TestCode $other_test
+     * @param TestCode $test
+     * @param TestCode $other_test
      * @param bool $change
      * @param string $id
      * @param string $clinical_info
      * @param null|bool $priority
-     * @param array $observations
-     * @param array $specimens
-     * @param array $comments array of strings
+     * @param Observation[] $observations
+     * @param Specimen[] $specimens
+     * @param Comment[] $comments array of strings
      */
     public function __construct(
 

@@ -22,16 +22,16 @@ class Order implements RepositoryInterface
      * @param Carbon|string|null $start_date
      * @param string|OrderStatusEnum $order_status
      * @param string|OrderWhereEnum $where home , other
-     * @param array|Contact $requester
-     * @param array|Contact $copy_to
-     * @param array|Contact $entered_by
-     * @param array|Organisation $organisation
+     * @param Contact $requester
+     * @param Contact $copy_to
+     * @param Contact $entered_by
+     * @param Organisation $organisation
      * @param Carbon|string|null $request_at dt of execution time
      * @param Carbon|string|null $observation_at
      * @param Carbon|string|null $observation_end_at
      * @param Carbon|string|null $analysis_at
-     * @param array $requests array of Requests
-     * @param array|Testcode $admit_reason
+     * @param Request[] $requests array of Requests
+     * @param Testcode $admit_reason
      */
     public function __construct(
         public string|OrderControlEnum $control = OrderControlEnum::NEW,

@@ -11,12 +11,12 @@ class Contact implements RepositoryInterface
 
     /**
      * @param string $agbcode
-     * @param array|Name $name
+     * @param Name $name
      * @param string $source
-     * @param array|Address $address
+     * @param Address $address
      * @param string|Phone $phone
      * @param string $type
-     * @param array|Organisation $organisation
+     * @param Organisation $organisation
      * @param string $application
      * @param string $device
      * @param string $facility

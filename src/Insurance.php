@@ -15,14 +15,13 @@ class Insurance implements RepositoryInterface
      * @param string $policy_nr
      * @param string $company_name
      * @param string|Phone $phone
-     * @param array|Address $address
+     * @param Address $address
      */
     public function __construct(
         public string             $uzovi = "",
         public string             $policy_nr = "",
         public string             $company_name = "",
         public string|Phone  $phone = new Phone,
-        public array|Address $address = new Address,
     )
     {
         $this->setPhone($phone);

@@ -13,20 +13,21 @@ class Patient implements RepositoryInterface
 
 
     /**
-     * @param PatientSexEnum|string $sex
+     * @param PatientSexEnum $sex
      * @param Name|array $name
      * @param Carbon|string|null $dob
      * @param string $bsn
-     * @param Address|array $address
-     * @param Address|array|null $address2
-     * @param array|null $phones
-     * @param Insurance|array $insurance
-     * @param array|null $ids
+     * @param Address $address
+     * @param Address $address2
+     * @param Phone[]|null $phones
+     * @param Insurance $insurance
+     * @param Id[]|null $ids
      * @param string|null $last_requester
      * @param string|null $email
      * @param string|null $last_organisation
      * @param string|null $gp
-     * @param array $comments
+     * @param Comment[] $comments
+     * @param bool $multiple_births
      */
     public function __construct(
         public PatientSexEnum|string $sex = PatientSexEnum::EMPTY,

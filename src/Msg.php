@@ -11,16 +11,16 @@ class Msg implements RepositoryInterface
 
     public array $hl7Data=[];
     /**
-     * @param array|Patient $patient
-     * @param array|Order $order
-     * @param array|Contact $sender
-     * @param array|Contact $receiver
+     * @param Patient $patient
+     * @param Order $order
+     * @param Contact $sender
+     * @param Contact $receiver
      * @param string|Carbon|null $datetime
-     * @param array|MsgType $msgType
+     * @param MsgType $msgType
      * @param string $id
      * @param string $security_id
      * @param string $processing_id
-     * @param array $comments
+     * @param Comment[] $comments
      * @param string|null $default_source
      */
     public function __construct(

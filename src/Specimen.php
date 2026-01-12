@@ -9,10 +9,10 @@ class Specimen implements RepositoryInterface
 
     /**
      * @param string $id
-     * @param Testcode|array $type
+     * @param Testcode $type
      * @param bool|null $available
-     * @param Testcode|array $container
-     * @param array $observations
+     * @param Testcode $container
+     * @param Observation[] $observations
      * @param string $location
      * @param string $collection_method
      * @param string $collection_source
