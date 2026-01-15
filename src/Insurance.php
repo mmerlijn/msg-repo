@@ -41,7 +41,6 @@ class Insurance implements RepositoryInterface
             'policy_nr' => $this->policy_nr,
             'company_name' => $this->company_name,
             'phone' => (string)$this->phone,
-            'address' => $this->address?->toArray($compact),
         ], $compact);
     }
 
