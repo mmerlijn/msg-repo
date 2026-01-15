@@ -15,7 +15,6 @@ class Insurance implements RepositoryInterface
      * @param string $policy_nr
      * @param string $company_name
      * @param string|Phone $phone
-     * @param Address $address
      */
     public function __construct(
         public string             $uzovi = "",
@@ -25,7 +24,7 @@ class Insurance implements RepositoryInterface
     )
     {
         $this->setPhone($phone);
-        $this->setAddress($address);
+        //$this->setAddress($address);
         $this->company_name = StripUnwanted::format($company_name);
     }
 

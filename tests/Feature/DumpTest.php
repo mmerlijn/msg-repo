@@ -10,5 +10,5 @@ it('dump repository', function () {
 
     ));
     $array = $msg->toArray();
-    dd($array);
-})->skip();
+    dd($array['order']['observations']);
+});//->skip();

@@ -103,6 +103,7 @@ class Order implements RepositoryInterface
             'analysis_at' => $this->analysis_at?->format("Y-m-d H:i:s"),
             'requests' => array_map(fn($value) => $value->toArray($compact), $this->requests),
             'admit_reason' => $this->admit_reason->toArray($compact),
+            'observations'=> array_map(fn($a)=>$a->toArray($compact), $this->getAllObservations([], true)),
         ], $compact);
     }
 
