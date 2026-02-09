@@ -15,7 +15,7 @@ trait HasSpecimensTrait
     {
         if (is_array($specimen)) $specimen = new Specimen(...$specimen);
         foreach ($this->specimens as $r) {
-            if ($specimen->test->code == $r->test->code) {
+            if ($specimen->type->code == $r->type->code and $specimen->container->code == $r->container->code) {
                 return $this;
             }
         }
