@@ -117,4 +117,5 @@ class OrderTest extends \mmerlijn\msgRepo\tests\TestCase
         $this->assertSame("ABE", $order->getObservationByTestcode("ABE")->test->code);
         $this->assertNull($order->getObservationByTestcode("ABF"));
     }
+
 }

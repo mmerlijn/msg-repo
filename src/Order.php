@@ -160,7 +160,11 @@ class Order implements RepositoryInterface
         $this->requests = array_values($this->requests);
         return $this;
     }
-
+    public function filterAdmitReasonFromTestCodes(): self
+    {
+        $this->filterTestCodes([$this->admit_reason->code]);
+        return $this;
+    }
 
     /**
      * Give all requested testcodes
