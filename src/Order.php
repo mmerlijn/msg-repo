@@ -160,9 +160,22 @@ class Order implements RepositoryInterface
         $this->requests = array_values($this->requests);
         return $this;
     }
-    public function filterAdmitReasonFromTestCodes(): self
+    public function filterAdmitReasonFromTestCodes($keepObservations=true): self
     {
+        $observations=[];
+        if($keepObservations) {
+            foreach ($this->requests as $k => $request) {
+                if ($request->test->code == $this->admit_reason->code) {
+                    $observations = $request->observations;
+                }
+            }
+        }
         $this->filterTestCodes([$this->admit_reason->code]);
+        if($keepObservations){
+             foreach ($observations as $obs) {
+                $this->requests[0]->addObservation($obs);
+            }
+        }
         return $this;
     }
 
