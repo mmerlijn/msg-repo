@@ -188,6 +188,7 @@ class Order implements RepositoryInterface
     public function getRequestedTestcodes(string|array $filter = []): array
     {
         if (is_string($filter)) $filter = [$filter];
+        $filter[] = $this->admit_reason->code;
         $testcodes = [];
         foreach ($this->requests as $request) {
             if (!in_array($request->test->code, $filter)) {
