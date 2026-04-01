@@ -12,7 +12,7 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^8.3",
-    "nesbot/carbon": "^3.8.4"
+    "nesbot/carbon": "~3.8"
   },
   "require-dev": {
     "larapack/dd": "^1.1",
