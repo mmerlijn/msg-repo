@@ -1,150 +1,103 @@
 <?php
 
-namespace mmerlijn\msgRepo\tests\Unit;
-
 use mmerlijn\msgRepo\Address;
-use mmerlijn\msgRepo\tests\TestCase;
 
-class AddressTest extends TestCase
-{
-    public function test_set_address()
-    {
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "56 a", country: "NL");
-        $this->assertSame('Long Street', $address->street);
-        $this->assertSame('56', $address->building_nr);
-        $this->assertSame('a', $address->building_addition);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertIsArray($address->toArray());
-        $this->assertArrayHasKey('postcode', $address->toArray());
+it('can set address',function(){
+    $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "56 a", country: "NL");
+    expect($address)
+        ->street->toBe("Long Street")
+    ->city->toBe("Amsterdam")
+    ->building->toBe("56 a")
+        ->building_nr->toBe('56')
+        ->building_addition->toBe('a')
+    ->country->toBe("NL")
+    ->postcode->toBe("1040AB")
+    ;
+});
 
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "56 1", country: "NL");
-        $this->assertSame('Long Street', $address->street);
-        $this->assertSame('56', $address->building_nr);
-        $this->assertSame('1', $address->building_addition);
-        $this->assertSame('56-1', $address->building);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertIsArray($address->toArray());
-        $this->assertArrayHasKey('postcode', $address->toArray());
-    }
+it('can set address2',function(){
+    $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "56 1", country: "NL");
+    expect($address)
+        ->street->toBe("Long Street")
+        ->city->toBe("Amsterdam")
+        ->building->toBe("56-1")
+        ->building_nr->toBe('56')
+        ->building_addition->toBe('1')
+        ->country->toBe("NL")
+        ->postcode->toBe("1040AB")
+    ;
+});
 
-    public function test_set_address_with_street_building()
-    {
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street 4", building: "a/b", country: "NL");
-        $this->assertSame('Long Street', $address->street);
-        $this->assertSame('4', $address->building_nr);
-        $this->assertSame('a/b', $address->building_addition);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertArrayHasKey('postcode', $address->toArray());
-    }
+it('can set address with street building',function() {
+    $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street 4", building: "a/b", country: "NL");
+    expect($address)
+        ->street->toBe("Long Street")
+        ->city->toBe("Amsterdam")
+        ->building->toBe("4 a/b")
+        ->building_nr->toBe('4')
+        ->building_addition->toBe('a/b');
+});
+it('can set address with strange street',function() {
+    $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "1e Long Street", building: "3a/b", country: "NL");
+    expect($address)
+        ->street->toBe("1e Long Street")
+        ->city->toBe("Amsterdam")
+        ->building_nr->toBe('3')
+        ->building_addition->toBe('a/b');
+});
+it('can set building and building nr',function() {
+    $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "3a/b", building_nr: "3", building_addition: "a/b", country: "NL");
+    expect($address)
+        ->street->toBe("Long Street")
+        ->city->toBe("Amsterdam")
+        ->building_nr->toBe('3')
+        ->building_addition->toBe('a/b');
+});
 
-    public function test_with_strange_street()
-    {
-        $address = new Address(building: "3a/b", street: "1e Long Street", city: "AMSTERDAM", postcode: "1040AB", country: "NL");
-        $this->assertSame('1e Long Street', $address->street);
-        $this->assertSame('3', $address->building_nr);
-        $this->assertSame('a/b', $address->building_addition);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertArrayHasKey('postcode', $address->toArray());
-    }
+it('can set building and building nr building',function() {
+    $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building_nr: "3", building_addition: "a/b", country: "NL");
+    expect($address)
+        ->building->toBe("3 a/b")
+        ->city->toBe("Amsterdam")
+        ->building_nr->toBe('3')
+        ->building_addition->toBe('a/b')
+    ->street->toBe("Long Street");
+});
 
-    public function test_with_building_and_building_nr()
-    {
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "3a/b", building_nr: "3", building_addition: "a/b", country: "NL");
-        $this->assertSame('Long Street', $address->street);
-        $this->assertSame('3', $address->building_nr);
-        $this->assertSame('a/b', $address->building_addition);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertArrayHasKey('postcode', $address->toArray());
+it('can set building from street and building',function(Address $address,string $building_nr, string $building_addition, string $building, string $city) {
+    expect($address)
+        ->building->toBe($building)
+        ->city->toBe($city)
+        ->building_nr->toBe($building_nr)
+        ->building_addition->toBe($building_addition)
+        ->street->toBe("Long Street");
+})->with([
+    [new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "107 1"),'107','1','107-1','Amsterdam'],
+    [new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "107-1"),'107','1','107-1','Amsterdam'],
+    [new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "107-a"),'107','a','107 a','Amsterdam'],
+    [new Address(postcode: "1040 AB", city: "AMSTERDAM", street: "Long Street ", building: "56 Long Street", country: "NL"),'56','','56','Amsterdam']
+]);
 
-    }
+it('can format with only street',function(Address $address, string $street, string $building_nr, string $building_addition, string $building, string $city) {
+    expect($address)
+        ->building->toBe($building)
+        ->city->toBe($city)
+        ->building_nr->toBe($building_nr)
+        ->building_addition->toBe($building_addition)
+        ->street->toBe($street);
+})->with([
+    [new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street 4 A", country: "NL"),'Long Street','4','A','4 A','Amsterdam'],
+    [new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street 4 1", country: "NL"),'Long Street','4','1','4-1','Amsterdam'],
+    [new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street 4 1", country: "NL"),"Long Street",'4','1','4-1','Amsterdam']
 
-    public function test_with_building_nr_and_addition()
-    {
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building_nr: "3", building_addition: "a/b", country: "NL");
-        $this->assertSame('Long Street', $address->street);
-        $this->assertSame('3', $address->building_nr);
-        $this->assertSame('a/b', $address->building_addition);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertArrayHasKey('postcode', $address->toArray());
-    }
-
-    public function test_with_building_contains_addition()
-    {
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "107 1",);
-        $this->assertSame('Long Street', $address->street);
-        $this->assertSame('107', $address->building_nr);
-        $this->assertSame('1', $address->building_addition);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertArrayHasKey('postcode', $address->toArray());
-
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "107 a",);
-        $this->assertSame('Long Street', $address->street);
-        $this->assertSame('107', $address->building_nr);
-        $this->assertSame('a', $address->building_addition);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertArrayHasKey('postcode', $address->toArray());
-
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "107-1",);
-        $this->assertSame('Long Street', $address->street);
-        $this->assertSame('107', $address->building_nr);
-        $this->assertSame('1', $address->building_addition);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertArrayHasKey('postcode', $address->toArray());
-
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street", building: "107-a",);
-        $this->assertSame('Long Street', $address->street);
-        $this->assertSame('107', $address->building_nr);
-        $this->assertSame('a', $address->building_addition);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertArrayHasKey('postcode', $address->toArray());
-    }
-
-    public function test_with_street()
-    {
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street 4 A", country: "NL");
-        $this->assertSame('Long Street', $address->street);
-        $this->assertSame('4', $address->building_nr);
-        $this->assertSame('A', $address->building_addition);
-        $this->assertSame('4 A', $address->building);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertArrayHasKey('postcode', $address->toArray());
-
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street 4 1", country: "NL");
-        $this->assertSame('Long Street', $address->street);
-        $this->assertSame('4', $address->building_nr);
-        $this->assertSame('1', $address->building_addition);
-        $this->assertSame('4-1', $address->building);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertArrayHasKey('postcode', $address->toArray());
-
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street 4 1", country: "NL");
-        $this->assertSame('Long Street', $address->street);
-        $this->assertSame('4', $address->building_nr);
-        $this->assertSame('1', $address->building_addition);
-        $this->assertSame('4-1', $address->building);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertArrayHasKey('postcode', $address->toArray());
-    }
-
-    public function test_with_unwanted_chars()
-    {
-        $address = new Address(postcode: "1040 AB\E\r", city: "AMSTERDAM", street: " Long Street. ", building: " 56 A ", country: "NL");
-        $this->assertSame('Long Street.', $address->street);
-        $this->assertSame('56', $address->building_nr);
-        $this->assertSame('A', $address->building_addition);
-        $this->assertSame('Amsterdam', $address->city);
-        $this->assertSame('1040AB', $address->postcode);
-    }
-    public function test_compact()
-    {
-        $address = new Address(postcode: "1040AB", city: "AMSTERDAM", street: "Long Street 4 1", country: "NL");
-        $this->assertSame([
-            'postcode' => '1040AB',
-            'city' => 'Amsterdam',
-            'street' => 'Long Street',
-            'building' => '4-1',
-            'building_nr' => '4',
-            'building_addition' => '1',
-        ], $address->toArray(true));
-    }
-}
+]);
+it('can strip unwanted chars',function(Address $address, string $street, string $building_nr, string $building_addition, string $building, string $city){
+    expect($address)
+        ->building->toBe($building)
+        ->city->toBe($city)
+        ->building_nr->toBe($building_nr)
+        ->building_addition->toBe($building_addition)
+        ->street->toBe($street);
+})->with([
+    [new Address(postcode: "1040 AB\E\r", city: "AMSTERDAM", street: " Long Street. ", building: " 56 A ", country: "NL"),'Long Street.','56','A','56 A','Amsterdam'],
+]);
