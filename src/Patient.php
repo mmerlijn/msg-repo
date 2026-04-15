@@ -278,10 +278,10 @@ class Patient implements RepositoryInterface
     /**
      * set patient email
      *
-     * @param string $email
+     * @param ?string $email
      * @return $this
      */
-    public function setEmail(string $email): self
+    public function setEmail(string|null $email): self
     {
         $this->email = $email;
         return $this;
