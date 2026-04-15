@@ -276,6 +276,17 @@ class Patient implements RepositoryInterface
     }
 
     /**
+     * set patient email
+     *
+     * @param string $email
+     * @return $this
+     */
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        return $this;
+    }
+    /**
      * Internal helper function to set BSN as first ID
      *
      * @return void
