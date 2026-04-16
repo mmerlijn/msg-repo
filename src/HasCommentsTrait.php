@@ -25,6 +25,13 @@ trait HasCommentsTrait
         return $this;
     }
 
+    public function addComments(array $comments): self
+    {
+        foreach ($comments as $comment) {
+            $this->addComment($comment);
+        }
+        return $this;
+    }
     /**
      * Reset/clear all comments
      *

@@ -10,7 +10,9 @@ enum ValueTypeEnum: string
     case CE = 'CE';
 
     case FT = 'FT'; // Formatted Text
-
+    case DT = 'DT'; //date
+    case TS = 'TS'; //timestamp
+    case SN = 'SN'; // structured numeric
     public static function isValueType(mixed $value,array $values, ValueTypeEnum|string $current): ValueTypeEnum
     {
         if(!empty($values)){
@@ -28,6 +30,7 @@ enum ValueTypeEnum: string
             self::ST, self::FT =>  "TV",
             self::NM => "NV",
             self::CE => "CV",
+            self::DT => "DT",
             default => "ST",
         };
     } //AV,CV,NR,NV,TV (mogelijke waarden)
