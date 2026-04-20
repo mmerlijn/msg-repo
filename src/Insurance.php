@@ -60,8 +60,9 @@ class Insurance implements RepositoryInterface
     {
         return $this->uzovi || $this->policy_nr || $this->company_name;
     }
-    public function addPolicyNr(string $policy_nr): void
+    public function addPolicyNr(string $policy_nr): Insurance
     {
         $this->policy_nr = $policy_nr;
+        return $this;
     }
 }
