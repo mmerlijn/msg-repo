@@ -78,7 +78,8 @@ class StripUnwanted
         $output = preg_replace('/&gt;/', '>', $output);
         $output = preg_replace('/´/', "'", $output);
         $output = preg_replace('/`/', "'", $output);
-        $output = preg_replace('/ {2,}/', ' ', $output); //2 of more spaces to 1
+        $output = preg_replace('/\r\n|\r|\n/', ' ', $output);
+        $output = preg_replace('/\s+/', ' ', $output); //multiple spaces to 1
         return $output;
     }
 }

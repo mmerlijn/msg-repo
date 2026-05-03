@@ -227,7 +227,14 @@ class Order implements RepositoryInterface
     {
         foreach ($this->requests as $request) {
             foreach ($request->specimens as $specimen) {
-                if ($specimen->test->code == $test_code) {
+
+                if ($specimen->type->code == $test_code) {
+
+                    return $specimen;
+                }
+            }
+            foreach ($request->specimens as $specimen) {
+                if ($specimen->container->code == $test_code) {
                     return $specimen;
                 }
             }
