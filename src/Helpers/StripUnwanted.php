@@ -23,7 +23,7 @@ class StripUnwanted
     {
         $output = preg_replace('/\\\.br\\\/', '. ', $input);
         $output = preg_replace('/(\\\T\\\)/','&', $output);
-        $output = preg_replace('/(\*.*\**)/', '', $output);
+        //$output = preg_replace('/(\*.*\**)/', '', $output);
         $output = preg_replace('/\\\.*\\\/', '', $output);
         $output = preg_replace('/\\\r/', '', $output);
         $output = preg_replace('/\\\E/', '', $output);
