@@ -252,13 +252,15 @@ class Order implements RepositoryInterface
     {
         if (is_string($filter)) $filter = [$filter];
         $observations = [];
+        $i=0;
         foreach ($this->requests as $request) {
             foreach ($request->observations as $observation) {
                 if (!in_array($observation->test->code, $filter)) {
+                    $key = $observation->test->code ?: str_pad($i++, 4, "???", STR_PAD_LEFT);
                     if($asTestCode){
-                        $observations[$observation->test->value] = $observation;
+                        $observations[$key] = $observation;
                     }else {
-                        $observations[$observation->test->code] = $observation->value;
+                        $observations[$key] = $observation->value?: implode(", ",array_map(fn($item) => $item->value,$observation->values));
                     }
                 }
             }

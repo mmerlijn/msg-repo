@@ -39,7 +39,7 @@ it('can add observations', function () {
     ));
     expect($request->observations)->toHaveCount(2);
 
-    //empty observation with different testcode should be added
+    //empty observation with different testcode-value should be added
     $request->addObservation(new \mmerlijn\msgRepo\Observation(
         type: 'NM',
         value: 123,
