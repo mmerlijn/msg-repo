@@ -12,8 +12,9 @@ trait HasObservationsTrait
      * @param Observation|array $observation
      * @return Specimen|HasObservationsTrait|Request
      */
-    public function addObservation(Observation|array $observation = new Observation()): self
+    public function addObservation(Observation|array|null $observation = new Observation()): self
     {
+        if(!$observation){return $this;}
         if (is_array($observation)) $observation = new Observation(...$observation);
         foreach ($this->observations as $k=>$r) {
             if ($observation->test->code == $r->test->code ) {

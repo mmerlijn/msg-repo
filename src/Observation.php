@@ -116,4 +116,9 @@ class Observation implements RepositoryInterface
     {
         return !empty($this->values);
     }
+    public function setAbnormalFlag(ResultFlagEnum $abnormalFlag): self
+    {
+        $this->abnormal_flag = $abnormalFlag;
+        return $this;
+    }
 }

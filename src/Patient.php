@@ -124,12 +124,12 @@ class Patient implements RepositoryInterface
     {
         $overwrite = false;
         foreach ($this->ids as $k => $v) {
-            if (($v->type == $id->type and $v->type) or $v->authority == $id->authority or $v->code == $id->code) {
+            if (($v->type == $id->type and $v->type) or $v->authority == $id->authority) {
                 $this->ids[$k] = $id; //overwrite
                 $overwrite = true;
             }
         }
-        if (!$overwrite) {
+        if (!$overwrite and $id->id) {
             $this->ids[] = $id;
         }
         $this->setBsnFirst();
@@ -293,19 +293,28 @@ class Patient implements RepositoryInterface
      */
     private function setBsnFirst(): void
     {
-        $deleted = false;
         foreach ($this->ids as $k => $id) {
             if ($id->authority == "NLMINBIZA" or $id->type == 'bsn') {
                 $this->bsn = $id->id;
                 $bsn = $id;
-                if ($k != 0) {
-                    unset($this->ids[$k]);
-                    $deleted = true;
-                }
+                unset($this->ids[$k]);
             }
         }
-        if ($bsn ?? false and $deleted) {
+        if ($bsn ?? false) {
             array_splice($this->ids, 0, 0, [$bsn]);
+        }
+    }
+    public function setSaltIdFirst():void
+    {
+        foreach ($this->ids as $k => $id) {
+            if ($id->authority == "SALT") {
+                $salt = $id;
+                unset($this->ids[$k]);
+            }
+        }
+
+        if($salt??null instanceof Id) {
+            array_splice($this->ids, 0, 0, [$salt]);
         }
     }
     public function hasValidBsn(): bool
