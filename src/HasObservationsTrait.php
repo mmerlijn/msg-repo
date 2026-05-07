@@ -9,7 +9,7 @@ trait HasObservationsTrait
 
     /**
      * add observation to an order
-     * @param Observation|array $observation
+     * @param Observation|array|null $observation |null
      * @return Specimen|HasObservationsTrait|Request
      */
     public function addObservation(Observation|array|null $observation = new Observation()): self
