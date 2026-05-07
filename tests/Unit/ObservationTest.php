@@ -48,4 +48,7 @@ it('can add observations', function () {
         values: [new TestCode(code:'ghi',value:'jkl')]
     ));
     expect($request->observations)->toHaveCount(3);
+
+    $request->addObservation(null);
+    expect($request->observations)->toHaveCount(3);
 });

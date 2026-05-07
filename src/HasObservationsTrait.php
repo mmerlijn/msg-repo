@@ -12,7 +12,7 @@ trait HasObservationsTrait
      * @param Observation|array|null $observation |null
      * @return Specimen|HasObservationsTrait|Request
      */
-    public function addObservation(Observation|array|null $observation = new Observation()): self
+    public function addObservation(null|array|Observation $observation = new Observation()): self
     {
         if(!$observation){return $this;}
         if (is_array($observation)) $observation = new Observation(...$observation);
