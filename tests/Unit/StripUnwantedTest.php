@@ -14,7 +14,7 @@ class StripUnwantedTest extends TestCase
         $this->assertSame('Vries', StripUnwanted::format($string));
         $string = 'Vries.';
         $this->assertSame('Vries', StripUnwanted::format($string, 'names'));
-        $string = 'Vries\\br\\';
+        $string = 'Vries\\.br\\';
         $this->assertSame('Vries', StripUnwanted::format($string));
         $string = 'Vries - ';
         $this->assertSame('Vries', StripUnwanted::format($string,'names'));

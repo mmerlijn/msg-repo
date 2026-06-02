@@ -39,7 +39,7 @@ class Order implements RepositoryInterface
         public string                  $request_nr = "", //AB12341234
         public string|int              $lab_nr = "", //internal processing nr
         public bool                    $complete = true,
-        public bool                    $priority = false, //true=spoed, false=routine, null=unknown
+        public bool|null               $priority = null, //true=spoed, false=routine, null=unknown
         public bool                    $cito = false, //true=spoed
         public Carbon|string|null      $start_date = null,
         public Carbon|string|null      $end_date = null,

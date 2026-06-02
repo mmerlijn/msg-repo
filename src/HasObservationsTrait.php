@@ -28,6 +28,10 @@ trait HasObservationsTrait
         return $this;
     }
 
+
+
+
+
     /**
      * check if there are observations
      * @return bool

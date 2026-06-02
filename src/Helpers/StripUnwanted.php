@@ -7,7 +7,7 @@ class StripUnwanted
     public static function format(string $input, $type = 'comment'): string
     {
         $output = self::charsetFix($input);
-        $output = self::hl7formating($output);
+//        $output = self::hl7formating($output);
         if ($type == 'names') {
             $output = preg_replace('/-/', '', $output);
             $output = preg_replace('/\./', '', $output);
@@ -19,16 +19,16 @@ class StripUnwanted
         return trim($output);
     }
 
-    private static function hl7formating(string $input): string
-    {
-        $output = preg_replace('/\\\.br\\\/', '. ', $input);
-        $output = preg_replace('/(\\\T\\\)/','&', $output);
-        //$output = preg_replace('/(\*.*\**)/', '', $output);
-        $output = preg_replace('/\\\.*\\\/', '', $output);
-        $output = preg_replace('/\\\r/', '', $output);
-        $output = preg_replace('/\\\E/', '', $output);
-        return $output;
-    }
+//    private static function hl7formating(string $input): string
+//    {
+//        $output = preg_replace('/\\\.br\\\/', '. ', $input);
+//        $output = preg_replace('/(\\\T\\\)/','&', $output);
+//        //$output = preg_replace('/(\*.*\**)/', '', $output);
+//        $output = preg_replace('/\\\.*\\\/', '', $output);
+//        $output = preg_replace('/\\\r/', '', $output);
+//        $output = preg_replace('/\\\E/', '', $output);
+//        return $output;
+//    }
 
     private static function charsetFix(string $input): string
     {
