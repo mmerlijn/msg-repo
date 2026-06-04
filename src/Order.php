@@ -55,6 +55,7 @@ class Order implements RepositoryInterface
         public Carbon|string|null      $analysis_at = null,
         public array                   $requests = [],
         public array|Testcode          $admit_reason = new TestCode,
+        public string                  $info = "",
     )
     {
         if (is_array($requester)) $this->requester = new Contact(...$requester);
