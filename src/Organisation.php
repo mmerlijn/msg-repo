@@ -3,7 +3,6 @@
 namespace mmerlijn\msgRepo;
 
 use mmerlijn\msgRepo\Helpers\AgbcodeValidator;
-use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
 class Organisation implements RepositoryInterface
 {
@@ -28,8 +27,6 @@ class Organisation implements RepositoryInterface
     )
     {
         $this->setPhone($phone);
-        $this->name = StripUnwanted::format($name);
-        $this->department = StripUnwanted::format($department);
     }
 
 

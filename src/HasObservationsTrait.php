@@ -2,7 +2,7 @@
 
 namespace mmerlijn\msgRepo;
 
-use mmerlijn\msgRepo\Helpers\StripUnwanted;
+
 
 trait HasObservationsTrait
 {
@@ -19,7 +19,7 @@ trait HasObservationsTrait
         foreach ($this->observations as $k=>$r) {
             if ($observation->test->code == $r->test->code ) {
                 if($observation->test->code!="" or $observation->test->value ==$r->test->value) {
-                    $this->observations[$k]->value = StripUnwanted::format($observation->value);
+                    $this->observations[$k]->value = $observation->value;
                     return $this;
                 }
             }

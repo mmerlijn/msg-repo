@@ -2,7 +2,6 @@
 
 namespace mmerlijn\msgRepo;
 
-use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
 class Comment implements RepositoryInterface
 {
@@ -19,7 +18,6 @@ class Comment implements RepositoryInterface
         public array|TestCode $type = new TestCode,
     )
     {
-        $this->text = StripUnwanted::format($text);
         $this->setType($type);
     }
 

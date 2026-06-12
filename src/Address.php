@@ -4,7 +4,7 @@ namespace mmerlijn\msgRepo;
 
 use mmerlijn\msgRepo\Enums\AddressTypeEnum;
 use mmerlijn\msgRepo\Helpers\FormatAddress;
-use mmerlijn\msgRepo\Helpers\StripUnwanted;
+
 
 class Address implements RepositoryInterface
 {
@@ -32,12 +32,12 @@ class Address implements RepositoryInterface
         public ?AddressTypeEnum $type = null,
     )
     {
-        $this->postcode = StripUnwanted::format($postcode ?? "","postcode");
-        $this->street = ucwords(strtolower(StripUnwanted::format($street ?? "", 'street')));
-        $this->city = ucwords(strtolower(StripUnwanted::format($city ?? "", 'street')));
-        $this->building = StripUnwanted::format($building ?? "",'street');
-        $this->building_nr = StripUnwanted::format($building_nr ?? "",'street');
-        $this->building_addition = StripUnwanted::format($building_addition ?? "", 'street');
+        $this->postcode = $postcode ?? "";
+        $this->street = ucwords(strtolower($street ?? ""));
+        $this->city = ucwords(strtolower($city ?? ""));
+        $this->building = $building ?? "";
+        $this->building_nr = $building_nr ?? "";
+        $this->building_addition = $building_addition ?? "";
 
         $a = FormatAddress::getAddress($this);
         $this->street = $a['street'];

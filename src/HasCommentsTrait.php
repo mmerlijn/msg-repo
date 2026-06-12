@@ -2,7 +2,7 @@
 
 namespace mmerlijn\msgRepo;
 
-use mmerlijn\msgRepo\Helpers\StripUnwanted;
+
 
 trait HasCommentsTrait
 {
@@ -20,7 +20,7 @@ trait HasCommentsTrait
         } elseif (is_string($comment)) {
             $comment = new Comment(text: $comment);
         }
-        $comment->text = trim(StripUnwanted::format($comment->text));
+        $comment->text = trim($comment->text);
         $this->comments[] = $comment;
         return $this;
     }

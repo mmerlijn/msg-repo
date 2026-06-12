@@ -2,7 +2,6 @@
 
 namespace mmerlijn\msgRepo;
 
-use mmerlijn\msgRepo\Helpers\StripUnwanted;
 
 class TestCode implements RepositoryInterface
 {
@@ -22,7 +21,7 @@ class TestCode implements RepositoryInterface
         public string $a_source = "",
     )
     {
-        $this->value = StripUnwanted::format($value);
+
     }
 
     /**
