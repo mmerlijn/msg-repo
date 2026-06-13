@@ -18,7 +18,7 @@ class Patient implements RepositoryInterface
      * @param Carbon|string|null $dob
      * @param string $bsn
      * @param Address $address
-     * @param Address $address2
+     * @param Address|null $address2
      * @param Phone[]|null $phones
      * @param Insurance $insurance
      * @param Id[]|null $ids
@@ -165,6 +165,17 @@ class Patient implements RepositoryInterface
         }
         return "";
     }
+
+    public function getLabtrainId(): string
+    {
+        foreach ($this->ids as $id) {
+            if ($id->authority == "SALT" AND $id->code == 'PI') {
+                return $id->id;
+            }
+        }
+        return "";
+    }
+
 
 
     /**

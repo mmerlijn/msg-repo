@@ -27,12 +27,12 @@ it('other test can be set', function ($data, $expected) {
 it('Specimen can be set', function ($data, $expected) {
     $request = new \mmerlijn\msgRepo\Request();
     $request->addSpecimen($data);
-    expect($request->specimens[0]->test->code)->toBe($expected->code)
-    ->and($request->specimens[0]->test->value)->toBe($expected->value)
-        ->and($request->specimens[0]->test->source)->toBe($expected->source);
+    expect($request->specimens[0]->container->code)->toBe($expected->code)
+    ->and($request->specimens[0]->container->value)->toBe($expected->value)
+        ->and($request->specimens[0]->container->source)->toBe($expected->source);
 })->with([
-    [new \mmerlijn\msgRepo\Specimen(test:['CTN1','Container1','L']), new TestCode(code: 'CTN1', value: 'Container1', source: 'L')],
-    [new \mmerlijn\msgRepo\Specimen(test: new TestCode(code: 'CTN1', value: 'Container1', source: 'L')),new TestCode(code: 'CTN1', value: 'Container1', source: 'L')]
+    [new \mmerlijn\msgRepo\Specimen(container:['CTN1','Container1','L']), new TestCode(code: 'CTN1', value: 'Container1', source: 'L')],
+    [new \mmerlijn\msgRepo\Specimen(container: new TestCode(code: 'CTN1', value: 'Container1', source: 'L')),new TestCode(code: 'CTN1', value: 'Container1', source: 'L')]
 ]);
 
 it('can be exported as array', function () {
