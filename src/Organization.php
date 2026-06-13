@@ -4,10 +4,10 @@ namespace mmerlijn\msgRepo;
 
 use mmerlijn\msgRepo\Helpers\AgbcodeValidator;
 
-class Organisation implements RepositoryInterface
+class Organization implements RepositoryInterface
 {
 
-    use HasPhoneTrait, CompactTrait;
+    use HasPhoneTrait, CompactTrait, HasAddressTrait;
 
     /**
      * @param string $name
@@ -18,12 +18,14 @@ class Organisation implements RepositoryInterface
      * @param Phone|string $phone
      */
     public function __construct(
-        public string       $name = "",
-        public string       $department = "",
-        public string       $short = "",
-        public string|null  $agbcode = null,
-        public string|null  $source = null,
-        public Phone|string $phone = new Phone,
+        public string        $name = "",
+        public string        $department = "",
+        public string        $short = "",
+        public string|null   $agbcode = null,
+        public string|null   $source = null,
+        public Phone|string  $phone = new Phone,
+        public array|Address $address = new Address,
+        public ?string       $email = null,
     )
     {
         $this->setPhone($phone);
@@ -45,19 +47,21 @@ class Organisation implements RepositoryInterface
             'agbcode' => $this->agbcode,
             'source' => $this->source,
             'phone' => (string)$this->phone,
+            'address' => $this->address?->toArray($compact),
+            'email' => $this->email,
 
         ], $compact);
     }
 
     //backwards compatibility
-    public function fromArray(array $data): Organisation
+    public function fromArray(array $data): Organization
     {
-        return new Organisation(...$data);
+        return new Organization(...$data);
     }
 
-    public function hasData():bool
+    public function hasData(): bool
     {
-        return $this->name  || $this->department  || $this->agbcode  || $this->source ;
+        return $this->name || $this->department || $this->agbcode || $this->source;
     }
 
     /**

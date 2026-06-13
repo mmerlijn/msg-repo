@@ -5,7 +5,7 @@ namespace mmerlijn\msgRepo\tests\Unit;
 use mmerlijn\msgRepo\Address;
 use mmerlijn\msgRepo\Contact;
 use mmerlijn\msgRepo\Name;
-use mmerlijn\msgRepo\Organisation;
+use mmerlijn\msgRepo\Organization;
 use mmerlijn\msgRepo\Phone;
 
 class ContactTest extends \mmerlijn\msgRepo\tests\TestCase
@@ -29,10 +29,10 @@ class ContactTest extends \mmerlijn\msgRepo\tests\TestCase
             ->setPhone("0612341234")
             ->setAddress(new Address(street: 'D. Street', city: 'Amsterdam'))
             ->setName(new Name(lastname: 'Doe'))
-            ->setOrganisation(new Organisation(name: 'XILE'));
+            ->setOrganization(new Organization(name: 'XILE'));
         $this->assertSame('06 1234 1234', (string)$contact->phone);
         $this->assertSame("D. Street", $contact->address->street);
-        $this->assertSame("XILE", $contact->organisation->name);
+        $this->assertSame("XILE", $contact->organization->name);
         $this->assertSame("Doe", $contact->name->lastname);
     }
 
@@ -42,14 +42,14 @@ class ContactTest extends \mmerlijn\msgRepo\tests\TestCase
             ->setPhone("0612341234")
             ->setAddress(new Address(city: 'Amsterdam', street: 'D. Street'))
             ->setName(new Name(lastname: 'Doe'))
-            ->setOrganisation(new Organisation(name: 'XILE'));
+            ->setOrganisation(new Organization(name: 'XILE'));
         $this->assertIsArray($contact->toArray(true));
         $this->assertArrayHasKey('phone', $contact->toArray(true));
         $this->assertArrayHasKey('address', $contact->toArray(true));
         $this->assertArrayHasKey('name', $contact->toArray(true));
-        $this->assertArrayHasKey('organisation', $contact->toArray(true));
+        $this->assertArrayHasKey('organization', $contact->toArray(true));
         $this->assertArrayHasKey('street', $contact->toArray(true)['address']);
-        $this->assertArrayHasKey('name', $contact->toArray(true)['organisation']);
+        $this->assertArrayHasKey('name', $contact->toArray(true)['organization']);
         $this->assertArrayHasKey('lastname', $contact->toArray(true)['name']);
         $this->assertArrayNotHasKey('postcode', $contact->toArray(true)['address']);
         $this->assertArrayNotHasKey('sex', $contact->toArray(true));

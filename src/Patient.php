@@ -24,7 +24,7 @@ class Patient implements RepositoryInterface
      * @param Id[]|null $ids
      * @param string|null $last_requester
      * @param string|null $email
-     * @param string|null $last_organisation
+     * @param string|null $last_organization
      * @param string|null $gp
      * @param Comment[] $comments
      * @param bool $multiple_births
@@ -41,7 +41,7 @@ class Patient implements RepositoryInterface
         public ?array                $ids = [],
         public ?string               $last_requester = null,
         public ?string               $email = null,
-        public ?string               $last_organisation = null,
+        public ?string               $last_organization = null,
         public ?string               $gp = null,
         public array                 $comments = [],
         public bool                  $multiple_births = false,
@@ -101,7 +101,7 @@ class Patient implements RepositoryInterface
             'ids' => array_map(fn($value) => $value->toArray($compact), $this->ids),
             'last_requester' => $this->last_requester ?? "",
             'email' => $this->email,
-            'last_organisation' => $this->last_organisation ?? "",
+            'last_organization' => $this->last_organization ?? "",
             'gp' => $this->gp ?? "",
             'comments' => array_map(fn($value) => $value->toArray($compact), $this->comments),
             'multiple_births' => $this->multiple_births,

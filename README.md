@@ -132,7 +132,7 @@ array:11 [
       ]
       "phone" => ""
       "type" => ""
-      "organisation" => array:6 [
+      "organization" => array:6 [
         "name" => ""
         "department" => ""
         "short" => ""
@@ -172,7 +172,7 @@ array:11 [
       ]
       "phone" => ""
       "type" => ""
-      "organisation" => array:6 [
+      "organization" => array:6 [
         "name" => ""
         "department" => ""
         "short" => ""
@@ -212,7 +212,7 @@ array:11 [
       ]
       "phone" => ""
       "type" => ""
-      "organisation" => array:6 [
+      "organization" => array:6 [
         "name" => ""
         "department" => ""
         "short" => ""
@@ -225,7 +225,7 @@ array:11 [
       "facility" => ""
       "location" => ""
     ]
-    "organisation" => array:6 [
+    "organization" => array:6 [
       "name" => ""
       "department" => ""
       "short" => ""
@@ -321,7 +321,7 @@ array:11 [
     ]
     "phone" => ""
     "type" => ""
-    "organisation" => array:6 [
+    "organization" => array:6 [
       "name" => ""
       "department" => ""
       "short" => ""
@@ -361,7 +361,7 @@ array:11 [
     ]
     "phone" => ""
     "type" => ""
-    "organisation" => array:6 [
+    "organization" => array:6 [
       "name" => ""
       "department" => ""
       "short" => ""

@@ -8,7 +8,7 @@ use mmerlijn\msgRepo\Contact;
 use mmerlijn\msgRepo\Msg;
 use mmerlijn\msgRepo\MsgType;
 use mmerlijn\msgRepo\Name;
-use mmerlijn\msgRepo\Organisation;
+use mmerlijn\msgRepo\Organization;
 use mmerlijn\msgRepo\Patient;
 use mmerlijn\msgRepo\Request;
 use mmerlijn\msgRepo\TestCode;
@@ -36,38 +36,38 @@ class MsgTest extends TestCase
 
     public function test_chaining()
     {
-        $msg = (new Msg())
+        $msg = new Msg()
             ->setPatient((new Patient())->setDob("10-11-2004"))
             ->setReceiver((new Contact())
                 ->setPhone("0612341234")
                 ->setAddress(new Address(city: 'Amsterdam', street: 'D. Street'))
                 ->setName(new Name(lastname: 'Doe'))
-                ->setOrganisation(new Organisation(name: 'XILE')));
+                ->setOrganization(new Organization(name: 'XILE')));
         $this->assertSame("2004-11-10", $msg->patient->dob->format("Y-m-d"));
         $this->assertSame('06 1234 1234', (string)$msg->receiver->phone);
         $this->assertSame("D. Street", $msg->receiver->address->street);
-        $this->assertSame("XILE", $msg->receiver->organisation->name);
+        $this->assertSame("XILE", $msg->receiver->organization->name);
         $this->assertSame("Doe", $msg->receiver->name->lastname);
     }
 
     public function test_compact()
     {
-        $msg = (new Msg())
-            ->setPatient((new Patient())->setDob("10-11-2004"))
-            ->setReceiver((new Contact())
+        $msg = new Msg()
+            ->setPatient(new Patient()->setDob("10-11-2004"))
+            ->setReceiver(new Contact()
                 ->setPhone("0612341234")
                 ->setAddress(new Address(city: 'Amsterdam', street: 'D. Street'))
                 ->setName(new Name(lastname: 'Doe'))
-                ->setOrganisation(new Organisation(name: 'XILE')));
+                ->setOrganization(new Organization(name: 'XILE')));
         $this->assertIsArray($msg->toArray(true));
         $this->assertArrayHasKey('patient', $msg->toArray(true));
         $this->assertArrayHasKey('receiver', $msg->toArray(true));
         $this->assertArrayHasKey('phone', $msg->toArray(true)['receiver']);
         $this->assertArrayHasKey('address', $msg->toArray(true)['receiver']);
         $this->assertArrayHasKey('name', $msg->toArray(true)['receiver']);
-        $this->assertArrayHasKey('organisation', $msg->toArray(true)['receiver']);
+        $this->assertArrayHasKey('organization', $msg->toArray(true)['receiver']);
         $this->assertArrayHasKey('street', $msg->toArray(true)['receiver']['address']);
-        $this->assertArrayHasKey('name', $msg->toArray(true)['receiver']['organisation']);
+        $this->assertArrayHasKey('name', $msg->toArray(true)['receiver']['organization']);
         $this->assertArrayHasKey('lastname', $msg->toArray(true)['receiver']['name']);
         $this->assertArrayNotHasKey('postcode', $msg->toArray(true)['receiver']['address']);
         $this->assertArrayNotHasKey('orders', $msg->toArray(true));
@@ -78,7 +78,7 @@ class MsgTest extends TestCase
 
     public function test_complex_setter()
     {
-        $msgRepo = (new Msg())
+        $msgRepo = new Msg()
             ->setMsgType(new MsgType(
                 type: 'ORM',
                 trigger: 'O01',
@@ -101,7 +101,7 @@ class MsgTest extends TestCase
                     source: 'VEKTIS',
                 ),
                 requests: [
-                    new Request(test: new TestCode(code: 'DUM', name: 'DUMMY', source: 'L'))
+                    new Request(test: new TestCode(code: 'DUM', value: 'DUMMY', source: 'L'))
                 ],
             ));
         $this->assertSame("ORM", $msgRepo->msgType->type);

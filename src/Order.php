@@ -26,7 +26,7 @@ class Order implements RepositoryInterface
      * @param array|Contact $requester
      * @param array|Contact $copy_to
      * @param array|Contact $entered_by
-     * @param array|Organisation $organisation
+     * @param array|Organization $organization
      * @param Carbon|string|null $request_at dt of execution time
      * @param Carbon|string|null $observation_at
      * @param Carbon|string|null $observation_end_at
@@ -48,7 +48,7 @@ class Order implements RepositoryInterface
         public array|Contact           $requester = new Contact,
         public array|Contact           $copy_to = new Contact,
         public array|Contact           $entered_by = new Contact,
-        public array|Organisation      $organisation = new Organisation,
+        public array|Organization      $organization = new Organization,
         public Carbon|string|null      $request_at = null,
         public Carbon|string|null      $observation_at = null,
         public Carbon|string|null      $observation_end_at = null,
@@ -61,7 +61,7 @@ class Order implements RepositoryInterface
         if (is_array($requester)) $this->requester = new Contact(...$requester);
         if (is_array($copy_to)) $this->copy_to = new Contact(...$copy_to);
         if (is_array($entered_by)) $this->entered_by = new Contact(...$entered_by);
-        $this->setOrganisation($organisation);
+        $this->setOrganisation($organization);
         $this->start_date = $this->formatDate($start_date);
         $this->end_date = $this->formatDate($end_date);
         $this->request_at = $this->formatDate($request_at);
@@ -98,7 +98,7 @@ class Order implements RepositoryInterface
             'requester' => $this->requester->toArray($compact),
             'copy_to' => $this->copy_to->toArray($compact),
             'entered_by' => $this->entered_by->toArray($compact),
-            'organisation' => $this->organisation->toArray($compact),
+            'organization' => $this->organization->toArray($compact),
             'request_at' => $this->request_at?->format("Y-m-d H:i:s"),
             'observation_at' => $this->observation_at?->format("Y-m-d H:i:s"),
             'observation_end_at' => $this->observation_end_at?->format("Y-m-d H:i:s"),

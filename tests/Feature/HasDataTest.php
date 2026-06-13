@@ -2,7 +2,7 @@
 
 use mmerlijn\msgRepo\Name;
 
-it('organisation hasData', function () {
+it('organization hasData', function () {
     $o = new \mmerlijn\msgRepo\Organisation();
     expect($o->hasData())->toBeFalse();
     $o = new \mmerlijn\msgRepo\Organisation(name: 'Hospital');

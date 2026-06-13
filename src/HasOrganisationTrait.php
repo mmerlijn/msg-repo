@@ -5,17 +5,17 @@ namespace mmerlijn\msgRepo;
 trait HasOrganisationTrait
 {
     /**
-     * set contacts organisation
+     * set contacts organization
      *
-     * @param Organisation|array $organisation
+     * @param Organization|array $organization
      * @return Contact|HasOrganisationTrait|Order
      */
-    public function setOrganisation(Organisation|array $organisation = new Organisation): self
+    public function setOrganization(Organisation|array $organization = new Organisation): self
     {
-        if (is_array($organisation)) {
-            $organisation = new Organisation(...$organisation);
+        if (is_array($organization)) {
+            $organization = new Organisation(...$organization);
         }
-        $this->organisation = $organisation;
+        $this->organization = $organization;
         return $this;
     }
 }

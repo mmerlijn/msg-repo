@@ -16,7 +16,7 @@ class Contact implements RepositoryInterface
      * @param Address $address
      * @param string|Phone $phone
      * @param string $type
-     * @param Organisation $organisation
+     * @param Organization $organization
      * @param string $application
      * @param string $device
      * @param string $facility
@@ -29,7 +29,7 @@ class Contact implements RepositoryInterface
         public array|Address      $address = new Address,
         public string|Phone       $phone = new Phone,
         public string             $type = "",
-        public array|Organisation $organisation = new Organisation,
+        public array|Organization $organization = new Organization,
         public string             $application = "",
         public string             $device = "",
         public string             $facility = "", //????
@@ -39,7 +39,7 @@ class Contact implements RepositoryInterface
         $this->setName($name);
         $this->setAddress($address);
         $this->setPhone($phone);
-        $this->setOrganisation($organisation);
+        $this->setOrganization($organization);
     }
 
     /**
@@ -57,7 +57,7 @@ class Contact implements RepositoryInterface
             'address' => $this->address?->toArray($compact),
             'phone' => (string)$this->phone,
             'type' => $this->type,
-            'organisation' => $this->organisation?->toArray($compact),
+            'organization' => $this->organization?->toArray($compact),
             'application' => $this->application,
             'device' => $this->device,
             'facility' => $this->facility, //???
@@ -92,7 +92,7 @@ class Contact implements RepositoryInterface
             $this->name->hasData() ||
             $this->source !== "" ||
             $this->address->hasData() ||
-            $this->organisation->hasData() ||
+            $this->organization->hasData() ||
             $this->application !== "" ||
             $this->device !== "" ||
             $this->facility !== "" ||
