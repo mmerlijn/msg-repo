@@ -9,7 +9,7 @@ trait HasPhoneTrait
      * set phone for current object
      *
      * @param Phone|string $phone
-     * @return HasPhoneTrait|Contact|Insurance|Organisation
+     * @return HasPhoneTrait|Contact|Insurance|Organization
      */
     public function setPhone(Phone|string $phone): self
     {

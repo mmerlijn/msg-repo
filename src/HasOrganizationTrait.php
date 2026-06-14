@@ -2,18 +2,18 @@
 
 namespace mmerlijn\msgRepo;
 
-trait HasOrganisationTrait
+trait HasOrganizationTrait
 {
     /**
      * set contacts organization
      *
      * @param Organization|array $organization
-     * @return Contact|HasOrganisationTrait|Order
+     * @return Contact|HasOrganizationTrait|Order
      */
-    public function setOrganization(Organisation|array $organization = new Organisation): self
+    public function setOrganization(Organization|array $organization = new Organization): self
     {
         if (is_array($organization)) {
-            $organization = new Organisation(...$organization);
+            $organization = new Organization(...$organization);
         }
         $this->organization = $organization;
         return $this;

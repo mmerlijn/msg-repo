@@ -7,7 +7,7 @@ use mmerlijn\msgRepo\Helpers\AgbcodeValidator;
 class Contact implements RepositoryInterface
 {
 
-    use HasPhoneTrait, HasAddressTrait, HasNameTrait, CompactTrait, HasOrganisationTrait;
+    use HasPhoneTrait, HasAddressTrait, HasNameTrait, CompactTrait, HasOrganizationTrait;
 
     /**
      * @param string $agbcode

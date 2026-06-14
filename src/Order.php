@@ -10,7 +10,7 @@ use mmerlijn\msgRepo\Enums\OrderWhereEnum;
 class Order implements RepositoryInterface
 {
 
-    use  CompactTrait, HasOrganisationTrait, HasDateTrait;
+    use  CompactTrait, HasOrganizationTrait, HasDateTrait;
 
     /**
      * @param string|OrderControlEnum $control N=new, C=Cancel
@@ -61,7 +61,7 @@ class Order implements RepositoryInterface
         if (is_array($requester)) $this->requester = new Contact(...$requester);
         if (is_array($copy_to)) $this->copy_to = new Contact(...$copy_to);
         if (is_array($entered_by)) $this->entered_by = new Contact(...$entered_by);
-        $this->setOrganisation($organization);
+        $this->setOrganization($organization);
         $this->start_date = $this->formatDate($start_date);
         $this->end_date = $this->formatDate($end_date);
         $this->request_at = $this->formatDate($request_at);
