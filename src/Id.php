@@ -11,12 +11,14 @@ class Id implements RepositoryInterface
      * @param string $authority mostly NLMINBIZA
      * @param string $type bsn / lbs / etc
      * @param string $code mostly NNNLD
+     * @param bool $alternative
      */
     public function __construct(
         public string $id,
         public string $authority = "",
         public string $type = "",
-        public string $code = ""
+        public string $code = "",
+        public bool $alternative = false,
     )
     {
         $this->setBsn();
@@ -35,6 +37,7 @@ class Id implements RepositoryInterface
             'authority' => $this->authority,
             'type' => $this->type,
             'code' => $this->code,
+            'alternative' => $this->alternative,
         ], $compact);
     }
 
