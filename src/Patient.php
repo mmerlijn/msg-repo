@@ -328,6 +328,18 @@ class Patient implements RepositoryInterface
             array_splice($this->ids, 0, 0, [$salt]);
         }
     }
+    public function setSaltIdLast():void
+    {
+        foreach ($this->ids as $k => $id) {
+            if ($id->authority == "SALT") {
+                $salt = $id;
+                unset($this->ids[$k]);
+            }
+        }
+        if(($salt??null) instanceof Id) {
+            $this->ids[] = $salt;
+        }
+    }
     public function hasValidBsn(): bool
     {
         return AgbcodeValidator::validate($this->getBsn());
