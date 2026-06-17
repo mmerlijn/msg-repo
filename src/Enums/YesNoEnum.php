@@ -36,4 +36,8 @@ enum YesNoEnum: string
             YesNoEnum::_ => null,
         };
     }
+    public static function setBool(bool $bool): YesNoEnum
+    {
+        return $bool ? self::YES : self::NO;
+    }
 }
