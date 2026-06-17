@@ -24,6 +24,9 @@ class Insurance implements RepositoryInterface
     )
     {
         $this->setPhone($phone);
+        if(strlen($uzovi)!=4){
+            $this->uzovi = "";
+        }
         //$this->setAddress($address);
         $this->company_name = $company_name;
     }
@@ -64,5 +67,17 @@ class Insurance implements RepositoryInterface
     {
         $this->policy_nr = $policy_nr;
         return $this;
+    }
+    public function addUzovi(mixed $uzovi): Insurance
+    {
+        if(!$uzovi){
+            return $this;
+        }
+        if(strlen($uzovi)==4){ //alleen toevoegen bij 4 lang
+            $this->uzovi = $uzovi;
+        }
+
+        return $this;
+
     }
 }
