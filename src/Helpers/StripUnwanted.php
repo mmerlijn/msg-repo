@@ -6,16 +6,19 @@ class StripUnwanted
 {
     public static function format(string $input, $type = 'comment'): string
     {
-        $output = self::charsetFix($input);
+
 //        $output = self::hl7formating($output);
         if ($type == 'names') {
+            $output = self::charsetFix($input);
             $output = preg_replace('/-/', '', $output);
             $output = preg_replace('/\./', '', $output);
             $output = preg_replace('/\s+/', ' ', $output);
         }elseif($type == 'postcode'){
-            $output = preg_replace('/\s+/', '', $output);
-            $output = preg_replace('/\./', '', $output);
+
+            $output = preg_replace('/\s+/', '', $input);
+            return preg_replace('/\./', '', $output);
         }
+        $output = self::charsetFix($input);
         return trim($output);
     }
 
@@ -30,9 +33,10 @@ class StripUnwanted
 //        return $output;
 //    }
 
-    private static function charsetFix(string $input): string
+    public static function charsetFix(string $input): string
     {
-        $output = preg_replace('/Ã©/', 'é', $input);
+        $output = str_replace("*bx*", "", $input);
+        $output = preg_replace('/Ã©/', 'é', $output);
         $output = preg_replace('/Ã¨/', 'è', $output);
         $output = preg_replace('/Ã«/', 'ë', $output);
         $output = preg_replace('/Ã¡/', 'á', $output);
