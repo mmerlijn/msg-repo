@@ -40,4 +40,12 @@ enum YesNoEnum: string
     {
         return $bool ? self::YES : self::NO;
     }
+    public function asLabcodeNumber(): ?int
+    {
+        return match ($this) {
+            YesNoEnum::YES => 1,
+            YesNoEnum::NO => 2,
+            YesNoEnum::_ => null,
+        };
+    }
 }
