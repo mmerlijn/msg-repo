@@ -36,6 +36,8 @@ class StripUnwanted
     public static function charsetFix(string $input): string
     {
         $output = str_replace("*bx*", "", $input);
+
+        $output = preg_replace('/U+0130/', 'İ', $output);
         $output = preg_replace('/Ã©/', 'é', $output);
         $output = preg_replace('/Ã¨/', 'è', $output);
         $output = preg_replace('/Ã«/', 'ë', $output);
