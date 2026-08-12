@@ -35,9 +35,17 @@ class StripUnwanted
 
     public static function charsetFix(string $input): string
     {
-        $output = str_replace("*bx*", "", $input);
+        //Vervangen van U+0130 door İ en U+0131 door ı etc. zodat de tekens leesbaar worden
+        // 1. Vervang eerst de tekstcode door het echte Unicode-karakter
+        $unicode_tekst = preg_replace_callback('/U\+([0-9A-Fa-f]{4})/', function ($matches) {
+            return mb_chr(hexdec($matches[1]), 'UTF-8');
+        }, $input);
+        // 2. Maak het karakter plat (İ wordt I)
+        $normalized = normalizer_normalize($unicode_tekst, Normalizer::FORM_D);
+        $output = preg_replace('/[\x{0300}-\x{036f}]/u', '', $normalized);
 
-        $output = preg_replace('/U+0130/', 'İ', $output);
+
+        $output = str_replace("*bx*", "", $output);
         $output = preg_replace('/Ã©/', 'é', $output);
         $output = preg_replace('/Ã¨/', 'è', $output);
         $output = preg_replace('/Ã«/', 'ë', $output);
