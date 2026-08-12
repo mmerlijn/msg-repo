@@ -41,7 +41,7 @@ class StripUnwanted
             return mb_chr(hexdec($matches[1]), 'UTF-8');
         }, $input);
         // 2. Maak het karakter plat (İ wordt I)
-        $normalized = normalizer_normalize($unicode_tekst, Normalizer::FORM_D);
+        $normalized = normalizer_normalize($unicode_tekst, \Normalizer::FORM_D);
         $output = preg_replace('/[\x{0300}-\x{036f}]/u', '', $normalized);
 
 
