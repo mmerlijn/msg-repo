@@ -37,13 +37,9 @@ class StripUnwanted
     {
         //Vervangen van U+0130 door İ en U+0131 door ı etc. zodat de tekens leesbaar worden
         // 1. Vervang eerst de tekstcode door het echte Unicode-karakter
-        $unicode_tekst = preg_replace_callback('/U\+([0-9A-Fa-f]{4})/', function ($matches) {
+        $output = preg_replace_callback('/U\+([0-9A-Fa-f]{4})/', function ($matches) {
             return mb_chr(hexdec($matches[1]), 'UTF-8');
         }, $input);
-        // 2. Maak het karakter plat (İ wordt I)
-        $normalized = normalizer_normalize($unicode_tekst, \Normalizer::FORM_D);
-        $output = preg_replace('/[\x{0300}-\x{036f}]/u', '', $normalized);
-
 
         $output = str_replace("*bx*", "", $output);
         $output = preg_replace('/Ã©/', 'é', $output);
