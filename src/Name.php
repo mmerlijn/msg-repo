@@ -138,7 +138,7 @@ class Name implements RepositoryInterface
      */
     public function format(): void
     {
-        if(str_contains($this->name, ",")){
+        if(str_contains($this->name??'', ",")){
             $parts = explode(",", $this->name);
             $o = $this->hasPrefix($parts[0]);
             if($o->prefix) $this->own_prefix = $o->prefix;

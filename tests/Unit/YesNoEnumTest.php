@@ -21,17 +21,17 @@ it('can set database array', function () {
     $db = \mmerlijn\msgRepo\Enums\YesNoEnum::database();
     /*
             [
-              "Y" => "Y"
-              "N" => "N"
-              "_" => "_"
+              0 => "Y"
+              1 => "N"
+              2 => "_"
             ]
 
      * */
     expect($db)->toBeArray()
         ->and(count($db))->toBe(3)
-        ->and($db['Y'])->toBe('Y')
-        ->and($db['N'])->toBe('Y')
-        ->and($db['_'])->toBe('_');
+        ->and($db[0])->toBe('Y')
+        ->and($db[1])->toBe('N')
+        ->and($db[2])->toBe('_');
 });
 
 it('can get keys',function(){

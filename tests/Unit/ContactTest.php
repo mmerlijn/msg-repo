@@ -38,11 +38,11 @@ class ContactTest extends \mmerlijn\msgRepo\tests\TestCase
 
     public function test_compact()
     {
-        $contact = (new Contact())
+        $contact = new Contact()
             ->setPhone("0612341234")
             ->setAddress(new Address(city: 'Amsterdam', street: 'D. Street'))
             ->setName(new Name(lastname: 'Doe'))
-            ->setOrganisation(new Organization(name: 'XILE'));
+            ->setOrganization(new Organization(name: 'XILE'));
         $this->assertIsArray($contact->toArray(true));
         $this->assertArrayHasKey('phone', $contact->toArray(true));
         $this->assertArrayHasKey('address', $contact->toArray(true));

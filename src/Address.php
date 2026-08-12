@@ -36,9 +36,9 @@ class Address implements RepositoryInterface
         $this->postcode = StripUnwanted::format($postcode ?? "",'postcode');
         $this->street = StripUnwanted::format(ucwords(strtolower($street ?? "")),'names');
         $this->city =  StripUnwanted::format(ucwords(strtolower($city ?? "")),'names');
-        $this->building = $building ?? "";
-        $this->building_nr = $building_nr ?? "";
-        $this->building_addition = $building_addition ?? "";
+        $this->building = trim($building ?? "");
+        $this->building_nr = trim($building_nr ?? "");
+        $this->building_addition = trim($building_addition ?? "");
 
         $a = FormatAddress::getAddress($this);
         $this->street = $a['street'];
