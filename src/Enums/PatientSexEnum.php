@@ -16,7 +16,9 @@ enum PatientSexEnum: string
             return $sex;
         }
         $sex = strtoupper($sex);
-        if (in_array($sex, ['F', "V"])) {
+        if($sex === "") {
+            return self::EMPTY;
+        }elseif (in_array($sex, ['F', "V"])) {
             return self::FEMALE;
         } elseif (in_array($sex, ["m", "M"])) {
             return self::MALE;

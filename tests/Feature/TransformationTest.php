@@ -33,6 +33,7 @@ class TransformationTest extends TestCase
                         ->addValue(["","Binnen 6 maanden", "99zda"]))));
 
         $array = $msg->toArray();
+
         $msg2 = new Msg()->fromArray($array);
         $this->assertSame($array, $msg2->toArray());
 

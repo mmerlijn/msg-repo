@@ -46,9 +46,9 @@ it('can get all observations', function () {
     $observations = $msg->order->getAllObservations();
 
     expect(count($observations))->toBe(3)
-        ->and($observations['OBS1'])->toBe('10')
-        ->and($observations['OBS2'])->toBe('20')
-        ->and($observations['OBS3'])->toBe('30');
+        ->and($observations['OBS1'])->toBe(10)
+        ->and($observations['OBS2'])->toBe(20)
+        ->and($observations['OBS3'])->toBe(30);
 });
 
 it('can count requests', function () {
@@ -74,14 +74,14 @@ it('can get specimen by testcode',function () {
         ->addRequest(new \mmerlijn\msgRepo\Request(
             test: new TestCode(code: 'TEST1'),
             specimens: [
-                new \mmerlijn\msgRepo\Specimen(test: new TestCode(code: 'TEST1', value:'test 1'), container: new TestCode(code:'C1', value: 'Blood')),
-                new \mmerlijn\msgRepo\Specimen(test: new TestCode(code: 'TEST2', value:'test 2')),
+                new \mmerlijn\msgRepo\Specimen(type: new TestCode(code: 'TEST1', value:'test 1'), container: new TestCode(code:'C1', value: 'Blood')),
+                new \mmerlijn\msgRepo\Specimen(type: new TestCode(code: 'TEST2', value:'test 2')),
             ]
         ))
         ->addRequest(new \mmerlijn\msgRepo\Request(
             test: new TestCode(code: 'TEST2'),
             specimens: [
-                new \mmerlijn\msgRepo\Specimen(test: new TestCode(code: 'TEST3', value:'test 3'), container: new TestCode(code:'C2', value: 'Blood')),
+                new \mmerlijn\msgRepo\Specimen(type: new TestCode(code: 'TEST3', value:'test 3'), container: new TestCode(code:'C2', value: 'Blood')),
             ]
         ));
 
@@ -90,8 +90,8 @@ it('can get specimen by testcode',function () {
     $specimen3 = $order->getSpecimenByTestCode('TEST3');
     $specimen4 = $order->getSpecimenByTestCode('TEST4');
 
-    expect($specimen1->test->code)->toBe('TEST1')
-        ->and($specimen2->test->code)->toBe('TEST2') //first match
-        ->and($specimen3->test->code)->toBe('TEST3')
+    expect($specimen1->type->code)->toBe('TEST1')
+        ->and($specimen2->type->code)->toBe('TEST2') //first match
+        ->and($specimen3->type->code)->toBe('TEST3')
         ->and($specimen4)->toBeNull();
 });

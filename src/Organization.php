@@ -29,6 +29,7 @@ class Organization implements RepositoryInterface
     )
     {
         $this->setPhone($phone);
+        $this->setAddress($this->address);
     }
 
 

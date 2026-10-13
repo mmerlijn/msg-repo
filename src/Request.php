@@ -2,6 +2,8 @@
 
 namespace mmerlijn\msgRepo;
 
+use mmerlijn\msgRepo\Enums\OrderControlEnum;
+
 class Request implements RepositoryInterface
 {
 
@@ -17,6 +19,7 @@ class Request implements RepositoryInterface
      * @param Observation[] $observations
      * @param Specimen[] $specimens
      * @param Comment[] $comments array of strings
+     * @param OrderControlEnum|string $control
      */
     public function __construct(
 
@@ -30,6 +33,7 @@ class Request implements RepositoryInterface
         public array          $observations = [],
         public array          $specimens = [],
         public array          $comments = [],
+        public string|OrderControlEnum $control = OrderControlEnum::NEW,
     )
     {
         $this->setTest($test);
@@ -46,6 +50,7 @@ class Request implements RepositoryInterface
         foreach ($comments as $comment) {
             $this->addComment($comment);
         }
+        $this->control = OrderControlEnum::set($control);
     }
 
     /**
@@ -66,6 +71,7 @@ class Request implements RepositoryInterface
             'observations' => array_map(fn($value) => $value->toArray($compact), $this->observations),
             'specimens' => array_map(fn($value) => $value->toArray($compact), $this->specimens),
             'comments' => array_map(fn($value) => $value->toArray($compact), $this->comments),
+            'control' => $this->control->value,
         ], $compact);
     }
 

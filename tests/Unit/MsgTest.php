@@ -122,7 +122,7 @@ class MsgTest extends TestCase
         $this->assertSame("Testarts", $msgRepo->order->entered_by->name->own_lastname);
         $this->assertSame("VEKTIS", $msgRepo->order->entered_by->source);
         $this->assertSame("DUM", $msgRepo->order->requests[0]->test->code);
-        $this->assertSame("DUMMY", $msgRepo->order->requests[0]->test->name);
+        $this->assertSame("DUMMY", $msgRepo->order->requests[0]->test->value);
         $this->assertSame("L", $msgRepo->order->requests[0]->test->source);
 
     }

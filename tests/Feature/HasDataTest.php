@@ -3,9 +3,9 @@
 use mmerlijn\msgRepo\Name;
 
 it('organization hasData', function () {
-    $o = new \mmerlijn\msgRepo\Organisation();
+    $o = new \mmerlijn\msgRepo\Organization();
     expect($o->hasData())->toBeFalse();
-    $o = new \mmerlijn\msgRepo\Organisation(name: 'Hospital');
+    $o = new \mmerlijn\msgRepo\Organization(name: 'Hospital');
     expect($o->hasData())->toBeTrue();
 });
 
