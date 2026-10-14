@@ -381,4 +381,13 @@ class Order implements RepositoryInterface
         $this->entered_by = $entered_by;
         return $this;
     }
+
+    public function setOrderControl(OrderControlEnum|string $control): self
+    {
+        $this->control = OrderControlEnum::set($control);
+        foreach ($this->requests as $k => $request) {
+            $this->requests[$k]->control = OrderControlEnum::set($control);
+        }
+        return $this;
+    }
 }

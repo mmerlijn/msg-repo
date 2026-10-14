@@ -24,3 +24,15 @@ it('get all observations', function () {
     $order->addRequest(new \mmerlijn\msgRepo\Request(test: new TestCode(code: 'DEF', value: 'test3')));
     expect($order->getAllObservations())->toHaveCount(2);
 });
+
+it('can set order control', function () {
+    $order = new Order(admit_reason: new TestCode(code: 'ABC', value: 'test'));
+    $order->addRequest(new \mmerlijn\msgRepo\Request(test: new TestCode(code: 'ABC', value: 'test2'),
+        observations: [new \mmerlijn\msgRepo\Observation(test: new TestCode(code:'OBS', value: 'obs'))->addComment('* dit is een test')]));
+    $order->addRequest(new \mmerlijn\msgRepo\Request(test: new TestCode(code: 'DEF', value: 'test3')));
+    expect($order->requests[0]->control)->toBe(\mmerlijn\msgRepo\Enums\OrderControlEnum::NEW)
+        ->and($order->requests[1]->control)->toBe(\mmerlijn\msgRepo\Enums\OrderControlEnum::NEW);
+    $order->setOrderControl(\mmerlijn\msgRepo\Enums\OrderControlEnum::CANCEL);
+    expect($order->requests[0]->control)->toBe(\mmerlijn\msgRepo\Enums\OrderControlEnum::CANCEL)
+        ->and($order->requests[1]->control)->toBe(\mmerlijn\msgRepo\Enums\OrderControlEnum::CANCEL);
+});
